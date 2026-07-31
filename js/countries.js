@@ -1,1144 +1,464 @@
-:root {
-    --primary: #0a0a0f;
-    --secondary: #1a1a2e;
-    --accent: #c9a84c;
-    --accent-glow: rgba(201, 168, 76, 0.3);
-    --text-primary: #e8e6e3;
-    --text-secondary: #a8a6a3;
-    --glass-bg: rgba(10, 10, 15, 0.85);
-    --glass-border: rgba(201, 168, 76, 0.15);
-    --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --font-arabic: 'Cairo', sans-serif;
-    --font-english: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+// ============================================
+// بيانات دول الشنغن - Al EmlaQ Files
+// 27 دولة شنغن كاملة
+// ============================================
 
-/* ===== الوضع المظلم (افتراضي) ===== */
-body {
-    background: var(--primary);
-    color: var(--text-primary);
-    font-family: var(--font-arabic);
-    min-height: 100vh;
-    overflow-x: hidden;
-    transition: var(--transition);
-}
-
-/* ===== الوضع الفاتح ===== */
-body.light-mode {
-    --primary: #f5f0eb;
-    --secondary: #ffffff;
-    --text-primary: #1a1a2e;
-    --text-secondary: #4a4a5e;
-    --glass-bg: rgba(255, 255, 255, 0.92);
-    --glass-border: rgba(201, 168, 76, 0.25);
-    --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-    background: var(--primary);
-}
-
-body.light-mode .glass-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-}
-
-body.light-mode .step-card {
-    background: var(--glass-bg);
-}
-
-body.light-mode .upload-area {
-    background: rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.15);
-}
-
-body.light-mode .upload-area:hover {
-    background: rgba(0, 0, 0, 0.08);
-    border-color: var(--accent);
-}
-
-body.light-mode .service-card {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-body.light-mode .service-card:hover {
-    background: rgba(255, 255, 255, 0.95);
-    border-color: var(--accent);
-}
-
-body.light-mode .country-info-card {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-body.light-mode .step-dot .dot-number {
-    background: #e8e6e3;
-    color: var(--primary);
-}
-
-body.light-mode .step-dot.active .dot-number {
-    background: var(--accent);
-    color: #fff;
-}
-
-body.light-mode .step-dot.completed .dot-number {
-    background: var(--accent);
-    color: #fff;
-}
-
-body.light-mode .step-line {
-    background: rgba(0, 0, 0, 0.15);
-}
-
-body.light-mode .step-line.active {
-    background: var(--accent);
-}
-
-body.light-mode .nav-link {
-    color: var(--text-secondary);
-}
-
-body.light-mode .nav-link:hover,
-body.light-mode .nav-link.active {
-    color: var(--accent);
-}
-
-body.light-mode .footer-text {
-    color: var(--text-secondary);
-}
-
-body.light-mode .review-placeholder {
-    color: var(--text-secondary);
-}
-
-/* ===== الشريط العلوي ===== */
-.navbar {
-    background: rgba(10, 10, 15, 0.92);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(201, 168, 76, 0.1);
-    padding: 15px 0;
-    transition: var(--transition);
-}
-
-body.light-mode .navbar {
-    background: rgba(255, 255, 255, 0.92);
-    border-bottom: 1px solid rgba(201, 168, 76, 0.15);
-}
-
-.navbar-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 900;
-    font-size: 1.5rem;
-    color: var(--text-primary) !important;
-    text-decoration: none;
-    letter-spacing: 1px;
-}
-
-.brand-icon {
-    color: var(--accent);
-    font-size: 1.8rem;
-    animation: glow 2s ease-in-out infinite;
-}
-
-.brand-text {
-    background: linear-gradient(135deg, var(--accent), #f5d98a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.brand-sub {
-    color: var(--accent);
-    opacity: 0.5;
-    font-size: 1.2rem;
-}
-
-@keyframes glow {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-/* ===== أزرار التبديل ===== */
-.lang-toggle,
-.theme-toggle {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(201, 168, 76, 0.2);
-    color: var(--text-primary);
-    padding: 8px 14px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.lang-toggle:hover,
-.theme-toggle:hover {
-    background: rgba(201, 168, 76, 0.15);
-    border-color: var(--accent);
-}
-
-body.light-mode .lang-toggle,
-body.light-mode .theme-toggle {
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--text-primary);
-}
-
-/* ===== مؤشر التقدم ===== */
-.progress-indicator {
-    padding: 100px 0 30px;
-    position: relative;
-    z-index: 5;
-}
-
-.steps-progress {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-.step-dot {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-    position: relative;
-    z-index: 2;
-}
-
-.dot-number {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(201, 168, 76, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    transition: var(--transition);
-}
-
-.step-dot.active .dot-number {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-    box-shadow: 0 0 30px rgba(201, 168, 76, 0.3);
-}
-
-.step-dot.completed .dot-number {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-}
-
-.dot-label {
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-}
-
-.step-dot.active .dot-label {
-    color: var(--accent);
-}
-
-.step-line {
-    flex: 1;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.1);
-    margin: 0 5px;
-    transition: var(--transition);
-    position: relative;
-    z-index: 1;
-    margin-bottom: 20px;
-}
-
-.step-line.active {
-    background: var(--accent);
-    box-shadow: 0 0 15px rgba(201, 168, 76, 0.2);
-}
-
-/* ===== المحتوى الرئيسي ===== */
-.main-content {
-    padding: 20px 0 80px;
-}
-
-/* ===== البطاقات ===== */
-.glass-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    transition: var(--transition);
-}
-
-/* ===== FIX: الخطوات - التصليح الرئيسي ===== */
-.step-section {
-    display: none;
-}
-
-.step-section.active {
-    display: block;
-    animation: fadeSlideUp 0.6s ease forwards;
-}
-
-.step-card {
-    padding: 40px;
-}
-
-@keyframes fadeSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
+const countriesData = {
+    'النمسا': {
+        flag: '🇦🇹',
+        code: 'AT',
+        embassy_url: 'https://www.bmeia.gv.at',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'بلجيكا': {
+        flag: '🇧🇪',
+        code: 'BE',
+        embassy_url: 'https://www.diplomatie.belgium.be',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'خطاب جهة العمل'
+        ]
+    },
+    'التشيك': {
+        flag: '🇨🇿',
+        code: 'CZ',
+        embassy_url: 'https://www.mzv.cz',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي 3 أشهر'
+        ]
+    },
+    'كرواتيا': {
+        flag: '🇭🇷',
+        code: 'HR',
+        embassy_url: 'https://mvep.gov.hr',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'الدنمارك': {
+        flag: '🇩🇰',
+        code: 'DK',
+        embassy_url: 'https://www.nyidanmark.dk',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'إستونيا': {
+        flag: '🇪🇪',
+        code: 'EE',
+        embassy_url: 'https://vm.ee',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'فنلندا': {
+        flag: '🇫🇮',
+        code: 'FI',
+        embassy_url: 'https://um.fi',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'فرنسا': {
+        flag: '🇫🇷',
+        code: 'FR',
+        embassy_url: 'https://france-visas.gouv.fr',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق لكامل المدة',
+            'تذكرة طيران ذهاب وعودة',
+            'كشف حساب بنكي 3 أشهر',
+            'خطاب جهة العمل'
+        ]
+    },
+    'ألمانيا': {
+        flag: '🇩🇪',
+        code: 'DE',
+        embassy_url: 'https://www.auswaertiges-amt.de',
+        visa_fee: '80 يورو',
+        processing_time: '10-15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق أو دعوة',
+            'تذكرة طيران',
+            'كشف حساب بنكي 3-6 أشهر',
+            'خطاب من جهة العمل'
+        ]
+    },
+    'اليونان': {
+        flag: '🇬🇷',
+        code: 'GR',
+        embassy_url: 'https://www.mfa.gr',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية'
+        ]
+    },
+    'المجر': {
+        flag: '🇭🇺',
+        code: 'HU',
+        embassy_url: 'https://konzinfo.mfa.gov.hu',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'آيسلندا': {
+        flag: '🇮🇸',
+        code: 'IS',
+        embassy_url: 'https://www.government.is',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'إيطاليا': {
+        flag: '🇮🇹',
+        code: 'IT',
+        embassy_url: 'https://vistoperitalia.esteri.it',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'لاتفيا': {
+        flag: '🇱🇻',
+        code: 'LV',
+        embassy_url: 'https://www.mfa.gov.lv',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'ليختنشتاين': {
+        flag: '🇱🇮',
+        code: 'LI',
+        embassy_url: 'https://www.llv.li',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'ليتوانيا': {
+        flag: '🇱🇹',
+        code: 'LT',
+        embassy_url: 'https://urm.lt',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'لوكسمبورغ': {
+        flag: '🇱🇺',
+        code: 'LU',
+        embassy_url: 'https://mae.gouvernement.lu',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'خطاب جهة العمل'
+        ]
+    },
+    'مالطا': {
+        flag: '🇲🇹',
+        code: 'MT',
+        embassy_url: 'https://identitymalta.com',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'هولندا': {
+        flag: '🇳🇱',
+        code: 'NL',
+        embassy_url: 'https://www.netherlandsandyou.nl',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'النرويج': {
+        flag: '🇳🇴',
+        code: 'NO',
+        embassy_url: 'https://www.udi.no',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'بولندا': {
+        flag: '🇵🇱',
+        code: 'PL',
+        embassy_url: 'https://www.gov.pl/web/dyplomacja',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'البرتغال': {
+        flag: '🇵🇹',
+        code: 'PT',
+        embassy_url: 'https://www.vfsglobal.com/portugal',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'سلوفاكيا': {
+        flag: '🇸🇰',
+        code: 'SK',
+        embassy_url: 'https://www.mzv.sk',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'سلوفينيا': {
+        flag: '🇸🇮',
+        code: 'SI',
+        embassy_url: 'https://www.gov.si',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'إسبانيا': {
+        flag: '🇪🇸',
+        code: 'ES',
+        embassy_url: 'https://www.exteriores.gob.es',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'السويد': {
+        flag: '🇸🇪',
+        code: 'SE',
+        embassy_url: 'https://www.migrationsverket.se',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'سويسرا': {
+        flag: '🇨🇭',
+        code: 'CH',
+        embassy_url: 'https://www.sem.admin.ch',
+        visa_fee: '80 يورو',
+        processing_time: '10-15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.step-header {
-    text-align: center;
-    margin-bottom: 35px;
-}
-
-.step-icon {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(201, 168, 76, 0.15), rgba(201, 168, 76, 0.05));
-    border: 1px solid rgba(201, 168, 76, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 15px;
-    font-size: 2rem;
-    color: var(--accent);
-}
-
-.step-header h2 {
-    font-weight: 900;
-    font-size: 2rem;
-    margin-bottom: 5px;
-    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.step-subtitle {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    margin-bottom: 0;
-}
-
-/* ===== أزرار التنقل ===== */
-.step-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 35px;
-    padding-top: 25px;
-    border-top: 1px solid rgba(201, 168, 76, 0.1);
-}
-
-.btn-next,
-.btn-back {
-    padding: 12px 30px;
-    border: none;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    transition: var(--transition);
-    font-family: var(--font-arabic);
-}
-
-.btn-next {
-    background: linear-gradient(135deg, var(--accent), #d4b85a);
-    color: #0a0a0f;
-}
-
-.btn-next:hover {
-    transform: translateX(-5px);
-    box-shadow: 0 10px 30px rgba(201, 168, 76, 0.3);
-}
-
-.btn-back {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-secondary);
-    border: 1px solid rgba(201, 168, 76, 0.15);
-}
-
-.btn-back:hover {
-    background: rgba(201, 168, 76, 0.1);
-    color: var(--text-primary);
-    transform: translateX(5px);
-}
-
-body.light-mode .btn-back {
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--text-secondary);
-}
-
-/* ===== نموذج البيانات ===== */
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    letter-spacing: 0.5px;
-}
-
-.form-control,
-.country-search select {
-    width: 100%;
-    padding: 14px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(201, 168, 76, 0.15);
-    border-radius: 12px;
-    color: var(--text-primary);
-    font-size: 1rem;
-    transition: var(--transition);
-    appearance: none;
-    -webkit-appearance: none;
-    font-family: var(--font-arabic);
-}
-
-body.light-mode .form-control,
-body.light-mode .country-search select {
-    background: rgba(0, 0, 0, 0.03);
-    color: var(--text-primary);
-}
-
-.form-control:focus,
-.country-search select:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
-}
-
-.country-search {
-    position: relative;
-}
-
-.country-search i {
-    position: absolute;
-    right: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-secondary);
-    pointer-events: none;
-}
-
-.country-search select {
-    padding-right: 45px;
-    cursor: pointer;
-}
-
-/* ===== معلومات الدولة ===== */
-.country-info-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(201, 168, 76, 0.1);
-    border-radius: 16px;
-    padding: 25px;
-    text-align: center;
-    height: 100%;
-    transition: var(--transition);
-}
-
-.country-flag-display {
-    font-size: 3.5rem;
-    margin-bottom: 10px;
-}
-
-.country-info-card h4 {
-    font-weight: 700;
-    margin-bottom: 12px;
-}
-
-.country-info-card ul {
-    list-style: none;
-    padding: 0;
-    text-align: right;
-}
-
-.country-info-card ul li {
-    padding: 5px 0;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    border-bottom: 1px solid rgba(201, 168, 76, 0.05);
-}
-
-.country-info-card ul li:last-child {
-    border-bottom: none;
-}
-
-.btn-outline-gold {
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    background: transparent;
-    padding: 6px 16px;
-    border-radius: 8px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.85rem;
-    transition: var(--transition);
-}
-
-.btn-outline-gold:hover {
-    background: var(--accent);
-    color: #0a0a0f;
-}
-
-/* ===== حجز الفندق ===== */
-.hotel-booking-section {
-    background: rgba(201, 168, 76, 0.03);
-    border: 1px solid rgba(201, 168, 76, 0.08);
-    border-radius: 16px;
-    padding: 25px;
-}
-
-.hotel-booking-section h5 {
-    margin-bottom: 15px;
-    font-weight: 700;
-}
-
-.booking-platforms {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.platform-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.9rem;
-}
-
-.platform-btn.booking {
-    background: #003580;
-    color: #fff;
-}
-
-.platform-btn.agoda {
-    background: #ff6f00;
-    color: #fff;
-}
-
-.platform-btn.expedia {
-    background: #0066cc;
-    color: #fff;
-}
-
-.platform-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-.btn-confirm-hotel {
-    padding: 10px 25px;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #28a745, #20c997);
-    color: #fff;
-    font-weight: 700;
-    cursor: pointer;
-    transition: var(--transition);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 0.95rem;
-    font-family: var(--font-arabic);
-}
-
-.btn-confirm-hotel:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
-}
-
-.btn-confirm-hotel.confirmed {
-    background: linear-gradient(135deg, #17a2b8, #0dcaf0);
-}
-
-.hotel-status {
-    margin-top: 15px;
-    padding: 10px 15px;
-    border-radius: 10px;
-    display: none;
-}
-
-.hotel-status.show {
-    display: block;
-}
-
-.hotel-status.success {
-    background: rgba(40, 167, 69, 0.15);
-    border: 1px solid rgba(40, 167, 69, 0.3);
-    color: #28a745;
-}
-
-.hotel-status.error {
-    background: rgba(220, 53, 69, 0.15);
-    border: 1px solid rgba(220, 53, 69, 0.3);
-    color: #dc3545;
-}
-
-/* ===== حجز تذكرة الطيران الوهمية ===== */
-.flight-ticket-section {
-    background: rgba(59, 130, 246, 0.03);
-    border: 1px solid rgba(59, 130, 246, 0.08);
-    border-radius: 16px;
-    padding: 25px;
-}
-
-.flight-ticket-section h5 {
-    margin-bottom: 15px;
-    font-weight: 700;
-}
-
-.btn-myjet24 {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #2563eb, #3b82f6);
-    color: #fff;
-    font-weight: 700;
-    cursor: pointer;
-    transition: var(--transition);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 0.95rem;
-    font-family: var(--font-arabic);
-    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
-}
-
-.btn-myjet24:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
-    background: linear-gradient(135deg, #1d4ed8, #2563eb);
-}
-
-.btn-myjet24 i {
-    font-size: 1.1rem;
-}
-
-/* ===== EPTI Egyptian Travel Insurance ===== */
-.epti-insurance-section {
-    background: rgba(16, 185, 129, 0.03);
-    border: 1px solid rgba(16, 185, 129, 0.08);
-    border-radius: 16px;
-    padding: 25px;
-}
-
-.epti-insurance-section h5 {
-    margin-bottom: 15px;
-    font-weight: 700;
-}
-
-.btn-epti {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #059669, #10b981);
-    color: #fff;
-    font-weight: 700;
-    cursor: pointer;
-    transition: var(--transition);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 0.95rem;
-    font-family: var(--font-arabic);
-    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
-}
-
-.btn-epti:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(5, 150, 105, 0.35);
-    background: linear-gradient(135deg, #047857, #059669);
-}
-
-.btn-epti i {
-    font-size: 1.1rem;
-}
-
-/* ===== رفع المستندات ===== */
-.documents-section h5 {
-    margin-bottom: 15px;
-    font-weight: 700;
-}
-
-.upload-box {
-    margin-bottom: 10px;
-}
-
-.upload-box label {
-    display: block;
-    font-weight: 600;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-bottom: 5px;
-}
-
-.upload-area {
-    background: rgba(255, 255, 255, 0.03);
-    border: 2px dashed rgba(201, 168, 76, 0.2);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: var(--transition);
-    min-height: 80px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-}
-
-.upload-area:hover {
-    border-color: var(--accent);
-    background: rgba(201, 168, 76, 0.05);
-}
-
-.upload-area i {
-    font-size: 1.5rem;
-    color: var(--accent);
-    opacity: 0.5;
-}
-
-.upload-area span {
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-}
-
-.file-name {
-    display: block;
-    margin-top: 5px;
-    font-size: 0.8rem;
-    color: var(--accent);
-    font-weight: 600;
-}
-
-.upload-area.has-file {
-    border-color: var(--accent);
-    background: rgba(201, 168, 76, 0.05);
-}
-
-/* ===== خدمات السفر ===== */
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
-}
-
-.service-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(201, 168, 76, 0.1);
-    border-radius: 16px;
-    padding: 30px 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-}
-
-.service-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(201, 168, 76, 0.05), transparent);
-    opacity: 0;
-    transition: var(--transition);
-}
-
-.service-card:hover::before {
-    opacity: 1;
-}
-
-.service-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-}
-
-.service-icon {
-    font-size: 2.5rem;
-    color: var(--accent);
-    margin-bottom: 10px;
-}
-
-.service-card h5 {
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 5px;
-}
-
-.service-card p {
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    margin-bottom: 0;
-}
-
-.service-arrow {
-    display: inline-block;
-    margin-top: 10px;
-    color: var(--accent);
-    font-size: 1.2rem;
-    transition: var(--transition);
-}
-
-.service-card:hover .service-arrow {
-    transform: translateX(-5px);
-}
-
-body.light-mode .service-card {
-    background: rgba(255, 255, 255, 0.6);
-}
-
-/* ===== مراجعة الملف ===== */
-.review-container {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 16px;
-    padding: 30px;
-    min-height: 250px;
-    margin-bottom: 25px;
-    border: 1px solid rgba(201, 168, 76, 0.08);
-}
-
-body.light-mode .review-container {
-    background: rgba(0, 0, 0, 0.03);
-}
-
-.review-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    min-height: 200px;
-    color: var(--text-secondary);
-}
-
-.review-placeholder i {
-    font-size: 3rem;
-    margin-bottom: 15px;
-    opacity: 0.3;
-}
-
-.review-content {
-    animation: fadeSlideUp 0.4s ease forwards;
-}
-
-.review-content .review-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(201, 168, 76, 0.05);
-}
-
-.review-content .review-item:last-child {
-    border-bottom: none;
-}
-
-.review-content .review-label {
-    color: var(--text-secondary);
-    font-weight: 600;
-}
-
-.review-content .review-value {
-    font-weight: 700;
-}
-
-.review-content .review-files {
-    margin-top: 10px;
-}
-
-.review-content .review-files li {
-    list-style: none;
-    padding: 5px 0;
-    color: var(--text-secondary);
-}
-
-.review-content .review-files li i {
-    color: var(--accent);
-    margin-left: 8px;
-}
-
-.review-actions {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.action-btn {
-    padding: 12px 30px;
-    border: none;
-    border-radius: 50px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.95rem;
-    font-family: var(--font-arabic);
-}
-
-.action-btn.print {
-    background: linear-gradient(135deg, #6c757d, #495057);
-    color: #fff;
-}
-
-.action-btn.print:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(108, 117, 125, 0.3);
-}
-
-.action-btn.pdf {
-    background: linear-gradient(135deg, #dc3545, #e74c3c);
-    color: #fff;
-}
-
-.action-btn.pdf:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
-}
-
-.action-btn.reset {
-    background: linear-gradient(135deg, var(--accent), #d4b85a);
-    color: #0a0a0f;
-}
-
-.action-btn.reset:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(201, 168, 76, 0.3);
-}
-
-/* ===== التذييل ===== */
-.site-footer {
-    background: rgba(10, 10, 15, 0.95);
-    border-top: 1px solid rgba(201, 168, 76, 0.08);
-    padding: 40px 0;
-    margin-top: 40px;
-}
-
-body.light-mode .site-footer {
-    background: rgba(255, 255, 255, 0.95);
-    border-top: 1px solid rgba(201, 168, 76, 0.15);
-}
-
-.footer-content {
-    text-align: center;
-}
-
-.footer-brand {
-    font-size: 1.3rem;
-    font-weight: 900;
-    color: var(--text-primary);
-}
-
-.footer-brand .brand-icon {
-    color: var(--accent);
-}
-
-.footer-text {
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    margin: 10px 0 15px;
-}
-
-.footer-social {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.footer-social a {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(201, 168, 76, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-secondary);
-    transition: var(--transition);
-    text-decoration: none;
-}
-
-.footer-social a:hover {
-    background: rgba(201, 168, 76, 0.15);
-    border-color: var(--accent);
-    color: var(--accent);
-    transform: translateY(-3px);
-}
-
-body.light-mode .footer-social a {
-    background: rgba(0, 0, 0, 0.03);
-}
-
-/* ===== Navbar collapse fix for RTL ===== */
-.navbar-collapse {
-    flex-grow: 0;
-}
-
-.navbar-nav {
-    gap: 5px;
-}
-
-.nav-link {
-    color: var(--text-secondary);
-    font-weight: 600;
-    padding: 8px 16px !important;
-    border-radius: 8px;
-    transition: var(--transition);
-}
-
-.nav-link:hover,
-.nav-link.active {
-    color: var(--accent);
-    background: rgba(201, 168, 76, 0.08);
-}
-
-/* ===== استجابة للشاشات الصغيرة ===== */
-@media (max-width: 768px) {
-    .step-card {
-        padding: 20px;
+};
+
+function updateCountryInfo() {
+    const country = document.getElementById('countrySelect').value;
+    const flagDisplay = document.getElementById('countryFlagDisplay');
+    const nameDisplay = document.getElementById('countryNameDisplay');
+    const reqDiv = document.getElementById('countryRequirements');
+
+    if (!country || !countriesData[country]) {
+        flagDisplay.textContent = '🌍';
+        nameDisplay.textContent = translations[currentLang]['select_country'];
+        reqDiv.innerHTML = `<p class="text-muted">${translations[currentLang]['select_country_hint']}</p>`;
+        return;
     }
 
-    .step-header h2 {
-        font-size: 1.4rem;
-    }
+    const data = countriesData[country];
+    const lang = currentLang;
 
-    .steps-progress {
-        gap: 0;
-    }
+    flagDisplay.textContent = data.flag;
+    nameDisplay.textContent = country;
 
-    .dot-label {
-        display: none;
-    }
+    const reqLabels = {
+        ar: data.requirements,
+        en: [
+            'Valid passport (3 months)',
+            'Medical insurance (30,000 EUR)',
+            'Hotel booking for full stay',
+            'Round-trip flight ticket',
+            'Bank statement (3 months)',
+            'Employment letter'
+        ]
+    };
 
-    .dot-number {
-        width: 32px;
-        height: 32px;
-        font-size: 0.7rem;
-    }
+    const reqs = lang === 'ar' ? data.requirements : reqLabels.en.slice(0, data.requirements.length);
 
-    .services-grid {
-        grid-template-columns: 1fr 1fr;
-    }
+    let html = `<ul>`;
+    reqs.forEach(req => {
+        html += `<li>${req}</li>`;
+    });
+    html += `</ul>`;
+    html += `<a href="${data.embassy_url}" target="_blank" class="btn btn-sm btn-outline-gold mt-2">
+                <i class="fas fa-external-link-alt"></i> ${lang === 'ar' ? 'موقع السفارة' : 'Embassy Website'}
+            </a>`;
 
-    .booking-platforms {
-        flex-direction: column;
-    }
-
-    .platform-btn {
-        justify-content: center;
-    }
-
-    .review-actions {
-        flex-direction: column;
-    }
-
-    .action-btn {
-        justify-content: center;
-    }
-
-    .step-footer {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .btn-next,
-    .btn-back {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .navbar-brand {
-        font-size: 1.1rem;
-    }
-
-    .brand-icon {
-        font-size: 1.2rem;
-    }
+    reqDiv.innerHTML = html;
 }
 
-/* ===== تنسيقات الطباعة ===== */
-@media print {
-    .navbar,
-    .progress-indicator,
-    .step-footer,
-    .review-actions,
-    .site-footer {
-        display: none !important;
-    }
+function loadCountries() {
+    const select = document.getElementById('countrySelect');
+    if (!select) return;
 
-    .step-card {
-        box-shadow: none !important;
-        border: none !important;
-        background: #fff !important;
-        color: #000 !important;
-        padding: 20px !important;
-    }
+    const countries = Object.keys(countriesData).sort();
+    const lang = (typeof currentLang !== 'undefined') ? currentLang : 'ar';
+    const placeholder = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['select_country']) 
+        ? translations[lang]['select_country'] 
+        : (lang === 'ar' ? '-- اختر الدولة --' : '-- Select Country --');
 
-    body,
-    body.light-mode {
-        background: #fff !important;
-    }
+    select.innerHTML = '';
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = placeholder;
+    select.appendChild(defaultOption);
 
-    .step-card .step-header h2 {
-        -webkit-text-fill-color: #000 !important;
-        background: none !important;
-    }
+    countries.forEach(country => {
+        const option = document.createElement('option');
+        option.value = country;
+        option.textContent = `${countriesData[country].flag} ${country}`;
+        select.appendChild(option);
+    });
+}
 
-    .review-container {
-        border: 1px solid #ddd !important;
-        background: #fff !important;
-    }
+// Load on DOM ready
+document.addEventListener('DOMContentLoaded', loadCountries);
+
+// Also re-load when language changes (if translations.js calls this)
+if (typeof window !== 'undefined') {
+    window.reloadCountries = loadCountries;
 }
