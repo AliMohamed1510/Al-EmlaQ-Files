@@ -1,3 +1,8 @@
+// ============================================
+// ملف الترجمة - Al EmlaQ Files
+// دعم اللغة العربية والإنجليزية
+// ============================================
+
 const translations = {
     ar: {
         // شريط التنقل
@@ -194,6 +199,11 @@ function toggleLanguage() {
     
     // حفظ اللغة في localStorage
     localStorage.setItem('al-emlaq-lang', currentLang);
+
+    // إعادة تحميل قائمة الدول باللغة الجديدة
+    if (typeof loadCountries === 'function') {
+        loadCountries();
+    }
 }
 
 // تحميل اللغة المحفوظة
