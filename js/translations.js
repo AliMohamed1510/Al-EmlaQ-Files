@@ -1,3 +1,8 @@
+// ============================================
+// ملف الترجمة - Al EmlaQ Files
+// دعم اللغة العربية والإنجليزية
+// ============================================
+
 const translations = {
     ar: {
         // شريط التنقل
@@ -33,10 +38,7 @@ const translations = {
         'confirm_hotel': 'تم حجز الفندق',
         'documents_title': '📎 رفع المستندات',
         'passport_label': 'صورة جواز السفر',
-        'insurance_label': 'التأمين الطبي',
         'work_label': 'إثبات العمل / السجل التجاري',
-        'bank_label': 'كشف الحساب البنكي',
-        'photo_label': 'الصورة الشخصية',
         'hotel_file_label': 'حجز الفندق (PDF)',
         'upload_hint': 'اضغط للرفع',
         'hotel_confirmed': '✅ تم تأكيد حجز الفندق',
@@ -116,10 +118,7 @@ const translations = {
         'confirm_hotel': 'Hotel Booked',
         'documents_title': '📎 Upload Documents',
         'passport_label': 'Passport Copy',
-        'insurance_label': 'Medical Insurance',
         'work_label': 'Employment Proof / Commercial Register',
-        'bank_label': 'Bank Statement',
-        'photo_label': 'Passport Photo',
         'hotel_file_label': 'Hotel Booking (PDF)',
         'upload_hint': 'Click to upload',
         'hotel_confirmed': '✅ Hotel booking confirmed',
