@@ -1,362 +1,447 @@
-// ============================================
-// الملف الرئيسي - Al EmlaQ Files
-// ============================================
-
-// ===== المتغيرات العامة =====
-let uploadedFiles = {};
-let fileNames = {};
-let isHotelConfirmed = false;
-let currentStep = 1;
-let skippedServices = false;
-
-// ===== التحكم في الخطوات =====
-function goToStep(step) {
-    // إخفاء جميع الخطوات
-    document.querySelectorAll('.step-section').forEach(el => {
-        el.classList.remove('active');
-    });
-    
-    // إظهار الخطوة المطلوبة
-    const target = document.getElementById(`step${step}`);
-    if (target) {
-        target.classList.add('active');
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+const countriesData = {
+    'النمسا': {
+        flag: '🇦🇹',
+        code: 'AT',
+        embassy_url: 'https://www.bmeia.gv.at',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'بلجيكا': {
+        flag: '🇧🇪',
+        code: 'BE',
+        embassy_url: 'https://www.diplomatie.belgium.be',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'خطاب جهة العمل'
+        ]
+    },
+    'التشيك': {
+        flag: '🇨🇿',
+        code: 'CZ',
+        embassy_url: 'https://www.mzv.cz',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي 3 أشهر'
+        ]
+    },
+    'كرواتيا': {
+        flag: '🇭🇷',
+        code: 'HR',
+        embassy_url: 'https://mvep.gov.hr',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'الدنمارك': {
+        flag: '🇩🇰',
+        code: 'DK',
+        embassy_url: 'https://www.nyidanmark.dk',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'إستونيا': {
+        flag: '🇪🇪',
+        code: 'EE',
+        embassy_url: 'https://vm.ee',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'فنلندا': {
+        flag: '🇫🇮',
+        code: 'FI',
+        embassy_url: 'https://um.fi',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'فرنسا': {
+        flag: '🇫🇷',
+        code: 'FR',
+        embassy_url: 'https://france-visas.gouv.fr',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق لكامل المدة',
+            'تذكرة طيران ذهاب وعودة',
+            'كشف حساب بنكي 3 أشهر',
+            'خطاب جهة العمل'
+        ]
+    },
+    'ألمانيا': {
+        flag: '🇩🇪',
+        code: 'DE',
+        embassy_url: 'https://www.auswaertiges-amt.de',
+        visa_fee: '80 يورو',
+        processing_time: '10-15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق أو دعوة',
+            'تذكرة طيران',
+            'كشف حساب بنكي 3-6 أشهر',
+            'خطاب من جهة العمل'
+        ]
+    },
+    'اليونان': {
+        flag: '🇬🇷',
+        code: 'GR',
+        embassy_url: 'https://www.mfa.gr',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية'
+        ]
+    },
+    'المجر': {
+        flag: '🇭🇺',
+        code: 'HU',
+        embassy_url: 'https://konzinfo.mfa.gov.hu',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'آيسلندا': {
+        flag: '🇮🇸',
+        code: 'IS',
+        embassy_url: 'https://www.government.is',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'إيطاليا': {
+        flag: '🇮🇹',
+        code: 'IT',
+        embassy_url: 'https://vistoperitalia.esteri.it',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'لاتفيا': {
+        flag: '🇱🇻',
+        code: 'LV',
+        embassy_url: 'https://www.mfa.gov.lv',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'ليختنشتاين': {
+        flag: '🇱🇮',
+        code: 'LI',
+        embassy_url: 'https://www.llv.li',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'ليتوانيا': {
+        flag: '🇱🇹',
+        code: 'LT',
+        embassy_url: 'https://urm.lt',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'لوكسمبورغ': {
+        flag: '🇱🇺',
+        code: 'LU',
+        embassy_url: 'https://mae.gouvernement.lu',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'خطاب جهة العمل'
+        ]
+    },
+    'مالطا': {
+        flag: '🇲🇹',
+        code: 'MT',
+        embassy_url: 'https://identitymalta.com',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'هولندا': {
+        flag: '🇳🇱',
+        code: 'NL',
+        embassy_url: 'https://www.netherlandsandyou.nl',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'النرويج': {
+        flag: '🇳🇴',
+        code: 'NO',
+        embassy_url: 'https://www.udi.no',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'بولندا': {
+        flag: '🇵🇱',
+        code: 'PL',
+        embassy_url: 'https://www.gov.pl/web/dyplomacja',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'البرتغال': {
+        flag: '🇵🇹',
+        code: 'PT',
+        embassy_url: 'https://www.vfsglobal.com/portugal',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'سلوفاكيا': {
+        flag: '🇸🇰',
+        code: 'SK',
+        embassy_url: 'https://www.mzv.sk',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'سلوفينيا': {
+        flag: '🇸🇮',
+        code: 'SI',
+        embassy_url: 'https://www.gov.si',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'إسبانيا': {
+        flag: '🇪🇸',
+        code: 'ES',
+        embassy_url: 'https://www.exteriores.gob.es',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'السويد': {
+        flag: '🇸🇪',
+        code: 'SE',
+        embassy_url: 'https://www.migrationsverket.se',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'سويسرا': {
+        flag: '🇨🇭',
+        code: 'CH',
+        embassy_url: 'https://www.sem.admin.ch',
+        visa_fee: '80 يورو',
+        processing_time: '10-15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
     }
-    
-    // تحديث مؤشر التقدم
-    document.querySelectorAll('.step-dot').forEach((dot, index) => {
-        const num = index + 1;
-        dot.classList.remove('active', 'completed');
-        if (num === step) {
-            dot.classList.add('active');
-        } else if (num < step) {
-            dot.classList.add('completed');
-        }
-    });
-    
-    // تحديث الخطوط
-    document.querySelectorAll('.step-line').forEach((line, index) => {
-        line.classList.toggle('active', index < step - 1);
-    });
-    
-    currentStep = step;
-    
-    // إذا وصلنا للخطوة 4، عرض الملف
-    if (step === 4) {
-        generateFilePreview();
-    }
-}
+};
 
-// ===== تبديل الوضع المظلم =====
-function toggleTheme() {
-    document.body.classList.toggle('light-mode');
-    const icon = document.getElementById('themeIcon');
-    if (document.body.classList.contains('light-mode')) {
-        icon.className = 'fas fa-sun';
-        localStorage.setItem('al-emlaq-theme', 'light');
-    } else {
-        icon.className = 'fas fa-moon';
-        localStorage.setItem('al-emlaq-theme', 'dark');
-    }
-}
-
-// تحميل الثيم المحفوظ
-document.addEventListener('DOMContentLoaded', function() {
-    const savedTheme = localStorage.getItem('al-emlaq-theme');
-    if (savedTheme === 'light') {
-        document.body.classList.add('light-mode');
-        document.getElementById('themeIcon').className = 'fas fa-sun';
-    }
-});
-
-// ===== حجز الفندق =====
-function bookHotel(platform) {
+function updateCountryInfo() {
     const country = document.getElementById('countrySelect').value;
-    if (!country) {
-        showHotelStatus(translations[currentLang]['select_country_first'], 'error');
+    const flagDisplay = document.getElementById('countryFlagDisplay');
+    const nameDisplay = document.getElementById('countryNameDisplay');
+    const reqDiv = document.getElementById('countryRequirements');
+
+    if (!country || !countriesData[country]) {
+        flagDisplay.textContent = '🌍';
+        nameDisplay.textContent = translations[currentLang]['select_country'];
+        reqDiv.innerHTML = `<p class="text-muted">${translations[currentLang]['select_country_hint']}</p>`;
         return;
     }
-    
-    const urls = {
-        'booking': 'https://www.booking.com/index.ar.html',
-        'agoda': 'https://www.agoda.com/ar/',
-        'expedia': 'https://www.expedia.com/'
-    };
-    
-    window.open(urls[platform] || urls.booking, '_blank');
-}
 
-// ===== تأكيد حجز الفندق =====
-function confirmHotel() {
-    const country = document.getElementById('countrySelect').value;
-    if (!country) {
-        showHotelStatus(translations[currentLang]['select_country_first'], 'error');
-        return;
-    }
-    
-    isHotelConfirmed = true;
-    const btn = document.querySelector('.btn-confirm-hotel');
-    btn.classList.add('confirmed');
-    btn.innerHTML = `<i class="fas fa-check-circle"></i> ${translations[currentLang]['hotel_confirmed']}`;
-    
-    showHotelStatus(translations[currentLang]['hotel_confirmed'], 'success');
-}
-
-function bookDummyTicket() {
-    window.open('https://myjet24.com/', '_blank');
-}
-
-function openEPTI() {
-    window.open('https://epti-egy.org/Traveltargetweb/Pages/Policy_Qry2/Default.aspx', '_blank');
-}
-
-function showHotelStatus(message, type) {
-    const statusDiv = document.getElementById('hotelStatus');
-    statusDiv.textContent = message;
-    statusDiv.className = `hotel-status show ${type}`;
-}
-
-// ===== رفع الملفات =====
-document.addEventListener('DOMContentLoaded', function() {
-    const fileInputs = document.querySelectorAll('input[type="file"]');
-    fileInputs.forEach(input => {
-        input.addEventListener('change', function(e) {
-            if (this.files.length > 0) {
-                const fileName = this.files[0].name;
-                const id = this.id;
-                const nameDisplay = document.getElementById(id + 'Name');
-                if (nameDisplay) {
-                    nameDisplay.textContent = fileName;
-                    nameDisplay.style.color = '#c9a84c';
-                }
-                // إضافة class للإشارة إلى وجود ملف
-                const uploadArea = this.closest('.upload-area');
-                if (uploadArea) {
-                    uploadArea.classList.add('has-file');
-                }
-                uploadedFiles[id] = this.files[0];
-                fileNames[id] = fileName;
-            }
-        });
-    });
-});
-
-// ===== معالجة الملفات =====
-function processFiles() {
-    const required = ['passportFile', 'insuranceFile', 'workFile', 'bankFile', 'photoFile', 'hotelFile'];
-    let allUploaded = true;
-    let missing = [];
-    
-    required.forEach(id => {
-        if (!uploadedFiles[id]) {
-            allUploaded = false;
-            const label = document.querySelector(`label[for="${id}"]`)?.textContent || id;
-            missing.push(label);
-        }
-    });
-    
-    if (!isHotelConfirmed) {
-        allUploaded = false;
-        missing.push(translations[currentLang]['hotel_booking_title']);
-    }
-    
-    if (allUploaded) {
-        showStatus(translations[currentLang]['file_ready'], 'success');
-        goToStep(4);
-    } else {
-        showStatus(`${translations[currentLang]['confirm_all_documents']}: ${missing.join(', ')}`, 'error');
-    }
-}
-
-function showStatus(message, type) {
-    const statusDiv = document.getElementById('uploadStatus') || createStatusDiv();
-    statusDiv.textContent = message;
-    statusDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} mt-3`;
-}
-
-function createStatusDiv() {
-    const div = document.createElement('div');
-    div.id = 'uploadStatus';
-    document.querySelector('.documents-section').appendChild(div);
-    return div;
-}
-
-// ===== الخدمات =====
-function bookFlight() {
-    window.open('https://www.google.com/travel/flights', '_blank');
-    goToStep(4);
-}
-
-function buyInsurance() {
-    window.open('https://www.axa-schengen.com/ar', '_blank');
-    goToStep(4);
-}
-
-function bookCar() {
-    window.open('https://www.rentalcars.com', '_blank');
-    goToStep(4);
-}
-
-function skipServices() {
-    skippedServices = true;
-    goToStep(4);
-}
-
-// ===== إنشاء معاينة الملف =====
-function generateFilePreview() {
-    const container = document.getElementById('filePreview');
-    const country = document.getElementById('countrySelect').value;
-    const visaType = document.getElementById('visaType').value;
-    const stayDays = document.getElementById('stayDays').value;
-    const lang = currentLang;
-    
-    if (!country || !isHotelConfirmed || Object.keys(uploadedFiles).length < 6) {
-        container.innerHTML = `
-            <div class="review-placeholder">
-                <i class="fas fa-file-alt"></i>
-                <p>${translations[lang]['review_placeholder']}</p>
-            </div>
-        `;
-        return;
-    }
-    
     const data = countriesData[country];
-    const fileList = {
-        'passportFile': 'جواز السفر',
-        'hotelFile': 'حجز الفندق',
-        'insuranceFile': 'التأمين الطبي',
-        'workFile': 'إثبات العمل',
-        'bankFile': 'كشف الحساب',
-        'photoFile': 'الصورة الشخصية'
+    const lang = currentLang;
+
+    flagDisplay.textContent = data.flag;
+    nameDisplay.textContent = country;
+
+    const reqLabels = {
+        ar: data.requirements,
+        en: [
+            'Valid passport (3 months)',
+            'Medical insurance (30,000 EUR)',
+            'Hotel booking for full stay',
+            'Round-trip flight ticket',
+            'Bank statement (3 months)',
+            'Employment letter'
+        ]
     };
-    
-    let filesHTML = '';
-    Object.keys(fileNames).forEach(key => {
-        if (fileNames[key]) {
-            filesHTML += `<li><i class="fas fa-file"></i> ${fileList[key] || key}: ${fileNames[key]}</li>`;
-        }
+
+    const reqs = lang === 'ar' ? data.requirements : reqLabels.en.slice(0, data.requirements.length);
+
+    let html = `<ul>`;
+    reqs.forEach(req => {
+        html += `<li>${req}</li>`;
     });
-    
-    const countryLabel = lang === 'ar' ? 'الدولة' : 'Country';
-    const visaLabel = lang === 'ar' ? 'نوع التأشيرة' : 'Visa Type';
-    const stayLabel = lang === 'ar' ? 'مدة الإقامة' : 'Stay Duration';
-    const hotelLabel = lang === 'ar' ? 'حجز الفندق' : 'Hotel Booking';
-    const filesLabel = lang === 'ar' ? 'المستندات المرفوعة' : 'Uploaded Documents';
-    
-    container.innerHTML = `
-        <div class="review-content">
-            <div class="review-item">
-                <span class="review-label">${countryLabel}</span>
-                <span class="review-value">${data.flag} ${country}</span>
-            </div>
-            <div class="review-item">
-                <span class="review-label">${visaLabel}</span>
-                <span class="review-value">${visaType}</span>
-            </div>
-            <div class="review-item">
-                <span class="review-label">${stayLabel}</span>
-                <span class="review-value">${stayDays} ${lang === 'ar' ? 'يوم' : 'days'}</span>
-            </div>
-            <div class="review-item">
-                <span class="review-label">${hotelLabel}</span>
-                <span class="review-value">${isHotelConfirmed ? '✅ ' + (lang === 'ar' ? 'مؤكد' : 'Confirmed') : '❌ ' + (lang === 'ar' ? 'غير مؤكد' : 'Not confirmed')}</span>
-            </div>
-            <div class="review-files">
-                <span class="review-label">${filesLabel}</span>
-                <ul>${filesHTML}</ul>
-            </div>
-            <div class="review-item mt-2">
-                <span class="review-label" style="color: var(--accent);">
-                    ${lang === 'ar' ? '📌 تأكد من صحة جميع البيانات قبل الطباعة' : '📌 Verify all data is correct before printing'}
-                </span>
-            </div>
-        </div>
-    `;
+    html += `</ul>`;
+    html += `<a href="${data.embassy_url}" target="_blank" class="btn btn-sm btn-outline-gold mt-2">
+                <i class="fas fa-external-link-alt"></i> ${lang === 'ar' ? 'موقع السفارة' : 'Embassy Website'}
+            </a>`;
+
+    reqDiv.innerHTML = html;
 }
 
-// ===== طباعة الملف =====
-function printFile() {
-    const container = document.getElementById('filePreview');
-    if (container.querySelector('.review-placeholder')) {
-        alert(translations[currentLang]['review_placeholder']);
-        return;
-    }
-    window.print();
-}
+function loadCountries() {
+    const select = document.getElementById('countrySelect');
+    const countries = Object.keys(countriesData).sort();
 
-// ===== تحميل PDF =====
-function downloadPDF() {
-    const container = document.getElementById('filePreview');
-    if (container.querySelector('.review-placeholder')) {
-        alert(translations[currentLang]['review_placeholder']);
-        return;
-    }
-    
-    const element = document.getElementById('filePreview');
-    const opt = {
-        margin: 15,
-        filename: `Al_EmlaQ_Files_${new Date().toISOString().slice(0,10)}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-    
-    html2pdf().set(opt).from(element).save();
-}
+    select.innerHTML = '';
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = translations[currentLang]['select_country'];
+    select.appendChild(defaultOption);
 
-// ===== إعادة تعيين =====
-function resetAll() {
-    if (!confirm(translations[currentLang]['reset_confirm'])) return;
-    
-    // إعادة تعيين الحقول
-    document.getElementById('countrySelect').value = '';
-    document.getElementById('visaType').value = 'سياحة';
-    document.getElementById('stayDays').value = '7';
-    document.getElementById('hotelStatus').className = 'hotel-status';
-    document.getElementById('hotelStatus').textContent = '';
-    
-    // إعادة تعيين رفع الملفات
-    document.querySelectorAll('input[type="file"]').forEach(input => {
-        input.value = '';
-        const nameDisplay = document.getElementById(input.id + 'Name');
-        if (nameDisplay) nameDisplay.textContent = '';
-        const uploadArea = input.closest('.upload-area');
-        if (uploadArea) uploadArea.classList.remove('has-file');
+    countries.forEach(country => {
+        const option = document.createElement('option');
+        option.value = country;
+        option.textContent = `${countriesData[country].flag} ${country}`;
+        select.appendChild(option);
     });
-    
-    // إعادة تعيين المتغيرات
-    uploadedFiles = {};
-    fileNames = {};
-    isHotelConfirmed = false;
-    skippedServices = false;
-    
-    // إعادة تعيين زر تأكيد الفندق
-    const btn = document.querySelector('.btn-confirm-hotel');
-    btn.classList.remove('confirmed');
-    btn.innerHTML = `<i class="fas fa-check-circle"></i> ${translations[currentLang]['confirm_hotel']}`;
-    
-    // إعادة تعيين معلومات الدولة
-    document.getElementById('countryFlagDisplay').textContent = '🌍';
-    document.getElementById('countryNameDisplay').textContent = translations[currentLang]['select_country'];
-    document.getElementById('countryRequirements').innerHTML = `<p class="text-muted">${translations[currentLang]['select_country_hint']}</p>`;
-    
-    // إعادة تعيين معاينة الملف
-    document.getElementById('filePreview').innerHTML = `
-        <div class="review-placeholder">
-            <i class="fas fa-file-alt"></i>
-            <p>${translations[currentLang]['review_placeholder']}</p>
-        </div>
-    `;
-    
-    // العودة للخطوة 1
-    goToStep(1);
 }
 
-// ===== تهيئة الصفحة =====
-document.addEventListener('DOMContentLoaded', function() {
-    // تفعيل الخطوة الأولى
-    goToStep(1);
-    
-    console.log('✦ Al EmlaQ Files ✦');
-    console.log('تم تحميل الموقع بنجاح');
-});
+document.addEventListener('DOMContentLoaded', loadCountries);
