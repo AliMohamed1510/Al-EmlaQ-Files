@@ -1,3 +1,8 @@
+// ============================================
+// الملف الرئيسي - Al EmlaQ Files
+// ============================================
+
+// ===== المتغيرات العامة =====
 let uploadedFiles = {};
 let fileNames = {};
 let isHotelConfirmed = false;
@@ -217,27 +222,37 @@ function generateFilePreview() {
     
     const data = countriesData[country];
     const fileList = {
-        'passportFile': 'جواز السفر',
-        'hotelFile': 'حجز الفندق',
-        'insuranceFile': 'التأمين الطبي',
-        'workFile': 'إثبات العمل',
-        'bankFile': 'كشف الحساب',
-        'photoFile': 'الصورة الشخصية'
+        'passportFile': lang === 'ar' ? 'جواز السفر' : 'Passport',
+        'hotelFile': lang === 'ar' ? 'حجز الفندق' : 'Hotel Booking',
+        'insuranceFile': lang === 'ar' ? 'التأمين الطبي' : 'Insurance',
+        'workFile': lang === 'ar' ? 'إثبات العمل' : 'Work Proof',
+        'bankFile': lang === 'ar' ? 'كشف الحساب' : 'Bank Statement',
+        'photoFile': lang === 'ar' ? 'الصورة الشخصية' : 'Photo'
     };
-    
+
     let filesHTML = '';
-    Object.keys(fileNames).forEach(key => {
+    let uploadedCount = 0;
+    Object.keys(fileList).forEach(key => {
         if (fileNames[key]) {
-            filesHTML += `<li><i class="fas fa-file"></i> ${fileList[key] || key}: ${fileNames[key]}</li>`;
+            filesHTML += `<li><i class="fas fa-check-circle" style="color:#28a745;"></i> ${fileList[key]}: ${fileNames[key]}</li>`;
+            uploadedCount++;
+        } else {
+            filesHTML += `<li><i class="fas fa-times-circle" style="color:#dc3545;"></i> ${fileList[key]}: ${lang === 'ar' ? 'غير مرفوع' : 'Not uploaded'}</li>`;
         }
     });
-    
+
     const countryLabel = lang === 'ar' ? 'الدولة' : 'Country';
     const visaLabel = lang === 'ar' ? 'نوع التأشيرة' : 'Visa Type';
     const stayLabel = lang === 'ar' ? 'مدة الإقامة' : 'Stay Duration';
     const hotelLabel = lang === 'ar' ? 'حجز الفندق' : 'Hotel Booking';
-    const filesLabel = lang === 'ar' ? 'المستندات المرفوعة' : 'Uploaded Documents';
-    
+    const filesLabel = lang === 'ar' ? 'المستندات' : 'Documents';
+    const statusLabel = lang === 'ar' ? 'الحالة' : 'Status';
+
+    const allReady = isHotelConfirmed && uploadedCount >= 6;
+    const statusText = allReady 
+        ? (lang === 'ar' ? '✅ الملف جاهز للتقديم' : '✅ File ready for submission')
+        : (lang === 'ar' ? '⚠️ يرجى إكمال المستندات المطلوبة' : '⚠️ Please complete required documents');
+
     container.innerHTML = `
         <div class="review-content">
             <div class="review-item">
@@ -257,26 +272,89 @@ function generateFilePreview() {
                 <span class="review-value">${isHotelConfirmed ? '✅ ' + (lang === 'ar' ? 'مؤكد' : 'Confirmed') : '❌ ' + (lang === 'ar' ? 'غير مؤكد' : 'Not confirmed')}</span>
             </div>
             <div class="review-files">
-                <span class="review-label">${filesLabel}</span>
+                <span class="review-label">${filesLabel} (${uploadedCount}/6)</span>
                 <ul>${filesHTML}</ul>
             </div>
+            <div class="review-item" style="border-top:2px solid var(--accent);margin-top:15px;padding-top:15px;">
+                <span class="review-label" style="color: var(--accent);font-weight:900;">${statusLabel}</span>
+                <span class="review-value" style="color: ${allReady ? '#28a745' : '#dc3545'};">${statusText}</span>
+            </div>
             <div class="review-item mt-2">
-                <span class="review-label" style="color: var(--accent);">
+                <span class="review-label" style="color: var(--text-secondary);font-size:0.85rem;">
                     ${lang === 'ar' ? '📌 تأكد من صحة جميع البيانات قبل الطباعة' : '📌 Verify all data is correct before printing'}
                 </span>
             </div>
         </div>
     `;
-}
-
-// ===== طباعة الملف =====
+}// ===== طباعة الملف =====
 function printFile() {
     const container = document.getElementById('filePreview');
     if (container.querySelector('.review-placeholder')) {
         alert(translations[currentLang]['review_placeholder']);
         return;
     }
-    window.print();
+
+    // طباعة بس محتوى المراجعة
+    const printWindow = window.open('', '_blank');
+    const content = container.innerHTML;
+    const lang = currentLang;
+    const dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="${lang}" dir="${dir}">
+        <head>
+            <meta charset="UTF-8">
+            <title>Al EmlaQ Files - ${lang === 'ar' ? 'ملف التأشيرة' : 'Visa File'}</title>
+            <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+            <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                body { 
+                    font-family: 'Cairo', sans-serif; 
+                    padding: 40px; 
+                    background: #fff; 
+                    color: #1a1a2e;
+                    line-height: 1.8;
+                }
+                .review-item { 
+                    display: flex; 
+                    justify-content: space-between; 
+                    padding: 12px 0; 
+                    border-bottom: 1px solid #eee; 
+                }
+                .review-label { color: #666; font-weight: 600; }
+                .review-value { font-weight: 700; }
+                .review-files { margin-top: 15px; }
+                .review-files li { list-style: none; padding: 6px 0; color: #555; }
+                .review-files li i { color: #c9a84c; margin-left: 8px; }
+                h2 { text-align: center; margin-bottom: 30px; color: #1a1a2e; font-size: 1.8rem; }
+                .header-line { 
+                    width: 60px; height: 3px; background: #c9a84c; 
+                    margin: 10px auto 30px; border-radius: 2px; 
+                }
+                .footer-note { 
+                    margin-top: 40px; padding-top: 20px; border-top: 2px solid #c9a84c;
+                    text-align: center; color: #888; font-size: 0.85rem; 
+                }
+                ul { padding: 0; }
+                @media print { body { padding: 20px; } }
+            </style>
+        </head>
+        <body>
+            <h2>${lang === 'ar' ? '✦ Al EmlaQ Files ✦' : '✦ Al EmlaQ Files ✦'}</h2>
+            <div class="header-line"></div>
+            ${content}
+            <div class="footer-note">
+                ${lang === 'ar' 
+                    ? 'أداة مساعدة لتحضير ملفات تأشيرة شنغن - ليست بديلاً عن التقديم الرسمي' 
+                    : 'Schengen visa file preparation assistant - Not a substitute for official submission'}
+            </div>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => printWindow.print(), 500);
 }
 
 // ===== تحميل PDF =====
@@ -286,17 +364,47 @@ function downloadPDF() {
         alert(translations[currentLang]['review_placeholder']);
         return;
     }
-    
+
+    // التأكد من تحميل مكتبة html2pdf
+    if (typeof html2pdf === 'undefined') {
+        alert(currentLang === 'ar' 
+            ? 'جاري تحميل المكتبة... الرجاء المحاولة بعد ثوانٍ' 
+            : 'Library loading... Please try again in a few seconds');
+        return;
+    }
+
+    // إظهار مؤشر التحميل
+    const btn = document.querySelector('.action-btn.pdf');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + (currentLang === 'ar' ? 'جاري التحميل...' : 'Downloading...');
+    btn.disabled = true;
+
     const element = document.getElementById('filePreview');
     const opt = {
-        margin: 15,
+        margin: 10,
         filename: `Al_EmlaQ_Files_${new Date().toISOString().slice(0,10)}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
+        html2canvas: { 
+            scale: 2, 
+            useCORS: true,
+            logging: false
+        },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
-    
-    html2pdf().set(opt).from(element).save();
+
+    html2pdf().set(opt).from(element).save()
+        .then(() => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        })
+        .catch(err => {
+            console.error('PDF Error:', err);
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            alert(currentLang === 'ar' 
+                ? 'حدث خطأ أثناء تحميل PDF. جرب الطباعة بدلاً من ذلك.' 
+                : 'Error downloading PDF. Try printing instead.');
+        });
 }
 
 // ===== إعادة تعيين =====
