@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al EmlaQ Files - مساعد تأشيرة شنغن</title>
+    
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- ملف التنسيقات -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- ===== شريط التنقل العلوي ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <span class="brand-icon">✦</span>
+                <span class="brand-text">Al EmlaQ Files</span>
+                <span class="brand-sub">✧</span>
+            </a>
+            
+            <div class="d-flex align-items-center gap-3">
+                <!-- تبديل اللغة -->
+                <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()">
+                    <i class="fas fa-globe"></i>
+                    <span id="langLabel">EN</span>
+                </button>
+                
+                <!-- تبديل الوضع المظلم -->
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#step1" data-i18n="nav_home">الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#step1" data-i18n="nav_step1">الخطوة 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#step2" data-i18n="nav_step2">الخطوة 2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#step3" data-i18n="nav_step3">الخطوة 3</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#step4" data-i18n="nav_step4">الخطوة 4</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== مؤشر التقدم ===== -->
+    <div class="progress-indicator">
+        <div class="container">
+            <div class="steps-progress">
+                <div class="step-dot active" data-step="1">
+                    <span class="dot-number">1</span>
+                    <span class="dot-label" data-i18n="step1_label">البيانات</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-dot" data-step="2">
+                    <span class="dot-number">2</span>
+                    <span class="dot-label" data-i18n="step2_label">المستندات</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-dot" data-step="3">
+                    <span class="dot-number">3</span>
+                    <span class="dot-label" data-i18n="step3_label">الخدمات</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-dot" data-step="4">
+                    <span class="dot-number">4</span>
+                    <span class="dot-label" data-i18n="step4_label">المراجعة</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== المحتوى الرئيسي ===== -->
+    <main class="main-content">
+        <div class="container">
+
+            <!-- ===== الخطوة 1: اختيار الدولة ===== -->
+            <section id="step1" class="step-section active">
+                <div class="step-card glass-card">
+                    <div class="step-header">
+                        <div class="step-icon"><i class="fas fa-globe-asia"></i></div>
+                        <h2 data-i18n="step1_title">اختر وجهتك</h2>
+                        <p class="step-subtitle" data-i18n="step1_subtitle">حدد الدولة التي تنوي السفر إليها</p>
+                    </div>
+                    
+                    <div class="step-body">
+                        <div class="row g-4">
+                            <div class="col-lg-7">
+                                <div class="form-group">
+                                    <label data-i18n="country_label">الدولة المطلوبة</label>
+                                    <div class="country-search">
+                                        <i class="fas fa-search"></i>
+                                        <select id="countrySelect" class="form-control" onchange="updateCountryInfo()">
+                                            <option value="" data-i18n="select_country">-- اختر الدولة --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="row g-3 mt-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label data-i18n="visa_type_label">نوع التأشيرة</label>
+                                            <select id="visaType" class="form-control">
+                                                <option value="سياحة" data-i18n="visa_tourism">سياحة</option>
+                                                <option value="عمل" data-i18n="visa_business">عمل</option>
+                                                <option value="دراسة" data-i18n="visa_study">دراسة</option>
+                                                <option value="زيارة عائلية" data-i18n="visa_family">زيارة عائلية</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label data-i18n="stay_days_label">مدة الإقامة (أيام)</label>
+                                            <input type="number" id="stayDays" class="form-control" value="7" min="1" max="90">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-5">
+                                <div class="country-info-card">
+                                    <div class="country-flag-display" id="countryFlagDisplay">🌍</div>
+                                    <h4 id="countryNameDisplay" data-i18n="select_country">اختر دولة</h4>
+                                    <div id="countryRequirements">
+                                        <p class="text-muted" data-i18n="select_country_hint">اختر دولة لعرض المتطلبات</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-footer">
+                        <button class="btn-next" onclick="goToStep(2)">
+                            <span data-i18n="next_step">التالي</span>
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== الخطوة 2: حجز الفندق والمستندات ===== -->
+            <section id="step2" class="step-section">
+                <div class="step-card glass-card">
+                    <div class="step-header">
+                        <div class="step-icon"><i class="fas fa-hotel"></i></div>
+                        <h2 data-i18n="step2_title">حجز الفندق والمستندات</h2>
+                        <p class="step-subtitle" data-i18n="step2_subtitle">قم بحجز فندقك ورفع المستندات المطلوبة</p>
+                    </div>
+                    
+                    <div class="step-body">
+                        <!-- قسم حجز الفندق -->
+                        <div class="hotel-booking-section">
+                            <h5 data-i18n="hotel_booking_title">🏨 حجز الفندق</h5>
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <div class="booking-platforms">
+                                        <button class="platform-btn booking" onclick="bookHotel('booking')">
+                                            <i class="fas fa-building"></i> Booking.com
+                                        </button>
+                                        <button class="platform-btn agoda" onclick="bookHotel('agoda')">
+                                            <i class="fas fa-hotel"></i> Agoda
+                                        </button>
+                                        <button class="platform-btn expedia" onclick="bookHotel('expedia')">
+                                            <i class="fas fa-plane"></i> Expedia
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn-confirm-hotel" onclick="confirmHotel()">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span data-i18n="confirm_hotel">تم حجز الفندق</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="hotelStatus" class="hotel-status"></div>
+                        </div>
+                        
+                        <!-- قسم رفع المستندات -->
+                        <div class="documents-section mt-4">
+                            <h5 data-i18n="documents_title">📎 رفع المستندات</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="upload-box">
+                                        <label data-i18n="passport_label">صورة جواز السفر</label>
+                                        <div class="upload-area" onclick="document.getElementById('passportFile').click()">
+                                            <i class="fas fa-upload"></i>
+                                            <span data-i18n="upload_hint">اضغط للرفع</span>
+                                            <input type="file" id="passportFile" accept=".pdf,.jpg,.png" hidden>
+                                        </div>
+                                        <span class="file-name" id="passportFileName"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="upload-box">
+                                        <label data-i18n="insurance_label">التأمين الطبي</label>
+                                        <div class="upload-area" onclick="document.getElementById('insuranceFile').click()">
+                                            <i class="fas fa-upload"></i>
+                                            <span data-i18n="upload_hint">اضغط للرفع</span>
+                                            <input type="file" id="insuranceFile" accept=".pdf,.jpg,.png" hidden>
+                                        </div>
+                                        <span class="file-name" id="insuranceFileName"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="upload-box">
+                                        <label data-i18n="work_label">إثبات العمل / السجل التجاري</label>
+                                        <div class="upload-area" onclick="document.getElementById('workFile').click()">
+                                            <i class="fas fa-upload"></i>
+                                            <span data-i18n="upload_hint">اضغط للرفع</span>
+                                            <input type="file" id="workFile" accept=".pdf,.jpg,.png" hidden>
+                                        </div>
+                                        <span class="file-name" id="workFileName"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="upload-box">
+                                        <label data-i18n="bank_label">كشف الحساب البنكي</label>
+                                        <div class="upload-area" onclick="document.getElementById('bankFile').click()">
+                                            <i class="fas fa-upload"></i>
+                                            <span data-i18n="upload_hint">اضغط للرفع</span>
+                                            <input type="file" id="bankFile" accept=".pdf,.jpg,.png" hidden>
+                                        </div>
+                                        <span class="file-name" id="bankFileName"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="upload-box">
+                                        <label data-i18n="photo_label">الصورة الشخصية</label>
+                                        <div class="upload-area" onclick="document.getElementById('photoFile').click()">
+                                            <i class="fas fa-upload"></i>
+                                            <span data-i18n="upload_hint">اضغط للرفع</span>
+                                            <input type="file" id="photoFile" accept=".jpg,.png" hidden>
+                                        </div>
+                                        <span class="file-name" id="photoFileName"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="upload-box">
+                                        <label data-i18n="hotel_file_label">حجز الفندق (PDF)</label>
+                                        <div class="upload-area" onclick="document.getElementById('hotelFile').click()">
+                                            <i class="fas fa-upload"></i>
+                                            <span data-i18n="upload_hint">اضغط للرفع</span>
+                                            <input type="file" id="hotelFile" accept=".pdf" hidden>
+                                        </div>
+                                        <span class="file-name" id="hotelFileName"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-footer">
+                        <button class="btn-back" onclick="goToStep(1)">
+                            <i class="fas fa-arrow-right"></i>
+                            <span data-i18n="back_step">السابق</span>
+                        </button>
+                        <button class="btn-next" onclick="goToStep(3)">
+                            <span data-i18n="next_step">التالي</span>
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== الخطوة 3: الخدمات الإضافية ===== -->
+            <section id="step3" class="step-section">
+                <div class="step-card glass-card">
+                    <div class="step-header">
+                        <div class="step-icon"><i class="fas fa-concierge-bell"></i></div>
+                        <h2 data-i18n="step3_title">خدمات السفر</h2>
+                        <p class="step-subtitle" data-i18n="step3_subtitle">اختر الخدمات التي تحتاجها لرحلتك</p>
+                    </div>
+                    
+                    <div class="step-body">
+                        <div class="services-grid">
+                            <div class="service-card" onclick="bookFlight()">
+                                <div class="service-icon"><i class="fas fa-plane-departure"></i></div>
+                                <h5 data-i18n="flight_booking">حجز الطيران</h5>
+                                <p data-i18n="flight_desc">أفضل عروض الطيران</p>
+                                <span class="service-arrow">→</span>
+                            </div>
+                            
+                            <div class="service-card" onclick="buyInsurance()">
+                                <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
+                                <h5 data-i18n="insurance_booking">التأمين الطبي</h5>
+                                <p data-i18n="insurance_desc">تغطية 30,000 يورو</p>
+                                <span class="service-arrow">→</span>
+                            </div>
+                            
+                            <div class="service-card" onclick="bookCar()">
+                                <div class="service-icon"><i class="fas fa-car"></i></div>
+                                <h5 data-i18n="car_rental">تأجير سيارات</h5>
+                                <p data-i18n="car_desc">سيارات بأسعار مميزة</p>
+                                <span class="service-arrow">→</span>
+                            </div>
+                            
+                            <div class="service-card" onclick="skipServices()">
+                                <div class="service-icon"><i class="fas fa-forward"></i></div>
+                                <h5 data-i18n="skip_services">تخطي الخدمات</h5>
+                                <p data-i18n="skip_desc">متابعة بدون خدمات</p>
+                                <span class="service-arrow">→</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-footer">
+                        <button class="btn-back" onclick="goToStep(2)">
+                            <i class="fas fa-arrow-right"></i>
+                            <span data-i18n="back_step">السابق</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== الخطوة 4: المراجعة والطباعة ===== -->
+            <section id="step4" class="step-section">
+                <div class="step-card glass-card">
+                    <div class="step-header">
+                        <div class="step-icon"><i class="fas fa-file-check"></i></div>
+                        <h2 data-i18n="step4_title">مراجعة الملف النهائي</h2>
+                        <p class="step-subtitle" data-i18n="step4_subtitle">تأكد من صحة جميع البيانات قبل الطباعة</p>
+                    </div>
+                    
+                    <div class="step-body">
+                        <div class="review-container" id="filePreview">
+                            <div class="review-placeholder">
+                                <i class="fas fa-file-alt"></i>
+                                <p data-i18n="review_placeholder">الملف جاهز للعرض بعد إكمال جميع الخطوات</p>
+                            </div>
+                        </div>
+                        
+                        <div class="review-actions">
+                            <button class="action-btn print" onclick="printFile()">
+                                <i class="fas fa-print"></i>
+                                <span data-i18n="print_file">طباعة الملف</span>
+                            </button>
+                            <button class="action-btn pdf" onclick="downloadPDF()">
+                                <i class="fas fa-file-pdf"></i>
+                                <span data-i18n="download_pdf">تحميل PDF</span>
+                            </button>
+                            <button class="action-btn reset" onclick="resetAll()">
+                                <i class="fas fa-redo"></i>
+                                <span data-i18n="new_file">ملف جديد</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="step-footer">
+                        <button class="btn-back" onclick="goToStep(3)">
+                            <i class="fas fa-arrow-right"></i>
+                            <span data-i18n="back_step">السابق</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ===== التذييل ===== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="brand-icon">✦</span>
+                    <span>Al EmlaQ Files</span>
+                </div>
+                <p class="footer-text" data-i18n="footer_text">
+                    أداة مساعدة لتحضير ملفات تأشيرة شنغن - ليست بديلاً عن التقديم الرسمي
+                </p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== JavaScript ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/countries.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
