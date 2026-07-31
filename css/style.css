@@ -1,9 +1,13 @@
-.step-section .step-card {
+.step-card {
     padding: 40px;
     opacity: 0;
     transform: translateY(30px);
     transition: var(--transition);
-    display: none;
+    display: block;  /* ← غيرته إلى block */
+}
+
+.step-section:not(.active) .step-card {
+    display: none;  /* ← أضف هذا السطر */
 }
 
 .step-section.active .step-card {
