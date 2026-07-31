@@ -1,8 +1,3 @@
-// ============================================
-// الملف الرئيسي - Al EmlaQ Files
-// ============================================
-
-// ===== المتغيرات العامة =====
 let uploadedFiles = {};
 let fileNames = {};
 let isHotelConfirmed = false;
@@ -209,8 +204,9 @@ function generateFilePreview() {
     const visaType = document.getElementById('visaType').value;
     const stayDays = document.getElementById('stayDays').value;
     const lang = currentLang;
-    
-    if (!country || !isHotelConfirmed || Object.keys(uploadedFiles).length < 6) {
+
+    // لو مفيش دولة مختارة، نعرض placeholder
+    if (!country) {
         container.innerHTML = `
             <div class="review-placeholder">
                 <i class="fas fa-file-alt"></i>
@@ -219,7 +215,7 @@ function generateFilePreview() {
         `;
         return;
     }
-    
+
     const data = countriesData[country];
     const fileList = {
         'passportFile': lang === 'ar' ? 'جواز السفر' : 'Passport',
@@ -286,7 +282,8 @@ function generateFilePreview() {
             </div>
         </div>
     `;
-}// ===== طباعة الملف =====
+}
+// ===== طباعة الملف =====
 function printFile() {
     const container = document.getElementById('filePreview');
     if (container.querySelector('.review-placeholder')) {
