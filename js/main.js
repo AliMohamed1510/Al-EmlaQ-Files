@@ -1,3 +1,8 @@
+// ============================================
+// الملف الرئيسي - Al EmlaQ Files
+// ============================================
+
+// ===== المتغيرات العامة =====
 let uploadedFiles = {};
 let fileNames = {};
 let isHotelConfirmed = false;
@@ -138,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ===== معالجة الملفات =====
 function processFiles() {
-    const required = ['passportFile', 'insuranceFile', 'workFile', 'bankFile', 'photoFile', 'hotelFile'];
+    const required = ['passportFile', 'workFile', 'hotelFile'];
     let allUploaded = true;
     let missing = [];
     
@@ -218,12 +223,9 @@ function generateFilePreview() {
 
     const data = countriesData[country];
     const fileList = {
-        'passportFile': lang === 'ar' ? 'جواز السفر' : 'Passport',
-        'hotelFile': lang === 'ar' ? 'حجز الفندق' : 'Hotel Booking',
-        'insuranceFile': lang === 'ar' ? 'التأمين الطبي' : 'Insurance',
-        'workFile': lang === 'ar' ? 'إثبات العمل' : 'Work Proof',
-        'bankFile': lang === 'ar' ? 'كشف الحساب' : 'Bank Statement',
-        'photoFile': lang === 'ar' ? 'الصورة الشخصية' : 'Photo'
+        'passportFile': lang === 'ar' ? 'صورة جواز السفر' : 'Passport Photo',
+        'workFile': lang === 'ar' ? 'إثبات العمل / السجل التجاري' : 'Work Proof',
+        'hotelFile': lang === 'ar' ? 'حجز الفندق (PDF)' : 'Hotel Booking (PDF)'
     };
 
     let filesHTML = '';
@@ -244,7 +246,7 @@ function generateFilePreview() {
     const filesLabel = lang === 'ar' ? 'المستندات' : 'Documents';
     const statusLabel = lang === 'ar' ? 'الحالة' : 'Status';
 
-    const allReady = isHotelConfirmed && uploadedCount >= 6;
+    const allReady = isHotelConfirmed && uploadedCount >= 3;
     const statusText = allReady 
         ? (lang === 'ar' ? '✅ الملف جاهز للتقديم' : '✅ File ready for submission')
         : (lang === 'ar' ? '⚠️ يرجى إكمال المستندات المطلوبة' : '⚠️ Please complete required documents');
@@ -268,7 +270,7 @@ function generateFilePreview() {
                 <span class="review-value">${isHotelConfirmed ? '✅ ' + (lang === 'ar' ? 'مؤكد' : 'Confirmed') : '❌ ' + (lang === 'ar' ? 'غير مؤكد' : 'Not confirmed')}</span>
             </div>
             <div class="review-files">
-                <span class="review-label">${filesLabel} (${uploadedCount}/6)</span>
+                <span class="review-label">${filesLabel} (${uploadedCount}/3)</span>
                 <ul>${filesHTML}</ul>
             </div>
             <div class="review-item" style="border-top:2px solid var(--accent);margin-top:15px;padding-top:15px;">
