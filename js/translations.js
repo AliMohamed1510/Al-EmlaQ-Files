@@ -1,3 +1,8 @@
+// ============================================
+// ملف الترجمة - Al EmlaQ Files
+// دعم اللغة العربية والإنجليزية
+// ============================================
+
 const translations = {
     ar: {
         // شريط التنقل
@@ -41,6 +46,9 @@ const translations = {
         'upload_hint': 'اضغط للرفع',
         'hotel_confirmed': '✅ تم تأكيد حجز الفندق',
         'hotel_not_confirmed': '⚠️ الرجاء تأكيد حجز الفندق',
+        'flight_ticket_title': '✈️ حجز تذكرة الطيران (وهمية للتأشيرة)',
+        'flight_ticket_desc': 'احصل على تذكرة طيران وهمية مجانية بصيغة PDF تحتوي على رقم حجز (PNR) وQR Code — مقبولة في 195+ دولة وسفارة.',
+        'go_myjet24': 'MyJet24 — تذكرة مجانية',
         
         // الخطوة 3
         'step3_title': 'خدمات السفر',
@@ -118,6 +126,9 @@ const translations = {
         'upload_hint': 'Click to upload',
         'hotel_confirmed': '✅ Hotel booking confirmed',
         'hotel_not_confirmed': '⚠️ Please confirm hotel booking',
+        'flight_ticket_title': '✈️ Flight Ticket (Dummy for Visa)',
+        'flight_ticket_desc': 'Get a free dummy flight ticket PDF with booking reference (PNR) & QR Code — accepted in 195+ countries & embassies.',
+        'go_myjet24': 'MyJet24 — Free Ticket',
         
         // Step 3
         'step3_title': 'Travel Services',
