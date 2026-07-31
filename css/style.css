@@ -844,6 +844,38 @@ body.light-mode .service-card {
     background: rgba(255, 255, 255, 0.6);
 }
 
+/* ===== أقسام النموذج ===== */
+.form-section {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(201, 168, 76, 0.08);
+    border-radius: 16px;
+    padding: 25px;
+    transition: var(--transition);
+}
+
+.form-section:hover {
+    border-color: rgba(201, 168, 76, 0.15);
+}
+
+.form-section-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 20px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-section-title i {
+    font-size: 1.2rem;
+}
+
+body.light-mode .form-section {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.06);
+}
+
 /* ===== مراجعة الملف ===== */
 .review-container {
     background: rgba(0, 0, 0, 0.2);
