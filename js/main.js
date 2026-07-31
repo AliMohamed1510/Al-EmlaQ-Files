@@ -15,14 +15,14 @@ function goToStep(step) {
     document.querySelectorAll('.step-section').forEach(el => {
         el.classList.remove('active');
     });
-    
+
     // إظهار الخطوة المطلوبة
     const target = document.getElementById(`step${step}`);
     if (target) {
         target.classList.add('active');
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    
+
     // تحديث مؤشر التقدم
     document.querySelectorAll('.step-dot').forEach((dot, index) => {
         const num = index + 1;
@@ -33,14 +33,14 @@ function goToStep(step) {
             dot.classList.add('completed');
         }
     });
-    
+
     // تحديث الخطوط
     document.querySelectorAll('.step-line').forEach((line, index) => {
         line.classList.toggle('active', index < step - 1);
     });
-    
+
     currentStep = step;
-    
+
     // إذا وصلنا للخطوة 4، عرض الملف
     if (step === 4) {
         generateFilePreview();
@@ -76,13 +76,13 @@ function bookHotel(platform) {
         showHotelStatus(translations[currentLang]['select_country_first'], 'error');
         return;
     }
-    
+
     const urls = {
         'booking': 'https://www.booking.com/index.ar.html',
         'agoda': 'https://www.agoda.com/ar/',
         'expedia': 'https://www.expedia.com/'
     };
-    
+
     window.open(urls[platform] || urls.booking, '_blank');
 }
 
@@ -93,21 +93,13 @@ function confirmHotel() {
         showHotelStatus(translations[currentLang]['select_country_first'], 'error');
         return;
     }
-    
+
     isHotelConfirmed = true;
     const btn = document.querySelector('.btn-confirm-hotel');
     btn.classList.add('confirmed');
     btn.innerHTML = `<i class="fas fa-check-circle"></i> ${translations[currentLang]['hotel_confirmed']}`;
-    
+
     showHotelStatus(translations[currentLang]['hotel_confirmed'], 'success');
-}
-
-function bookDummyTicket() {
-    window.open('https://myjet24.com/', '_blank');
-}
-
-function openEPTI() {
-    window.open('https://epti-egy.org/Traveltargetweb/Pages/Policy_Qry2/Default.aspx', '_blank');
 }
 
 function showHotelStatus(message, type) {
@@ -141,12 +133,85 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// ===== جمع جميع بيانات النموذج =====
+function collectFormData() {
+    return {
+        // الدولة والتأشيرة
+        country: document.getElementById('countrySelect')?.value || '',
+        visaType: document.getElementById('visaType')?.value || '',
+        stayDays: document.getElementById('stayDays')?.value || '',
+
+        // البيانات الشخصية
+        surname: document.getElementById('surname')?.value || '',
+        firstname: document.getElementById('firstname')?.value || '',
+        birthDate: document.getElementById('birthDate')?.value || '',
+        birthPlace: document.getElementById('birthPlace')?.value || '',
+        birthCountry: document.getElementById('birthCountry')?.value || '',
+        nationality: document.getElementById('nationality')?.value || '',
+        sex: document.getElementById('sex')?.value || '',
+        civilStatus: document.getElementById('civilStatus')?.value || '',
+        nationalId: document.getElementById('nationalId')?.value || '',
+        otherNationalities: document.getElementById('otherNationalities')?.value || '',
+
+        // جواز السفر
+        passportType: document.getElementById('passportType')?.value || '',
+        passportNumber: document.getElementById('passportNumber')?.value || '',
+        passportIssueDate: document.getElementById('passportIssueDate')?.value || '',
+        passportExpiry: document.getElementById('passportExpiry')?.value || '',
+        passportIssuedBy: document.getElementById('passportIssuedBy')?.value || '',
+
+        // الاتصال
+        homeAddress: document.getElementById('homeAddress')?.value || '',
+        email: document.getElementById('email')?.value || '',
+        phone: document.getElementById('phone')?.value || '',
+
+        // العمل
+        occupation: document.getElementById('occupation')?.value || '',
+        employer: document.getElementById('employer')?.value || '',
+        employerAddress: document.getElementById('employerAddress')?.value || '',
+        employerPhone: document.getElementById('employerPhone')?.value || '',
+
+        // الرحلة
+        mainDestination: document.getElementById('mainDestination')?.value || '',
+        firstEntry: document.getElementById('firstEntry')?.value || '',
+        entriesCount: document.getElementById('entriesCount')?.value || '',
+        purposeDetail: document.getElementById('purposeDetail')?.value || '',
+        arrivalDate: document.getElementById('arrivalDate')?.value || '',
+        departureDate: document.getElementById('departureDate')?.value || '',
+        fingerprints: document.getElementById('fingerprints')?.value || '',
+        fingerprintsDate: document.getElementById('fingerprintsDate')?.value || '',
+
+        // الإقامة
+        invitingPerson: document.getElementById('invitingPerson')?.value || '',
+        invitingPhone: document.getElementById('invitingPhone')?.value || '',
+        invitingEmail: document.getElementById('invitingEmail')?.value || '',
+        invitingAddress: document.getElementById('invitingAddress')?.value || '',
+
+        // الشركة
+        companyName: document.getElementById('companyName')?.value || '',
+        companyPhone: document.getElementById('companyPhone')?.value || '',
+        contactPerson: document.getElementById('contactPerson')?.value || '',
+
+        // التكاليف
+        costsCoveredBy: document.getElementById('costsCoveredBy')?.value || '',
+        meansOfSupport: document.getElementById('meansOfSupport')?.value || '',
+
+        // فرد العائلة
+        euFamilySurname: document.getElementById('euFamilySurname')?.value || '',
+        euFamilyFirstname: document.getElementById('euFamilyFirstname')?.value || '',
+        euFamilyDob: document.getElementById('euFamilyDob')?.value || '',
+        euFamilyNationality: document.getElementById('euFamilyNationality')?.value || '',
+        euFamilyDocument: document.getElementById('euFamilyDocument')?.value || '',
+        euFamilyRelation: document.getElementById('euFamilyRelation')?.value || ''
+    };
+}
+
 // ===== معالجة الملفات =====
 function processFiles() {
-    const required = ['passportFile', 'workFile', 'hotelFile'];
+    const required = ['passportFile', 'insuranceFile', 'workFile', 'bankFile', 'photoFile', 'hotelFile'];
     let allUploaded = true;
     let missing = [];
-    
+
     required.forEach(id => {
         if (!uploadedFiles[id]) {
             allUploaded = false;
@@ -154,12 +219,12 @@ function processFiles() {
             missing.push(label);
         }
     });
-    
+
     if (!isHotelConfirmed) {
         allUploaded = false;
         missing.push(translations[currentLang]['hotel_booking_title']);
     }
-    
+
     if (allUploaded) {
         showStatus(translations[currentLang]['file_ready'], 'success');
         goToStep(4);
@@ -181,53 +246,34 @@ function createStatusDiv() {
     return div;
 }
 
-// ===== جمع بيانات النموذج =====
-function collectFormData() {
-    return {
-        surname: document.getElementById('surname')?.value || '',
-        firstName: document.getElementById('firstName')?.value || '',
-        surnameBirth: document.getElementById('surnameBirth')?.value || '',
-        dob: document.getElementById('dob')?.value || '',
-        pob: document.getElementById('pob')?.value || '',
-        cob: document.getElementById('cob')?.value || '',
-        nationality: document.getElementById('nationality')?.value || '',
-        sex: document.getElementById('sex')?.value || '',
-        marital: document.getElementById('marital')?.value || '',
-        passportNo: document.getElementById('passportNo')?.value || '',
-        passportIssued: document.getElementById('passportIssued')?.value || '',
-        passportIssueDate: document.getElementById('passportIssueDate')?.value || '',
-        passportExpiry: document.getElementById('passportExpiry')?.value || '',
-        homeAddress: document.getElementById('homeAddress')?.value || '',
-        email: document.getElementById('email')?.value || '',
-        phone: document.getElementById('phone')?.value || '',
-        mainDestination: document.getElementById('mainDestination')?.value || '',
-        firstEntry: document.getElementById('firstEntry')?.value || '',
-        entriesType: document.getElementById('entriesType')?.value || '',
-        travelPurpose: document.getElementById('travelPurpose')?.value || '',
-        duration: document.getElementById('duration')?.value || '',
-        occupation: document.getElementById('occupation')?.value || '',
-        employer: document.getElementById('employer')?.value || '',
-        employerAddress: document.getElementById('employerAddress')?.value || '',
-        meansSupport: document.getElementById('meansSupport')?.value || '',
-        sponsorName: document.getElementById('sponsorName')?.value || '',
-        spouseSurname: document.getElementById('spouseSurname')?.value || '',
-        spouseName: document.getElementById('spouseName')?.value || '',
-        spouseDob: document.getElementById('spouseDob')?.value || '',
-        spouseNationality: document.getElementById('spouseNationality')?.value || ''
-    };
+// ===== الخدمات =====
+function bookFlight() {
+    window.open('https://www.google.com/travel/flights', '_blank');
+    goToStep(4);
+}
+
+function buyInsurance() {
+    window.open('https://www.axa-schengen.com/ar', '_blank');
+    goToStep(4);
+}
+
+function bookCar() {
+    window.open('https://www.rentalcars.com', '_blank');
+    goToStep(4);
+}
+
+function skipServices() {
+    skippedServices = true;
+    goToStep(4);
 }
 
 // ===== إنشاء معاينة الملف =====
 function generateFilePreview() {
     const container = document.getElementById('filePreview');
-    const country = document.getElementById('countrySelect').value;
-    const visaType = document.getElementById('visaType').value;
-    const stayDays = document.getElementById('stayDays').value;
+    const data = collectFormData();
     const lang = currentLang;
-    const form = collectFormData();
 
-    // لو مفيش دولة مختارة، نعرض placeholder
-    if (!country) {
+    if (!data.country) {
         container.innerHTML = `
             <div class="review-placeholder">
                 <i class="fas fa-file-alt"></i>
@@ -237,98 +283,135 @@ function generateFilePreview() {
         return;
     }
 
-    const data = countriesData[country];
+    const countryData = countriesData[data.country];
     const fileList = {
-        'passportFile': lang === 'ar' ? 'صورة جواز السفر' : 'Passport Photo',
-        'workFile': lang === 'ar' ? 'إثبات العمل / السجل التجاري' : 'Work Proof',
-        'hotelFile': lang === 'ar' ? 'حجز الفندق (PDF)' : 'Hotel Booking (PDF)'
+        'passportFile': lang === 'ar' ? 'جواز السفر' : 'Passport',
+        'hotelFile': lang === 'ar' ? 'حجز الفندق' : 'Hotel Booking',
+        'insuranceFile': lang === 'ar' ? 'التأمين الطبي' : 'Insurance',
+        'workFile': lang === 'ar' ? 'إثبات العمل' : 'Work Proof',
+        'bankFile': lang === 'ar' ? 'كشف الحساب' : 'Bank Statement',
+        'photoFile': lang === 'ar' ? 'الصورة الشخصية' : 'Photo'
     };
 
     let filesHTML = '';
-    let uploadedCount = 0;
-    Object.keys(fileList).forEach(key => {
+    Object.keys(fileNames).forEach(key => {
         if (fileNames[key]) {
-            filesHTML += `<li><i class="fas fa-check-circle" style="color:#28a745;"></i> ${fileList[key]}: ${fileNames[key]}</li>`;
-            uploadedCount++;
-        } else {
-            filesHTML += `<li><i class="fas fa-times-circle" style="color:#dc3545;"></i> ${fileList[key]}: ${lang === 'ar' ? 'غير مرفوع' : 'Not uploaded'}</li>`;
+            filesHTML += `<li><i class="fas fa-check-circle"></i> ${fileList[key] || key}: ${fileNames[key]}</li>`;
         }
     });
 
-    const l = (key) => translations[lang][key] || key;
+    const isRTL = lang === 'ar';
+    const labelClass = 'review-label';
+    const valueClass = 'review-value';
 
-    const sexLabels = { male: lang==='ar'?'ذكر':'Male', female: lang==='ar'?'أنثى':'Female' };
-    const maritalLabels = { single: lang==='ar'?'أعزب':'Single', married: lang==='ar'?'متزوج':'Married', divorced: lang==='ar'?'مطلق':'Divorced', widowed: lang==='ar'?'أرمل':'Widowed' };
-    const entryLabels = { single: lang==='ar'?'دخول واحد':'Single', double: lang==='ar'?'دخولين':'Double', multiple: lang==='ar'?'متعدد':'Multiple' };
-    const purposeLabels = { tourism: lang==='ar'?'سياحة':'Tourism', business: lang==='ar'?'عمل':'Business', study: lang==='ar'?'دراسة':'Study', family: lang==='ar'?'زيارة عائلية':'Family', medical: lang==='ar'?'علاج':'Medical', other: lang==='ar'?'أخرى':'Other' };
-    const supportLabels = { self: lang==='ar'?'نفسي':'Self', sponsor: lang==='ar'?'كفيل':'Sponsor', employer: lang==='ar'?'جهة العمل':'Employer', family: lang==='ar'?'العائلة':'Family' };
+    // Helper to create review row
+    const row = (label, value) => {
+        if (!value) return '';
+        return `
+            <div class="review-item">
+                <span class="${labelClass}">${label}</span>
+                <span class="${valueClass}">${value}</span>
+            </div>
+        `;
+    };
 
-    const allReady = isHotelConfirmed && uploadedCount >= 3;
-    const statusText = allReady 
-        ? (lang === 'ar' ? '✅ الملف جاهز للتقديم' : '✅ File ready for submission')
-        : (lang === 'ar' ? '⚠️ يرجى إكمال المستندات المطلوبة' : '⚠️ Please complete required documents');
+    const sectionTitle = (title) => `
+        <div class="review-section-title">
+            <i class="fas fa-circle"></i> ${title}
+        </div>
+    `;
 
     container.innerHTML = `
         <div class="review-content">
-            <h4 style="color:var(--accent);margin-bottom:15px;border-bottom:1px solid rgba(201,168,76,0.2);padding-bottom:10px;">${lang==='ar'?'📋 ملخص الطلب':'📋 Application Summary'}</h4>
-
-            <div class="review-item">
-                <span class="review-label">${lang==='ar'?'الدولة':'Country'}</span>
-                <span class="review-value">${data.flag} ${country}</span>
-            </div>
-            <div class="review-item">
-                <span class="review-label">${lang==='ar'?'نوع التأشيرة':'Visa Type'}</span>
-                <span class="review-value">${visaType}</span>
-            </div>
-            <div class="review-item">
-                <span class="review-label">${lang==='ar'?'مدة الإقامة':'Stay Duration'}</span>
-                <span class="review-value">${stayDays} ${lang === 'ar' ? 'يوم' : 'days'}</span>
+            <div class="review-header">
+                <h3>Al EmlaQ Files - ${lang === 'ar' ? 'ملف تأشيرة شنغن' : 'Schengen Visa File'}</h3>
+                <p>${new Date().toLocaleDateString(lang === 'ar' ? 'ar-EG' : 'en-US')}</p>
             </div>
 
-            <h5 style="color:var(--accent);margin:20px 0 10px;font-size:0.95rem;">${lang==='ar'?'👤 البيانات الشخصية':'👤 Personal Information'}</h5>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'الاسم الكامل':'Full Name'}</span><span class="review-value">${form.surname} ${form.firstName}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'تاريخ الميلاد':'Date of Birth'}</span><span class="review-value">${form.dob}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'مكان الولادة':'Place of Birth'}</span><span class="review-value">${form.pob}, ${form.cob}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'الجنسية':'Nationality'}</span><span class="review-value">${form.nationality}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'الجنس':'Sex'}</span><span class="review-value">${sexLabels[form.sex] || form.sex}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'الحالة الاجتماعية':'Marital Status'}</span><span class="review-value">${maritalLabels[form.marital] || form.marital}</span></div>
+            ${sectionTitle(lang === 'ar' ? 'الدولة والتأشيرة' : 'Country & Visa')}
+            ${row(lang === 'ar' ? 'الدولة' : 'Country', countryData ? `${countryData.flag} ${data.country}` : data.country)}
+            ${row(lang === 'ar' ? 'نوع التأشيرة' : 'Visa Type', data.visaType)}
+            ${row(lang === 'ar' ? 'مدة الإقامة' : 'Stay Duration', data.stayDays ? data.stayDays + (lang === 'ar' ? ' يوم' : ' days') : '')}
 
-            <h5 style="color:var(--accent);margin:20px 0 10px;font-size:0.95rem;">${lang==='ar'?'🛂 جواز السفر':'🛂 Passport'}</h5>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'رقم الجواز':'Passport No'}</span><span class="review-value">${form.passportNo}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'جهة الإصدار':'Issued By'}</span><span class="review-value">${form.passportIssued}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'تاريخ الإصدار':'Issue Date'}</span><span class="review-value">${form.passportIssueDate}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'تاريخ الانتهاء':'Expiry Date'}</span><span class="review-value">${form.passportExpiry}</span></div>
+            ${sectionTitle(lang === 'ar' ? 'البيانات الشخصية' : 'Personal Data')}
+            ${row(lang === 'ar' ? 'اللقب' : 'Surname', data.surname)}
+            ${row(lang === 'ar' ? 'الاسم الأول' : 'First Name(s)', data.firstname)}
+            ${row(lang === 'ar' ? 'تاريخ الميلاد' : 'Date of Birth', data.birthDate)}
+            ${row(lang === 'ar' ? 'مكان الميلاد' : 'Place of Birth', data.birthPlace)}
+            ${row(lang === 'ar' ? 'بلد الميلاد' : 'Country of Birth', data.birthCountry)}
+            ${row(lang === 'ar' ? 'الجنسية' : 'Nationality', data.nationality)}
+            ${row(lang === 'ar' ? 'الجنس' : 'Sex', data.sex)}
+            ${row(lang === 'ar' ? 'الحالة الاجتماعية' : 'Civil Status', data.civilStatus)}
+            ${row(lang === 'ar' ? 'الرقم القومي' : 'National ID', data.nationalId)}
+            ${row(lang === 'ar' ? 'جنسيات أخرى' : 'Other Nationalities', data.otherNationalities)}
 
-            <h5 style="color:var(--accent);margin:20px 0 10px;font-size:0.95rem;">${lang==='ar'?'📞 الاتصال':'📞 Contact'}</h5>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'العنوان':'Address'}</span><span class="review-value">${form.homeAddress}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'البريد الإلكتروني':'Email'}</span><span class="review-value">${form.email}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'الهاتف':'Phone'}</span><span class="review-value">${form.phone}</span></div>
+            ${sectionTitle(lang === 'ar' ? 'بيانات جواز السفر' : 'Passport Data')}
+            ${row(lang === 'ar' ? 'نوع الوثيقة' : 'Document Type', data.passportType)}
+            ${row(lang === 'ar' ? 'رقم الجواز' : 'Document No.', data.passportNumber)}
+            ${row(lang === 'ar' ? 'تاريخ الإصدار' : 'Date of Issue', data.passportIssueDate)}
+            ${row(lang === 'ar' ? 'تاريخ الانتهاء' : 'Valid Until', data.passportExpiry)}
+            ${row(lang === 'ar' ? 'جهة الإصدار' : 'Issued by', data.passportIssuedBy)}
 
-            <h5 style="color:var(--accent);margin:20px 0 10px;font-size:0.95rem;">${lang==='ar'?'✈️ السفر':'✈️ Travel'}</h5>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'الوجهة':'Destination'}</span><span class="review-value">${form.mainDestination}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'دخول أولى':'First Entry'}</span><span class="review-value">${form.firstEntry}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'نوع الدخول':'Entry Type'}</span><span class="review-value">${entryLabels[form.entriesType] || form.entriesType}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'الغرض':'Purpose'}</span><span class="review-value">${purposeLabels[form.travelPurpose] || form.travelPurpose}</span></div>
+            ${sectionTitle(lang === 'ar' ? 'بيانات الاتصال' : 'Contact Information')}
+            ${row(lang === 'ar' ? 'العنوان' : 'Address', data.homeAddress)}
+            ${row(lang === 'ar' ? 'البريد الإلكتروني' : 'Email', data.email)}
+            ${row(lang === 'ar' ? 'الهاتف' : 'Telephone', data.phone)}
 
-            <h5 style="color:var(--accent);margin:20px 0 10px;font-size:0.95rem;">${lang==='ar'?'💼 العمل':'💼 Employment'}</h5>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'المهنة':'Occupation'}</span><span class="review-value">${form.occupation}</span></div>
-            <div class="review-item"><span class="review-label">${lang==='ar'?'جهة العمل':'Employer'}</span><span class="review-value">${form.employer}</span></div>
+            ${sectionTitle(lang === 'ar' ? 'بيانات العمل' : 'Work / Study')}
+            ${row(lang === 'ar' ? 'المهنة' : 'Occupation', data.occupation)}
+            ${row(lang === 'ar' ? 'جهة العمل' : 'Employer', data.employer)}
+            ${row(lang === 'ar' ? 'عنوان جهة العمل' : 'Employer Address', data.employerAddress)}
+            ${row(lang === 'ar' ? 'هاتف جهة العمل' : 'Employer Phone', data.employerPhone)}
 
-            <h5 style="color:var(--accent);margin:20px 0 10px;font-size:0.95rem;">${lang==='ar'?'📎 المستندات':'📎 Documents'}</h5>
-            <div class="review-files"><ul>${filesHTML}</ul></div>
+            ${sectionTitle(lang === 'ar' ? 'تفاصيل الرحلة' : 'Trip Details')}
+            ${row(lang === 'ar' ? 'الوجهة الرئيسية' : 'Main Destination', data.mainDestination)}
+            ${row(lang === 'ar' ? 'أول دخول' : 'First Entry', data.firstEntry)}
+            ${row(lang === 'ar' ? 'عدد مرات الدخول' : 'Entries', data.entriesCount)}
+            ${row(lang === 'ar' ? 'الغرض من الزيارة' : 'Purpose', data.purposeDetail)}
+            ${row(lang === 'ar' ? 'تاريخ الوصول' : 'Arrival', data.arrivalDate)}
+            ${row(lang === 'ar' ? 'تاريخ المغادرة' : 'Departure', data.departureDate)}
+            ${row(lang === 'ar' ? 'بصمات سابقة' : 'Previous Fingerprints', data.fingerprints)}
+            ${data.fingerprints === 'نعم' || data.fingerprints === 'Yes' ? row(lang === 'ar' ? 'تاريخ البصمات' : 'Fingerprints Date', data.fingerprintsDate) : ''}
 
-            <div class="review-item" style="border-top:2px solid var(--accent);margin-top:15px;padding-top:15px;">
-                <span class="review-label" style="color: var(--accent);font-weight:900;">${lang==='ar'?'الحالة':'Status'}</span>
-                <span class="review-value" style="color: ${allReady ? '#28a745' : '#dc3545'};">${statusText}</span>
+            ${sectionTitle(lang === 'ar' ? 'الإقامة / المدعو' : 'Accommodation')}
+            ${row(lang === 'ar' ? 'اسم المدعو/الفندق' : 'Inviting Person/Hotel', data.invitingPerson)}
+            ${row(lang === 'ar' ? 'هاتف المدعو' : 'Inviting Phone', data.invitingPhone)}
+            ${row(lang === 'ar' ? 'بريد المدعو' : 'Inviting Email', data.invitingEmail)}
+            ${row(lang === 'ar' ? 'عنوان المدعو' : 'Inviting Address', data.invitingAddress)}
+
+            ${sectionTitle(lang === 'ar' ? 'الشركة المدعوة' : 'Inviting Company')}
+            ${row(lang === 'ar' ? 'اسم الشركة' : 'Company Name', data.companyName)}
+            ${row(lang === 'ar' ? 'هاتف الشركة' : 'Company Phone', data.companyPhone)}
+            ${row(lang === 'ar' ? 'مسؤول الاتصال' : 'Contact Person', data.contactPerson)}
+
+            ${sectionTitle(lang === 'ar' ? 'التكاليف' : 'Costs')}
+            ${row(lang === 'ar' ? 'الممول' : 'Covered by', data.costsCoveredBy)}
+            ${row(lang === 'ar' ? 'وسائل الدعم' : 'Means of Support', data.meansOfSupport)}
+
+            ${data.euFamilySurname ? sectionTitle(lang === 'ar' ? 'فرد العائلة من الاتحاد الأوروبي' : 'EU Family Member') : ''}
+            ${row(lang === 'ar' ? 'اللقب' : 'Surname', data.euFamilySurname)}
+            ${row(lang === 'ar' ? 'الاسم' : 'First Name', data.euFamilyFirstname)}
+            ${row(lang === 'ar' ? 'تاريخ الميلاد' : 'Date of Birth', data.euFamilyDob)}
+            ${row(lang === 'ar' ? 'الجنسية' : 'Nationality', data.euFamilyNationality)}
+            ${row(lang === 'ar' ? 'رقم الجواز' : 'Document No.', data.euFamilyDocument)}
+            ${row(lang === 'ar' ? 'صلة القرابة' : 'Relationship', data.euFamilyRelation)}
+
+            ${sectionTitle(lang === 'ar' ? 'المستندات المرفوعة' : 'Uploaded Documents')}
+            <div class="review-files">
+                <ul>${filesHTML || '<li>' + (lang === 'ar' ? 'لا توجد ملفات مرفوعة' : 'No files uploaded') + '</li>'}</ul>
             </div>
-            <div class="review-item mt-2">
-                <span class="review-label" style="color: var(--text-secondary);font-size:0.85rem;">
+
+            ${row(lang === 'ar' ? 'حجز الفندق' : 'Hotel Booking', isHotelConfirmed ? '✅ ' + (lang === 'ar' ? 'مؤكد' : 'Confirmed') : '❌ ' + (lang === 'ar' ? 'غير مؤكد' : 'Not confirmed'))}
+
+            <div class="review-item mt-3 warning-box">
+                <span class="review-label" style="color: var(--accent);">
                     ${lang === 'ar' ? '📌 تأكد من صحة جميع البيانات قبل الطباعة' : '📌 Verify all data is correct before printing'}
                 </span>
             </div>
         </div>
     `;
 }
+
 // ===== طباعة الملف =====
 function printFile() {
     const container = document.getElementById('filePreview');
@@ -336,68 +419,7 @@ function printFile() {
         alert(translations[currentLang]['review_placeholder']);
         return;
     }
-
-    // طباعة بس محتوى المراجعة
-    const printWindow = window.open('', '_blank');
-    const content = container.innerHTML;
-    const lang = currentLang;
-    const dir = lang === 'ar' ? 'rtl' : 'ltr';
-
-    printWindow.document.write(`
-        <!DOCTYPE html>
-        <html lang="${lang}" dir="${dir}">
-        <head>
-            <meta charset="UTF-8">
-            <title>Al EmlaQ Files - ${lang === 'ar' ? 'ملف التأشيرة' : 'Visa File'}</title>
-            <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-            <style>
-                * { margin: 0; padding: 0; box-sizing: border-box; }
-                body { 
-                    font-family: 'Cairo', sans-serif; 
-                    padding: 40px; 
-                    background: #fff; 
-                    color: #1a1a2e;
-                    line-height: 1.8;
-                }
-                .review-item { 
-                    display: flex; 
-                    justify-content: space-between; 
-                    padding: 12px 0; 
-                    border-bottom: 1px solid #eee; 
-                }
-                .review-label { color: #666; font-weight: 600; }
-                .review-value { font-weight: 700; }
-                .review-files { margin-top: 15px; }
-                .review-files li { list-style: none; padding: 6px 0; color: #555; }
-                .review-files li i { color: #c9a84c; margin-left: 8px; }
-                h2 { text-align: center; margin-bottom: 30px; color: #1a1a2e; font-size: 1.8rem; }
-                .header-line { 
-                    width: 60px; height: 3px; background: #c9a84c; 
-                    margin: 10px auto 30px; border-radius: 2px; 
-                }
-                .footer-note { 
-                    margin-top: 40px; padding-top: 20px; border-top: 2px solid #c9a84c;
-                    text-align: center; color: #888; font-size: 0.85rem; 
-                }
-                ul { padding: 0; }
-                @media print { body { padding: 20px; } }
-            </style>
-        </head>
-        <body>
-            <h2>${lang === 'ar' ? '✦ Al EmlaQ Files ✦' : '✦ Al EmlaQ Files ✦'}</h2>
-            <div class="header-line"></div>
-            ${content}
-            <div class="footer-note">
-                ${lang === 'ar' 
-                    ? 'أداة مساعدة لتحضير ملفات تأشيرة شنغن - ليست بديلاً عن التقديم الرسمي' 
-                    : 'Schengen visa file preparation assistant - Not a substitute for official submission'}
-            </div>
-        </body>
-        </html>
-    `);
-    printWindow.document.close();
-    printWindow.focus();
-    setTimeout(() => printWindow.print(), 500);
+    window.print();
 }
 
 // ===== تحميل PDF =====
@@ -408,59 +430,53 @@ function downloadPDF() {
         return;
     }
 
-    // التأكد من تحميل مكتبة html2pdf
-    if (typeof html2pdf === 'undefined') {
-        alert(currentLang === 'ar' 
-            ? 'جاري تحميل المكتبة... الرجاء المحاولة بعد ثوانٍ' 
-            : 'Library loading... Please try again in a few seconds');
-        return;
-    }
-
-    // إظهار مؤشر التحميل
-    const btn = document.querySelector('.action-btn.pdf');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + (currentLang === 'ar' ? 'جاري التحميل...' : 'Downloading...');
-    btn.disabled = true;
-
     const element = document.getElementById('filePreview');
     const opt = {
         margin: 10,
         filename: `Al_EmlaQ_Files_${new Date().toISOString().slice(0,10)}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-            scale: 2, 
-            useCORS: true,
-            logging: false
-        },
+        html2canvas: { scale: 2 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
-    html2pdf().set(opt).from(element).save()
-        .then(() => {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        })
-        .catch(err => {
-            console.error('PDF Error:', err);
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-            alert(currentLang === 'ar' 
-                ? 'حدث خطأ أثناء تحميل PDF. جرب الطباعة بدلاً من ذلك.' 
-                : 'Error downloading PDF. Try printing instead.');
-        });
+    html2pdf().set(opt).from(element).save();
 }
 
 // ===== إعادة تعيين =====
 function resetAll() {
     if (!confirm(translations[currentLang]['reset_confirm'])) return;
-    
+
     // إعادة تعيين الحقول
-    document.getElementById('countrySelect').value = '';
-    document.getElementById('visaType').value = 'سياحة';
+    const fields = [
+        'countrySelect', 'visaType', 'stayDays', 'surname', 'firstname', 'birthDate',
+        'birthPlace', 'birthCountry', 'nationality', 'sex', 'civilStatus', 'nationalId',
+        'otherNationalities', 'passportType', 'passportNumber', 'passportIssueDate',
+        'passportExpiry', 'passportIssuedBy', 'homeAddress', 'email', 'phone',
+        'occupation', 'employer', 'employerAddress', 'employerPhone',
+        'mainDestination', 'firstEntry', 'entriesCount', 'purposeDetail',
+        'arrivalDate', 'departureDate', 'fingerprints', 'fingerprintsDate',
+        'invitingPerson', 'invitingPhone', 'invitingEmail', 'invitingAddress',
+        'companyName', 'companyPhone', 'contactPerson', 'costsCoveredBy', 'meansOfSupport',
+        'euFamilySurname', 'euFamilyFirstname', 'euFamilyDob', 'euFamilyNationality',
+        'euFamilyDocument', 'euFamilyRelation'
+    ];
+
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            if (el.tagName === 'SELECT') {
+                el.selectedIndex = 0;
+            } else {
+                el.value = '';
+            }
+        }
+    });
+
+    // إعادة تعيين القيم الافتراضية
     document.getElementById('stayDays').value = '7';
-    document.getElementById('hotelStatus').className = 'hotel-status';
-    document.getElementById('hotelStatus').textContent = '';
-    
+    document.getElementById('nationality').value = 'مصري';
+    document.getElementById('passportIssuedBy').value = 'مصر';
+
     // إعادة تعيين رفع الملفات
     document.querySelectorAll('input[type="file"]').forEach(input => {
         input.value = '';
@@ -469,23 +485,25 @@ function resetAll() {
         const uploadArea = input.closest('.upload-area');
         if (uploadArea) uploadArea.classList.remove('has-file');
     });
-    
+
     // إعادة تعيين المتغيرات
     uploadedFiles = {};
     fileNames = {};
     isHotelConfirmed = false;
     skippedServices = false;
-    
+
     // إعادة تعيين زر تأكيد الفندق
     const btn = document.querySelector('.btn-confirm-hotel');
-    btn.classList.remove('confirmed');
-    btn.innerHTML = `<i class="fas fa-check-circle"></i> ${translations[currentLang]['confirm_hotel']}`;
-    
+    if (btn) {
+        btn.classList.remove('confirmed');
+        btn.innerHTML = `<i class="fas fa-check-circle"></i> ${translations[currentLang]['confirm_hotel']}`;
+    }
+
     // إعادة تعيين معلومات الدولة
     document.getElementById('countryFlagDisplay').textContent = '🌍';
     document.getElementById('countryNameDisplay').textContent = translations[currentLang]['select_country'];
     document.getElementById('countryRequirements').innerHTML = `<p class="text-muted">${translations[currentLang]['select_country_hint']}</p>`;
-    
+
     // إعادة تعيين معاينة الملف
     document.getElementById('filePreview').innerHTML = `
         <div class="review-placeholder">
@@ -493,7 +511,7 @@ function resetAll() {
             <p>${translations[currentLang]['review_placeholder']}</p>
         </div>
     `;
-    
+
     // العودة للخطوة 1
     goToStep(1);
 }
@@ -502,7 +520,7 @@ function resetAll() {
 document.addEventListener('DOMContentLoaded', function() {
     // تفعيل الخطوة الأولى
     goToStep(1);
-    
+
     console.log('✦ Al EmlaQ Files ✦');
     console.log('تم تحميل الموقع بنجاح');
 });
