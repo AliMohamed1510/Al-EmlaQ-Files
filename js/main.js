@@ -106,6 +106,10 @@ function bookDummyTicket() {
     window.open('https://myjet24.com/', '_blank');
 }
 
+function openEPTI() {
+    window.open('https://epti-egy.org/Traveltargetweb/Pages/Policy_Qry2/Default.aspx', '_blank');
+}
+
 function showHotelStatus(message, type) {
     const statusDiv = document.getElementById('hotelStatus');
     statusDiv.textContent = message;
