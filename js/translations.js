@@ -49,6 +49,9 @@ const translations = {
         'flight_ticket_title': '✈️ حجز تذكرة الطيران (وهمية للتأشيرة)',
         'flight_ticket_desc': 'احصل على تذكرة طيران وهمية مجانية بصيغة PDF تحتوي على رقم حجز (PNR) وQR Code — مقبولة في 195+ دولة وسفارة.',
         'go_myjet24': 'MyJet24 — تذكرة مجانية',
+        'epti_title': '🛠️ التأمين الطبي — المجمعة المصرية',
+        'epti_desc': 'موقع رسمي مصري لإصدار وثيقة تأمين السفر للخارج. مطلوبة للتأشيرة ويمكن طباعتها فوراً بعد الدفع.',
+        'go_epti': 'EPTI — وثيقة التأمين',
         
         // الخطوة 3
         'step3_title': 'خدمات السفر',
@@ -129,6 +132,9 @@ const translations = {
         'flight_ticket_title': '✈️ Flight Ticket (Dummy for Visa)',
         'flight_ticket_desc': 'Get a free dummy flight ticket PDF with booking reference (PNR) & QR Code — accepted in 195+ countries & embassies.',
         'go_myjet24': 'MyJet24 — Free Ticket',
+        'epti_title': '🛠️ Travel Insurance — EPTI Egypt',
+        'epti_desc': 'Official Egyptian website for issuing outbound travel insurance policies. Required for visa applications and can be printed immediately after payment.',
+        'go_epti': 'EPTI — Insurance Policy',
         
         // Step 3
         'step3_title': 'Travel Services',
