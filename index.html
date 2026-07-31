@@ -79,7 +79,7 @@
                 <div class="step-line"></div>
                 <div class="step-dot" data-step="3">
                     <span class="dot-number">3</span>
-                    <span class="dot-label" data-i18n="step3_label">الخدمات</span>
+                    <span class="dot-label" data-i18n="step3_label">البيانات الشخصية</span>
                 </div>
                 <div class="step-line"></div>
                 <div class="step-dot" data-step="4">
@@ -285,57 +285,289 @@
                 </div>
             </section>
 
-            <!-- ===== الخطوة 3: الخدمات الإضافية ===== -->
+                        <!-- ===== الخطوة 3: بيانات المتقدم ===== -->
             <section id="step3" class="step-section">
                 <div class="step-card glass-card">
                     <div class="step-header">
-                        <div class="step-icon"><i class="fas fa-concierge-bell"></i></div>
-                        <h2 data-i18n="step3_title">خدمات السفر</h2>
-                        <p class="step-subtitle" data-i18n="step3_subtitle">اختر الخدمات التي تحتاجها لرحلتك</p>
+                        <div class="step-icon"><i class="fas fa-user-edit"></i></div>
+                        <h2 data-i18n="step3_title">بيانات المتقدم</h2>
+                        <p class="step-subtitle" data-i18n="step3_subtitle">أدخل بياناتك الشخصية كما في جواز السفر</p>
                     </div>
-                    
+
                     <div class="step-body">
-                        <div class="services-grid">
-                            <div class="service-card" onclick="bookFlight()">
-                                <div class="service-icon"><i class="fas fa-plane-departure"></i></div>
-                                <h5 data-i18n="flight_booking">حجز الطيران</h5>
-                                <p data-i18n="flight_desc">أفضل عروض الطيران</p>
-                                <span class="service-arrow">→</span>
+                        <!-- بيانات شخصية -->
+                        <div class="form-section">
+                            <h5 class="form-section-title"><i class="fas fa-id-card"></i> <span data-i18n="personal_info">البيانات الشخصية</span></h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="surname">اللقب (بالإنجليزية)</label>
+                                        <input type="text" id="surname" class="form-control" placeholder="Surname / Family name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="first_name">الاسم (بالإنجليزية)</label>
+                                        <input type="text" id="firstName" class="form-control" placeholder="First name(s)">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="surname_birth">اللقب عند الولادة (إن وجد)</label>
+                                        <input type="text" id="surnameBirth" class="form-control" placeholder="Surname at birth">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="dob">تاريخ الميلاد</label>
+                                        <input type="date" id="dob" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="pob">مكان الولادة</label>
+                                        <input type="text" id="pob" class="form-control" placeholder="Place of birth">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="cob">دولة الولادة</label>
+                                        <input type="text" id="cob" class="form-control" placeholder="Country of birth">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label data-i18n="nationality">الجنسية الحالية</label>
+                                        <input type="text" id="nationality" class="form-control" placeholder="Current nationality">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label data-i18n="sex">الجنس</label>
+                                        <select id="sex" class="form-control">
+                                            <option value="">-- اختر --</option>
+                                            <option value="male" data-i18n="male">ذكر</option>
+                                            <option value="female" data-i18n="female">أنثى</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label data-i18n="marital">الحالة الاجتماعية</label>
+                                        <select id="marital" class="form-control">
+                                            <option value="">-- اختر --</option>
+                                            <option value="single" data-i18n="single">أعزب/عزباء</option>
+                                            <option value="married" data-i18n="married">متزوج/متزوجة</option>
+                                            <option value="divorced" data-i18n="divorced">مطلق/مطلقة</option>
+                                            <option value="widowed" data-i18n="widowed">أرمل/أرملة</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            
-                            <div class="service-card" onclick="buyInsurance()">
-                                <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
-                                <h5 data-i18n="insurance_booking">التأمين الطبي</h5>
-                                <p data-i18n="insurance_desc">تغطية 30,000 يورو</p>
-                                <span class="service-arrow">→</span>
+                        </div>
+
+                        <!-- بيانات جواز السفر -->
+                        <div class="form-section mt-4">
+                            <h5 class="form-section-title"><i class="fas fa-passport"></i> <span data-i18n="passport_info">بيانات جواز السفر</span></h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="passport_no">رقم جواز السفر</label>
+                                        <input type="text" id="passportNo" class="form-control" placeholder="Passport number">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="passport_issued">جهة الإصدار</label>
+                                        <input type="text" id="passportIssued" class="form-control" placeholder="Issued by">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="passport_issue_date">تاريخ الإصدار</label>
+                                        <input type="date" id="passportIssueDate" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="passport_expiry">تاريخ الانتهاء</label>
+                                        <input type="date" id="passportExpiry" class="form-control">
+                                    </div>
+                                </div>
                             </div>
-                            
-                            <div class="service-card" onclick="bookCar()">
-                                <div class="service-icon"><i class="fas fa-car"></i></div>
-                                <h5 data-i18n="car_rental">تأجير سيارات</h5>
-                                <p data-i18n="car_desc">سيارات بأسعار مميزة</p>
-                                <span class="service-arrow">→</span>
+                        </div>
+
+                        <!-- بيانات الاتصال -->
+                        <div class="form-section mt-4">
+                            <h5 class="form-section-title"><i class="fas fa-address-book"></i> <span data-i18n="contact_info">بيانات الاتصال</span></h5>
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label data-i18n="home_address">العنوان الحالي</label>
+                                        <input type="text" id="homeAddress" class="form-control" placeholder="Home address">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="email">البريد الإلكتروني</label>
+                                        <input type="email" id="email" class="form-control" placeholder="Email address">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="phone">رقم الهاتف</label>
+                                        <input type="tel" id="phone" class="form-control" placeholder="Phone number">
+                                    </div>
+                                </div>
                             </div>
-                            
-                            <div class="service-card" onclick="skipServices()">
-                                <div class="service-icon"><i class="fas fa-forward"></i></div>
-                                <h5 data-i18n="skip_services">تخطي الخدمات</h5>
-                                <p data-i18n="skip_desc">متابعة بدون خدمات</p>
-                                <span class="service-arrow">→</span>
+                        </div>
+
+                        <!-- بيانات السفر -->
+                        <div class="form-section mt-4">
+                            <h5 class="form-section-title"><i class="fas fa-plane"></i> <span data-i18n="travel_info">بيانات السفر</span></h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="main_destination">دولة الوجهة الرئيسية</label>
+                                        <input type="text" id="mainDestination" class="form-control" placeholder="Main destination">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="first_entry">دولة الدخول الأولى</label>
+                                        <input type="text" id="firstEntry" class="form-control" placeholder="First entry">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label data-i18n="entries_type">نوع الدخول</label>
+                                        <select id="entriesType" class="form-control">
+                                            <option value="">-- اختر --</option>
+                                            <option value="single" data-i18n="single_entry">دخول واحد</option>
+                                            <option value="double" data-i18n="double_entry">دخولين</option>
+                                            <option value="multiple" data-i18n="multiple_entry">متعدد</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label data-i18n="travel_purpose">الغرض من السفر</label>
+                                        <select id="travelPurpose" class="form-control">
+                                            <option value="">-- اختر --</option>
+                                            <option value="tourism" data-i18n="purpose_tourism">سياحة</option>
+                                            <option value="business" data-i18n="purpose_business">عمل</option>
+                                            <option value="study" data-i18n="purpose_study">دراسة</option>
+                                            <option value="family" data-i18n="purpose_family">زيارة عائلية</option>
+                                            <option value="medical" data-i18n="purpose_medical">علاج</option>
+                                            <option value="other" data-i18n="purpose_other">أخرى</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label data-i18n="duration">مدة الإقامة (يوم)</label>
+                                        <input type="number" id="duration" class="form-control" value="7" min="1" max="90">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- بيانات العمل -->
+                        <div class="form-section mt-4">
+                            <h5 class="form-section-title"><i class="fas fa-briefcase"></i> <span data-i18n="employment_info">بيانات العمل / الدراسة</span></h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="occupation">المهنة الحالية</label>
+                                        <input type="text" id="occupation" class="form-control" placeholder="Current occupation">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="employer">جهة العمل / الدراسة</label>
+                                        <input type="text" id="employer" class="form-control" placeholder="Employer / School">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label data-i18n="employer_address">عنوان جهة العمل / الدراسة</label>
+                                        <input type="text" id="employerAddress" class="form-control" placeholder="Employer / School address">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- بيانات مالية -->
+                        <div class="form-section mt-4">
+                            <h5 class="form-section-title"><i class="fas fa-wallet"></i> <span data-i18n="financial_info">المصاريف والتمويل</span></h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="means_support">مصدر تمويل الرحلة</label>
+                                        <select id="meansSupport" class="form-control">
+                                            <option value="">-- اختر --</option>
+                                            <option value="self" data-i18n="self_funded">نفسي</option>
+                                            <option value="sponsor" data-i18n="sponsor">كفيل/ضامن</option>
+                                            <option value="employer" data-i18n="employer_funded">جهة العمل</option>
+                                            <option value="family" data-i18n="family_funded">العائلة</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="sponsor_name">اسم الكفيل (إن وجد)</label>
+                                        <input type="text" id="sponsorName" class="form-control" placeholder="Sponsor name (if applicable)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- بيانات الزوج/الزوجة -->
+                        <div class="form-section mt-4">
+                            <h5 class="form-section-title"><i class="fas fa-users"></i> <span data-i18n="spouse_info">بيانات الزوج/الزوجة (إن وجد)</span></h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="spouse_surname">لقب الزوج/الزوجة</label>
+                                        <input type="text" id="spouseSurname" class="form-control" placeholder="Spouse surname">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="spouse_name">اسم الزوج/الزوجة</label>
+                                        <input type="text" id="spouseName" class="form-control" placeholder="Spouse first name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="spouse_dob">تاريخ ميلاد الزوج/الزوجة</label>
+                                        <input type="date" id="spouseDob" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="spouse_nationality">جنسية الزوج/الزوجة</label>
+                                        <input type="text" id="spouseNationality" class="form-control" placeholder="Spouse nationality">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="step-footer">
                         <button class="btn-back" onclick="goToStep(2)">
                             <i class="fas fa-arrow-right"></i>
                             <span data-i18n="back_step">السابق</span>
                         </button>
+                        <button class="btn-next" onclick="goToStep(4)">
+                            <span data-i18n="next_step">التالي</span>
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
                     </div>
                 </div>
             </section>
 
-            <!-- ===== الخطوة 4: المراجعة والطباعة ===== -->
+<!-- ===== الخطوة 4: المراجعة والطباعة ===== -->
             <section id="step4" class="step-section">
                 <div class="step-card glass-card">
                     <div class="step-header">
