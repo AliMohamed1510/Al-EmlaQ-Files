@@ -664,6 +664,48 @@ body.light-mode .country-search select {
     font-size: 1.1rem;
 }
 
+/* ===== EPTI Egyptian Travel Insurance ===== */
+.epti-insurance-section {
+    background: rgba(16, 185, 129, 0.03);
+    border: 1px solid rgba(16, 185, 129, 0.08);
+    border-radius: 16px;
+    padding: 25px;
+}
+
+.epti-insurance-section h5 {
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.btn-epti {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    font-family: var(--font-arabic);
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
+}
+
+.btn-epti:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(5, 150, 105, 0.35);
+    background: linear-gradient(135deg, #047857, #059669);
+}
+
+.btn-epti i {
+    font-size: 1.1rem;
+}
+
 /* ===== رفع المستندات ===== */
 .documents-section h5 {
     margin-bottom: 15px;
