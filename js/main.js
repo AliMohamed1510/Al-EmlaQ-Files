@@ -181,25 +181,40 @@ function createStatusDiv() {
     return div;
 }
 
-// ===== الخدمات =====
-function bookFlight() {
-    window.open('https://www.google.com/travel/flights', '_blank');
-    goToStep(4);
-}
-
-function buyInsurance() {
-    window.open('https://www.axa-schengen.com/ar', '_blank');
-    goToStep(4);
-}
-
-function bookCar() {
-    window.open('https://www.rentalcars.com', '_blank');
-    goToStep(4);
-}
-
-function skipServices() {
-    skippedServices = true;
-    goToStep(4);
+// ===== جمع بيانات النموذج =====
+function collectFormData() {
+    return {
+        surname: document.getElementById('surname')?.value || '',
+        firstName: document.getElementById('firstName')?.value || '',
+        surnameBirth: document.getElementById('surnameBirth')?.value || '',
+        dob: document.getElementById('dob')?.value || '',
+        pob: document.getElementById('pob')?.value || '',
+        cob: document.getElementById('cob')?.value || '',
+        nationality: document.getElementById('nationality')?.value || '',
+        sex: document.getElementById('sex')?.value || '',
+        marital: document.getElementById('marital')?.value || '',
+        passportNo: document.getElementById('passportNo')?.value || '',
+        passportIssued: document.getElementById('passportIssued')?.value || '',
+        passportIssueDate: document.getElementById('passportIssueDate')?.value || '',
+        passportExpiry: document.getElementById('passportExpiry')?.value || '',
+        homeAddress: document.getElementById('homeAddress')?.value || '',
+        email: document.getElementById('email')?.value || '',
+        phone: document.getElementById('phone')?.value || '',
+        mainDestination: document.getElementById('mainDestination')?.value || '',
+        firstEntry: document.getElementById('firstEntry')?.value || '',
+        entriesType: document.getElementById('entriesType')?.value || '',
+        travelPurpose: document.getElementById('travelPurpose')?.value || '',
+        duration: document.getElementById('duration')?.value || '',
+        occupation: document.getElementById('occupation')?.value || '',
+        employer: document.getElementById('employer')?.value || '',
+        employerAddress: document.getElementById('employerAddress')?.value || '',
+        meansSupport: document.getElementById('meansSupport')?.value || '',
+        sponsorName: document.getElementById('sponsorName')?.value || '',
+        spouseSurname: document.getElementById('spouseSurname')?.value || '',
+        spouseName: document.getElementById('spouseName')?.value || '',
+        spouseDob: document.getElementById('spouseDob')?.value || '',
+        spouseNationality: document.getElementById('spouseNationality')?.value || ''
+    };
 }
 
 // ===== إنشاء معاينة الملف =====
@@ -209,6 +224,7 @@ function generateFilePreview() {
     const visaType = document.getElementById('visaType').value;
     const stayDays = document.getElementById('stayDays').value;
     const lang = currentLang;
+    const form = collectFormData();
 
     // لو مفيش دولة مختارة، نعرض placeholder
     if (!country) {
@@ -239,12 +255,13 @@ function generateFilePreview() {
         }
     });
 
-    const countryLabel = lang === 'ar' ? 'الدولة' : 'Country';
-    const visaLabel = lang === 'ar' ? 'نوع التأشيرة' : 'Visa Type';
-    const stayLabel = lang === 'ar' ? 'مدة الإقامة' : 'Stay Duration';
-    const hotelLabel = lang === 'ar' ? 'حجز الفندق' : 'Hotel Booking';
-    const filesLabel = lang === 'ar' ? 'المستندات' : 'Documents';
-    const statusLabel = lang === 'ar' ? 'الحالة' : 'Status';
+    const l = (key) => translations[lang][key] || key;
+
+    const sexLabels = { male: lang==='ar'?'ذكر':'Male', female: lang==='ar'?'أنثى':'Female' };
+    const maritalLabels = { single: lang==='ar'?'أعزب':'Single', married: lang==='ar'?'متزوج':'Married', divorced: lang==='ar'?'مطلق':'Divorced', widowed: lang==='ar'?'أرمل':'Widowed' };
+    const entryLabels = { single: lang==='ar'?'دخول واحد':'Single', double: lang==='ar'?'دخولين':'Double', multiple: lang==='ar'?'متعدد':'Multiple' };
+    const purposeLabels = { tourism: lang==='ar'?'سياحة':'Tourism', business: lang==='ar'?'عمل':'Business', study: lang==='ar'?'دراسة':'Study', family: lang==='ar'?'زيارة عائلية':'Family', medical: lang==='ar'?'علاج':'Medical', other: lang==='ar'?'أخرى':'Other' };
+    const supportLabels = { self: lang==='ar'?'نفسي':'Self', sponsor: lang==='ar'?'كفيل':'Sponsor', employer: lang==='ar'?'جهة العمل':'Employer', family: lang==='ar'?'العائلة':'Family' };
 
     const allReady = isHotelConfirmed && uploadedCount >= 3;
     const statusText = allReady 
@@ -253,28 +270,55 @@ function generateFilePreview() {
 
     container.innerHTML = `
         <div class="review-content">
+            <h4 style="color:var(--accent);margin-bottom:15px;border-bottom:1px solid rgba(201,168,76,0.2);padding-bottom:10px;">${lang==='ar'?'📋 ملخص الطلب':'📋 Application Summary'}</h4>
+
             <div class="review-item">
-                <span class="review-label">${countryLabel}</span>
+                <span class="review-label">${lang==='ar'?'الدولة':'Country'}</span>
                 <span class="review-value">${data.flag} ${country}</span>
             </div>
             <div class="review-item">
-                <span class="review-label">${visaLabel}</span>
+                <span class="review-label">${lang==='ar'?'نوع التأشيرة':'Visa Type'}</span>
                 <span class="review-value">${visaType}</span>
             </div>
             <div class="review-item">
-                <span class="review-label">${stayLabel}</span>
+                <span class="review-label">${lang==='ar'?'مدة الإقامة':'Stay Duration'}</span>
                 <span class="review-value">${stayDays} ${lang === 'ar' ? 'يوم' : 'days'}</span>
             </div>
-            <div class="review-item">
-                <span class="review-label">${hotelLabel}</span>
-                <span class="review-value">${isHotelConfirmed ? '✅ ' + (lang === 'ar' ? 'مؤكد' : 'Confirmed') : '❌ ' + (lang === 'ar' ? 'غير مؤكد' : 'Not confirmed')}</span>
-            </div>
-            <div class="review-files">
-                <span class="review-label">${filesLabel} (${uploadedCount}/3)</span>
-                <ul>${filesHTML}</ul>
-            </div>
+
+            <h5 style="color:var(--accent);margin:20px 0 10px;font-size:0.95rem;">${lang==='ar'?'👤 البيانات الشخصية':'👤 Personal Information'}</h5>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'الاسم الكامل':'Full Name'}</span><span class="review-value">${form.surname} ${form.firstName}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'تاريخ الميلاد':'Date of Birth'}</span><span class="review-value">${form.dob}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'مكان الولادة':'Place of Birth'}</span><span class="review-value">${form.pob}, ${form.cob}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'الجنسية':'Nationality'}</span><span class="review-value">${form.nationality}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'الجنس':'Sex'}</span><span class="review-value">${sexLabels[form.sex] || form.sex}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'الحالة الاجتماعية':'Marital Status'}</span><span class="review-value">${maritalLabels[form.marital] || form.marital}</span></div>
+
+            <h5 style="color:var(--accent);margin:20px 0 10px;font-size:0.95rem;">${lang==='ar'?'🛂 جواز السفر':'🛂 Passport'}</h5>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'رقم الجواز':'Passport No'}</span><span class="review-value">${form.passportNo}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'جهة الإصدار':'Issued By'}</span><span class="review-value">${form.passportIssued}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'تاريخ الإصدار':'Issue Date'}</span><span class="review-value">${form.passportIssueDate}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'تاريخ الانتهاء':'Expiry Date'}</span><span class="review-value">${form.passportExpiry}</span></div>
+
+            <h5 style="color:var(--accent);margin:20px 0 10px;font-size:0.95rem;">${lang==='ar'?'📞 الاتصال':'📞 Contact'}</h5>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'العنوان':'Address'}</span><span class="review-value">${form.homeAddress}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'البريد الإلكتروني':'Email'}</span><span class="review-value">${form.email}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'الهاتف':'Phone'}</span><span class="review-value">${form.phone}</span></div>
+
+            <h5 style="color:var(--accent);margin:20px 0 10px;font-size:0.95rem;">${lang==='ar'?'✈️ السفر':'✈️ Travel'}</h5>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'الوجهة':'Destination'}</span><span class="review-value">${form.mainDestination}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'دخول أولى':'First Entry'}</span><span class="review-value">${form.firstEntry}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'نوع الدخول':'Entry Type'}</span><span class="review-value">${entryLabels[form.entriesType] || form.entriesType}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'الغرض':'Purpose'}</span><span class="review-value">${purposeLabels[form.travelPurpose] || form.travelPurpose}</span></div>
+
+            <h5 style="color:var(--accent);margin:20px 0 10px;font-size:0.95rem;">${lang==='ar'?'💼 العمل':'💼 Employment'}</h5>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'المهنة':'Occupation'}</span><span class="review-value">${form.occupation}</span></div>
+            <div class="review-item"><span class="review-label">${lang==='ar'?'جهة العمل':'Employer'}</span><span class="review-value">${form.employer}</span></div>
+
+            <h5 style="color:var(--accent);margin:20px 0 10px;font-size:0.95rem;">${lang==='ar'?'📎 المستندات':'📎 Documents'}</h5>
+            <div class="review-files"><ul>${filesHTML}</ul></div>
+
             <div class="review-item" style="border-top:2px solid var(--accent);margin-top:15px;padding-top:15px;">
-                <span class="review-label" style="color: var(--accent);font-weight:900;">${statusLabel}</span>
+                <span class="review-label" style="color: var(--accent);font-weight:900;">${lang==='ar'?'الحالة':'Status'}</span>
                 <span class="review-value" style="color: ${allReady ? '#28a745' : '#dc3545'};">${statusText}</span>
             </div>
             <div class="review-item mt-2">
