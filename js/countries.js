@@ -1,174 +1,9 @@
+// ============================================
+// بيانات دول الشنغن - Al EmlaQ Files
+// 11 دولة شنغن (الدول المتاحة)
+// ============================================
+
 const countriesData = {
-    'النمسا': {
-        flag: '🇦🇹',
-        code: 'AT',
-        embassy_url: 'https://www.bmeia.gv.at',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي 30,000 يورو',
-            'حجز فندق',
-            'تذكرة طيران',
-            'كشف حساب بنكي'
-        ]
-    },
-    'بلجيكا': {
-        flag: '🇧🇪',
-        code: 'BE',
-        embassy_url: 'https://www.diplomatie.belgium.be',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'خطاب جهة العمل'
-        ]
-    },
-    'التشيك': {
-        flag: '🇨🇿',
-        code: 'CZ',
-        embassy_url: 'https://www.mzv.cz',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي 30,000 يورو',
-            'حجز فندق',
-            'تذكرة طيران',
-            'كشف حساب بنكي 3 أشهر'
-        ]
-    },
-    'كرواتيا': {
-        flag: '🇭🇷',
-        code: 'HR',
-        embassy_url: 'https://mvep.gov.hr',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'وسائل مالية كافية'
-        ]
-    },
-    'الدنمارك': {
-        flag: '🇩🇰',
-        code: 'DK',
-        embassy_url: 'https://www.nyidanmark.dk',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي 30,000 يورو',
-            'حجز فندق',
-            'تذكرة طيران',
-            'كشف حساب بنكي'
-        ]
-    },
-    'إستونيا': {
-        flag: '🇪🇪',
-        code: 'EE',
-        embassy_url: 'https://vm.ee',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'وسائل مالية كافية'
-        ]
-    },
-    'فنلندا': {
-        flag: '🇫🇮',
-        code: 'FI',
-        embassy_url: 'https://um.fi',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي 30,000 يورو',
-            'حجز فندق',
-            'تذكرة طيران',
-            'كشف حساب بنكي'
-        ]
-    },
-    'فرنسا': {
-        flag: '🇫🇷',
-        code: 'FR',
-        embassy_url: 'https://france-visas.gouv.fr',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي 30,000 يورو',
-            'حجز فندق لكامل المدة',
-            'تذكرة طيران ذهاب وعودة',
-            'كشف حساب بنكي 3 أشهر',
-            'خطاب جهة العمل'
-        ]
-    },
-    'ألمانيا': {
-        flag: '🇩🇪',
-        code: 'DE',
-        embassy_url: 'https://www.auswaertiges-amt.de',
-        visa_fee: '80 يورو',
-        processing_time: '10-15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي 30,000 يورو',
-            'حجز فندق أو دعوة',
-            'تذكرة طيران',
-            'كشف حساب بنكي 3-6 أشهر',
-            'خطاب من جهة العمل'
-        ]
-    },
-    'اليونان': {
-        flag: '🇬🇷',
-        code: 'GR',
-        embassy_url: 'https://www.mfa.gr',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'وسائل مالية'
-        ]
-    },
-    'المجر': {
-        flag: '🇭🇺',
-        code: 'HU',
-        embassy_url: 'https://konzinfo.mfa.gov.hu',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي 30,000 يورو',
-            'حجز فندق',
-            'تذكرة طيران',
-            'كشف حساب بنكي'
-        ]
-    },
-    'آيسلندا': {
-        flag: '🇮🇸',
-        code: 'IS',
-        embassy_url: 'https://www.government.is',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'وسائل مالية كافية'
-        ]
-    },
     'إيطاليا': {
         flag: '🇮🇹',
         code: 'IT',
@@ -178,160 +13,6 @@ const countriesData = {
         requirements: [
             'جواز سفر صالح 3 أشهر',
             'تأمين طبي 30,000 يورو',
-            'حجز فندق',
-            'تذكرة طيران',
-            'كشف حساب بنكي'
-        ]
-    },
-    'لاتفيا': {
-        flag: '🇱🇻',
-        code: 'LV',
-        embassy_url: 'https://www.mfa.gov.lv',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'وسائل مالية كافية'
-        ]
-    },
-    'ليختنشتاين': {
-        flag: '🇱🇮',
-        code: 'LI',
-        embassy_url: 'https://www.llv.li',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'وسائل مالية كافية'
-        ]
-    },
-    'ليتوانيا': {
-        flag: '🇱🇹',
-        code: 'LT',
-        embassy_url: 'https://urm.lt',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'كشف حساب بنكي'
-        ]
-    },
-    'لوكسمبورغ': {
-        flag: '🇱🇺',
-        code: 'LU',
-        embassy_url: 'https://mae.gouvernement.lu',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'خطاب جهة العمل'
-        ]
-    },
-    'مالطا': {
-        flag: '🇲🇹',
-        code: 'MT',
-        embassy_url: 'https://identitymalta.com',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'وسائل مالية كافية'
-        ]
-    },
-    'هولندا': {
-        flag: '🇳🇱',
-        code: 'NL',
-        embassy_url: 'https://www.netherlandsandyou.nl',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'وسائل مالية كافية'
-        ]
-    },
-    'النرويج': {
-        flag: '🇳🇴',
-        code: 'NO',
-        embassy_url: 'https://www.udi.no',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي 30,000 يورو',
-            'حجز فندق',
-            'تذكرة طيران',
-            'كشف حساب بنكي'
-        ]
-    },
-    'بولندا': {
-        flag: '🇵🇱',
-        code: 'PL',
-        embassy_url: 'https://www.gov.pl/web/dyplomacja',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'كشف حساب بنكي'
-        ]
-    },
-    'البرتغال': {
-        flag: '🇵🇹',
-        code: 'PT',
-        embassy_url: 'https://www.vfsglobal.com/portugal',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'كشف حساب بنكي'
-        ]
-    },
-    'سلوفاكيا': {
-        flag: '🇸🇰',
-        code: 'SK',
-        embassy_url: 'https://www.mzv.sk',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
-            'حجز فندق',
-            'تذكرة طيران',
-            'وسائل مالية كافية'
-        ]
-    },
-    'سلوفينيا': {
-        flag: '🇸🇮',
-        code: 'SI',
-        embassy_url: 'https://www.gov.si',
-        visa_fee: '80 يورو',
-        processing_time: '15 يوم عمل',
-        requirements: [
-            'جواز سفر صالح 3 أشهر',
-            'تأمين طبي',
             'حجز فندق',
             'تذكرة طيران',
             'كشف حساب بنكي'
@@ -351,6 +32,20 @@ const countriesData = {
             'وسائل مالية كافية'
         ]
     },
+    'سويسرا': {
+        flag: '🇨🇭',
+        code: 'CH',
+        embassy_url: 'https://www.sem.admin.ch',
+        visa_fee: '80 يورو',
+        processing_time: '10-15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
     'السويد': {
         flag: '🇸🇪',
         code: 'SE',
@@ -365,15 +60,99 @@ const countriesData = {
             'وسائل مالية كافية'
         ]
     },
-    'سويسرا': {
-        flag: '🇨🇭',
-        code: 'CH',
-        embassy_url: 'https://www.sem.admin.ch',
+    'سلوفاكيا': {
+        flag: '🇸🇰',
+        code: 'SK',
+        embassy_url: 'https://www.mzv.sk',
         visa_fee: '80 يورو',
-        processing_time: '10-15 يوم عمل',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'البرتغال': {
+        flag: '🇵🇹',
+        code: 'PT',
+        embassy_url: 'https://www.vfsglobal.com/portugal',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'مالطا': {
+        flag: '🇲🇹',
+        code: 'MT',
+        embassy_url: 'https://identitymalta.com',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'المجر': {
+        flag: '🇭🇺',
+        code: 'HU',
+        embassy_url: 'https://konzinfo.mfa.gov.hu',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
         requirements: [
             'جواز سفر صالح 3 أشهر',
             'تأمين طبي 30,000 يورو',
+            'حجز فندق',
+            'تذكرة طيران',
+            'كشف حساب بنكي'
+        ]
+    },
+    'اليونان': {
+        flag: '🇬🇷',
+        code: 'GR',
+        embassy_url: 'https://www.mfa.gr',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية'
+        ]
+    },
+    'كرواتيا': {
+        flag: '🇭🇷',
+        code: 'HR',
+        embassy_url: 'https://mvep.gov.hr',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح 3 أشهر',
+            'تأمين طبي',
+            'حجز فندق',
+            'تذكرة طيران',
+            'وسائل مالية كافية'
+        ]
+    },
+    'النمسا': {
+        flag: '🇦🇹',
+        code: 'AT',
+        embassy_url: 'https://www.bmeia.gv.at',
+        visa_fee: '80 يورو',
+        processing_time: '15 يوم عمل',
+        requirements: [
+            'جواز سفر صالح',
+            'تأمين طبي',
             'حجز فندق',
             'تذكرة طيران',
             'كشف حساب بنكي'
@@ -450,10 +229,8 @@ function loadCountries() {
     });
 }
 
-// Load on DOM ready
 document.addEventListener('DOMContentLoaded', loadCountries);
 
-// Also re-load when language changes (if translations.js calls this)
 if (typeof window !== 'undefined') {
     window.reloadCountries = loadCountries;
 }
