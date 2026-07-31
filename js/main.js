@@ -1,3 +1,8 @@
+// ============================================
+// الملف الرئيسي - Al EmlaQ Files
+// ============================================
+
+// ===== المتغيرات العامة =====
 let uploadedFiles = {};
 let fileNames = {};
 let isHotelConfirmed = false;
@@ -95,6 +100,10 @@ function confirmHotel() {
     btn.innerHTML = `<i class="fas fa-check-circle"></i> ${translations[currentLang]['hotel_confirmed']}`;
     
     showHotelStatus(translations[currentLang]['hotel_confirmed'], 'success');
+}
+
+function bookDummyTicket() {
+    window.open('https://myjet24.com/', '_blank');
 }
 
 function showHotelStatus(message, type) {
