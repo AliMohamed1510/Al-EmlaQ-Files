@@ -1,5 +1,5 @@
 /* ============================================
-   Al EmlaQ Files - Style Sheet (FIXED)
+   Al EmlaQ Files - Style Sheet (ENHANCED)
    تصميم فخم وغامض وعميق
    ============================================ */
 
@@ -17,6 +17,20 @@
     --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --font-arabic: 'Cairo', sans-serif;
     --font-english: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-lg: 24px;
+}
+
+/* ===== إعادة تعيين أساسية ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 /* ===== الوضع المظلم (افتراضي) ===== */
@@ -27,6 +41,7 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     transition: var(--transition);
+    line-height: 1.6;
 }
 
 /* ===== الوضع الفاتح ===== */
@@ -41,94 +56,20 @@ body.light-mode {
     background: var(--primary);
 }
 
-body.light-mode .glass-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
+/* ===== تنسيقات النصوص العامة ===== */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.3;
 }
 
-body.light-mode .step-card {
-    background: var(--glass-bg);
-}
-
-body.light-mode .upload-area {
-    background: rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.15);
-}
-
-body.light-mode .upload-area:hover {
-    background: rgba(0, 0, 0, 0.08);
-    border-color: var(--accent);
-}
-
-body.light-mode .service-card {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-body.light-mode .service-card:hover {
-    background: rgba(255, 255, 255, 0.95);
-    border-color: var(--accent);
-}
-
-body.light-mode .country-info-card {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-body.light-mode .step-dot .dot-number {
-    background: #e8e6e3;
-    color: var(--primary);
-}
-
-body.light-mode .step-dot.active .dot-number {
-    background: var(--accent);
-    color: #fff;
-}
-
-body.light-mode .step-dot.completed .dot-number {
-    background: var(--accent);
-    color: #fff;
-}
-
-body.light-mode .step-line {
-    background: rgba(0, 0, 0, 0.15);
-}
-
-body.light-mode .step-line.active {
-    background: var(--accent);
-}
-
-body.light-mode .nav-link {
-    color: var(--text-secondary);
-}
-
-body.light-mode .nav-link:hover,
-body.light-mode .nav-link.active {
+a {
+    text-decoration: none;
     color: var(--accent);
+    transition: var(--transition);
 }
 
-body.light-mode .footer-text {
-    color: var(--text-secondary);
-}
-
-body.light-mode .review-placeholder {
-    color: var(--text-secondary);
-}
-
-body.light-mode .form-section {
-    background: rgba(255, 255, 255, 0.6);
-    border-color: rgba(0, 0, 0, 0.08);
-}
-
-body.light-mode .section-title {
-    color: var(--text-primary);
-    border-bottom-color: rgba(0, 0, 0, 0.1);
-}
-
-body.light-mode .review-section-title {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
+a:hover {
+    color: #f5d98a;
 }
 
 /* ===== الشريط العلوي ===== */
@@ -136,8 +77,13 @@ body.light-mode .review-section-title {
     background: rgba(10, 10, 15, 0.92);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(201, 168, 76, 0.1);
-    padding: 15px 0;
+    padding: 12px 0;
     transition: var(--transition);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
 body.light-mode .navbar {
@@ -150,7 +96,7 @@ body.light-mode .navbar {
     align-items: center;
     gap: 10px;
     font-weight: 900;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: var(--text-primary) !important;
     text-decoration: none;
     letter-spacing: 1px;
@@ -158,7 +104,7 @@ body.light-mode .navbar {
 
 .brand-icon {
     color: var(--accent);
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     animation: glow 2s ease-in-out infinite;
 }
 
@@ -172,7 +118,7 @@ body.light-mode .navbar {
 .brand-sub {
     color: var(--accent);
     opacity: 0.5;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 @keyframes glow {
@@ -190,10 +136,11 @@ body.light-mode .navbar {
     border-radius: 30px;
     cursor: pointer;
     transition: var(--transition);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     display: flex;
     align-items: center;
     gap: 8px;
+    font-family: var(--font-arabic);
 }
 
 .lang-toggle:hover,
@@ -210,7 +157,7 @@ body.light-mode .theme-toggle {
 
 /* ===== مؤشر التقدم ===== */
 .progress-indicator {
-    padding: 100px 0 30px;
+    padding: 90px 0 25px;
     position: relative;
     z-index: 5;
 }
@@ -244,7 +191,7 @@ body.light-mode .theme-toggle {
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
     transition: var(--transition);
 }
@@ -263,7 +210,7 @@ body.light-mode .theme-toggle {
 }
 
 .dot-label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -292,7 +239,7 @@ body.light-mode .theme-toggle {
 
 /* ===== المحتوى الرئيسي ===== */
 .main-content {
-    padding: 20px 0 80px;
+    padding: 10px 0 60px;
 }
 
 /* ===== البطاقات ===== */
@@ -300,13 +247,13 @@ body.light-mode .theme-toggle {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
+    border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
     overflow: hidden;
     transition: var(--transition);
 }
 
-/* ===== FIX: الخطوات - التصليح الرئيسي ===== */
+/* ===== الخطوات ===== */
 .step-section {
     display: none;
 }
@@ -317,7 +264,7 @@ body.light-mode .theme-toggle {
 }
 
 .step-card {
-    padding: 40px;
+    padding: 35px 40px 30px;
 }
 
 @keyframes fadeSlideUp {
@@ -333,27 +280,27 @@ body.light-mode .theme-toggle {
 
 .step-header {
     text-align: center;
-    margin-bottom: 35px;
+    margin-bottom: 30px;
 }
 
 .step-icon {
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
     background: linear-gradient(135deg, rgba(201, 168, 76, 0.15), rgba(201, 168, 76, 0.05));
     border: 1px solid rgba(201, 168, 76, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 15px;
-    font-size: 2rem;
+    margin: 0 auto 12px;
+    font-size: 1.8rem;
     color: var(--accent);
 }
 
 .step-header h2 {
     font-weight: 900;
-    font-size: 2rem;
-    margin-bottom: 5px;
+    font-size: 1.8rem;
+    margin-bottom: 3px;
     background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -362,7 +309,7 @@ body.light-mode .theme-toggle {
 
 .step-subtitle {
     color: var(--text-secondary);
-    font-size: 1rem;
+    font-size: 0.95rem;
     margin-bottom: 0;
 }
 
@@ -371,18 +318,18 @@ body.light-mode .theme-toggle {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 35px;
-    padding-top: 25px;
+    margin-top: 30px;
+    padding-top: 20px;
     border-top: 1px solid rgba(201, 168, 76, 0.1);
 }
 
 .btn-next,
 .btn-back {
-    padding: 12px 30px;
+    padding: 11px 28px;
     border: none;
     border-radius: 50px;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.95rem;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -420,27 +367,27 @@ body.light-mode .btn-back {
 
 /* ===== نموذج البيانات ===== */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 14px;
 }
 
 .form-group label {
     display: block;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     color: var(--text-secondary);
-    font-size: 0.9rem;
-    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
 }
 
 .form-control,
 .country-search select {
     width: 100%;
-    padding: 14px 20px;
+    padding: 12px 18px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(201, 168, 76, 0.15);
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     color: var(--text-primary);
-    font-size: 1rem;
+    font-size: 0.95rem;
     transition: var(--transition);
     appearance: none;
     -webkit-appearance: none;
@@ -458,6 +405,30 @@ body.light-mode .country-search select {
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+}
+
+.form-control::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 60px;
+}
+
+select.form-control {
+    cursor: pointer;
+}
+
+select.form-control option {
+    background: var(--secondary);
+    color: var(--text-primary);
+}
+
+body.light-mode select.form-control option {
+    background: #fff;
+    color: var(--text-primary);
 }
 
 .country-search {
@@ -482,16 +453,21 @@ body.light-mode .country-search select {
 .form-section {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(201, 168, 76, 0.08);
-    border-radius: 16px;
-    padding: 25px;
-    margin-bottom: 20px;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 18px;
+}
+
+body.light-mode .form-section {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(0, 0, 0, 0.08);
 }
 
 .section-title {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--accent);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(201, 168, 76, 0.15);
     display: flex;
@@ -499,29 +475,40 @@ body.light-mode .country-search select {
     gap: 10px;
 }
 
+body.light-mode .section-title {
+    color: var(--text-primary);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
 .section-title i {
-    font-size: 1rem;
+    font-size: 0.95rem;
 }
 
 /* ===== معلومات الدولة ===== */
 .country-info-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(201, 168, 76, 0.1);
-    border-radius: 16px;
-    padding: 25px;
+    border-radius: var(--radius);
+    padding: 20px;
     text-align: center;
     height: 100%;
     transition: var(--transition);
 }
 
+body.light-mode .country-info-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
 .country-flag-display {
-    font-size: 3.5rem;
-    margin-bottom: 10px;
+    font-size: 3rem;
+    margin-bottom: 8px;
 }
 
 .country-info-card h4 {
     font-weight: 700;
-    margin-bottom: 12px;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
 .country-info-card ul {
@@ -531,9 +518,9 @@ body.light-mode .country-search select {
 }
 
 .country-info-card ul li {
-    padding: 5px 0;
+    padding: 4px 0;
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     border-bottom: 1px solid rgba(201, 168, 76, 0.05);
 }
 
@@ -551,7 +538,7 @@ body.light-mode .country-search select {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     transition: var(--transition);
 }
 
@@ -564,13 +551,14 @@ body.light-mode .country-search select {
 .hotel-booking-section {
     background: rgba(201, 168, 76, 0.03);
     border: 1px solid rgba(201, 168, 76, 0.08);
-    border-radius: 16px;
-    padding: 25px;
+    border-radius: var(--radius);
+    padding: 20px 24px;
 }
 
 .hotel-booking-section h5 {
-    margin-bottom: 15px;
+    margin-bottom: 14px;
     font-weight: 700;
+    font-size: 1.05rem;
 }
 
 .booking-platforms {
@@ -582,14 +570,15 @@ body.light-mode .country-search select {
 .platform-btn {
     padding: 10px 20px;
     border: none;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    font-family: var(--font-arabic);
 }
 
 .platform-btn.booking {
@@ -615,7 +604,7 @@ body.light-mode .country-search select {
 .btn-confirm-hotel {
     padding: 10px 25px;
     border: none;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     background: linear-gradient(135deg, #28a745, #20c997);
     color: #fff;
     font-weight: 700;
@@ -626,7 +615,7 @@ body.light-mode .country-search select {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-family: var(--font-arabic);
 }
 
@@ -640,9 +629,9 @@ body.light-mode .country-search select {
 }
 
 .hotel-status {
-    margin-top: 15px;
+    margin-top: 12px;
     padding: 10px 15px;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     display: none;
 }
 
@@ -664,8 +653,9 @@ body.light-mode .country-search select {
 
 /* ===== رفع المستندات ===== */
 .documents-section h5 {
-    margin-bottom: 15px;
+    margin-bottom: 14px;
     font-weight: 700;
+    font-size: 1.05rem;
 }
 
 .upload-box {
@@ -675,25 +665,30 @@ body.light-mode .country-search select {
 .upload-box label {
     display: block;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 .upload-area {
     background: rgba(255, 255, 255, 0.03);
     border: 2px dashed rgba(201, 168, 76, 0.2);
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: var(--radius-sm);
+    padding: 18px;
     text-align: center;
     cursor: pointer;
     transition: var(--transition);
-    min-height: 80px;
+    min-height: 70px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 4px;
+}
+
+body.light-mode .upload-area {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.15);
 }
 
 .upload-area:hover {
@@ -701,21 +696,25 @@ body.light-mode .country-search select {
     background: rgba(201, 168, 76, 0.05);
 }
 
+body.light-mode .upload-area:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
 .upload-area i {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: var(--accent);
     opacity: 0.5;
 }
 
 .upload-area span {
     color: var(--text-secondary);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
 
 .file-name {
     display: block;
-    margin-top: 5px;
-    font-size: 0.8rem;
+    margin-top: 4px;
+    font-size: 0.75rem;
     color: var(--accent);
     font-weight: 600;
 }
@@ -728,20 +727,25 @@ body.light-mode .country-search select {
 /* ===== خدمات السفر ===== */
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 18px;
 }
 
 .service-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(201, 168, 76, 0.1);
-    border-radius: 16px;
-    padding: 30px 20px;
+    border-radius: var(--radius);
+    padding: 25px 15px;
     text-align: center;
     cursor: pointer;
     transition: var(--transition);
     position: relative;
     overflow: hidden;
+}
+
+body.light-mode .service-card {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .service-card::before {
@@ -766,29 +770,34 @@ body.light-mode .country-search select {
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
+body.light-mode .service-card:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: var(--accent);
+}
+
 .service-icon {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     color: var(--accent);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .service-card h5 {
     font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 5px;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
 }
 
 .service-card p {
     color: var(--text-secondary);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     margin-bottom: 0;
 }
 
 .service-arrow {
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 8px;
     color: var(--accent);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     transition: var(--transition);
 }
 
@@ -796,17 +805,13 @@ body.light-mode .country-search select {
     transform: translateX(-5px);
 }
 
-body.light-mode .service-card {
-    background: rgba(255, 255, 255, 0.6);
-}
-
 /* ===== مراجعة الملف ===== */
 .review-container {
     background: rgba(0, 0, 0, 0.2);
-    border-radius: 16px;
-    padding: 30px;
-    min-height: 250px;
-    margin-bottom: 25px;
+    border-radius: var(--radius);
+    padding: 25px;
+    min-height: 220px;
+    margin-bottom: 20px;
     border: 1px solid rgba(201, 168, 76, 0.08);
 }
 
@@ -820,13 +825,13 @@ body.light-mode .review-container {
     align-items: center;
     justify-content: center;
     height: 100%;
-    min-height: 200px;
+    min-height: 180px;
     color: var(--text-secondary);
 }
 
 .review-placeholder i {
-    font-size: 3rem;
-    margin-bottom: 15px;
+    font-size: 2.8rem;
+    margin-bottom: 12px;
     opacity: 0.3;
 }
 
@@ -836,45 +841,51 @@ body.light-mode .review-container {
 
 .review-header {
     text-align: center;
-    margin-bottom: 25px;
-    padding-bottom: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
     border-bottom: 2px solid rgba(201, 168, 76, 0.2);
 }
 
 .review-header h3 {
     font-weight: 900;
     color: var(--accent);
-    margin-bottom: 5px;
+    margin-bottom: 3px;
+    font-size: 1.2rem;
 }
 
 .review-header p {
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .review-section-title {
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--accent);
-    margin: 20px 0 12px;
-    padding-bottom: 8px;
+    margin: 16px 0 10px;
+    padding-bottom: 6px;
     border-bottom: 1px solid rgba(201, 168, 76, 0.2);
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
+body.light-mode .review-section-title {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
 .review-section-title i {
-    font-size: 0.5rem;
+    font-size: 0.4rem;
 }
 
 .review-content .review-item {
     display: flex;
     justify-content: space-between;
-    padding: 8px 0;
+    padding: 6px 0;
     border-bottom: 1px solid rgba(201, 168, 76, 0.05);
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 4px;
 }
 
 .review-content .review-item:last-child {
@@ -884,27 +895,32 @@ body.light-mode .review-container {
 .review-content .review-label {
     color: var(--text-secondary);
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .review-content .review-value {
     font-weight: 700;
     color: var(--text-primary);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     text-align: right;
 }
 
 .review-content .review-files {
-    margin-top: 10px;
+    margin-top: 8px;
+}
+
+.review-content .review-files ul {
+    list-style: none;
+    padding: 0;
 }
 
 .review-content .review-files li {
-    list-style: none;
-    padding: 5px 0;
+    padding: 4px 0;
     color: var(--text-secondary);
     display: flex;
     align-items: center;
     gap: 8px;
+    font-size: 0.85rem;
 }
 
 .review-content .review-files li i {
@@ -914,20 +930,20 @@ body.light-mode .review-container {
 .warning-box {
     background: rgba(201, 168, 76, 0.08);
     border: 1px solid rgba(201, 168, 76, 0.2);
-    border-radius: 10px;
-    padding: 12px 15px !important;
-    margin-top: 15px;
+    border-radius: var(--radius-sm);
+    padding: 10px 15px !important;
+    margin-top: 12px;
 }
 
 .review-actions {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .action-btn {
-    padding: 12px 30px;
+    padding: 11px 28px;
     border: none;
     border-radius: 50px;
     font-weight: 700;
@@ -936,7 +952,7 @@ body.light-mode .review-container {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-family: var(--font-arabic);
 }
 
@@ -974,8 +990,8 @@ body.light-mode .review-container {
 .site-footer {
     background: rgba(10, 10, 15, 0.95);
     border-top: 1px solid rgba(201, 168, 76, 0.08);
-    padding: 40px 0;
-    margin-top: 40px;
+    padding: 30px 0;
+    margin-top: 30px;
 }
 
 body.light-mode .site-footer {
@@ -988,7 +1004,7 @@ body.light-mode .site-footer {
 }
 
 .footer-brand {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 900;
     color: var(--text-primary);
 }
@@ -999,19 +1015,19 @@ body.light-mode .site-footer {
 
 .footer-text {
     color: var(--text-secondary);
-    font-size: 0.85rem;
-    margin: 10px 0 15px;
+    font-size: 0.8rem;
+    margin: 8px 0 12px;
 }
 
 .footer-social {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
 }
 
 .footer-social a {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(201, 168, 76, 0.1);
@@ -1034,21 +1050,22 @@ body.light-mode .footer-social a {
     background: rgba(0, 0, 0, 0.03);
 }
 
-/* ===== Navbar collapse fix for RTL ===== */
+/* ===== شريط التنقل ===== */
 .navbar-collapse {
     flex-grow: 0;
 }
 
 .navbar-nav {
-    gap: 5px;
+    gap: 3px;
 }
 
 .nav-link {
     color: var(--text-secondary);
     font-weight: 600;
-    padding: 8px 16px !important;
+    padding: 8px 14px !important;
     border-radius: 8px;
     transition: var(--transition);
+    font-size: 0.85rem;
 }
 
 .nav-link:hover,
@@ -1057,160 +1074,26 @@ body.light-mode .footer-social a {
     background: rgba(201, 168, 76, 0.08);
 }
 
-/* ===== استجابة للشاشات الصغيرة ===== */
-@media (max-width: 768px) {
-    .step-card {
-        padding: 20px;
-    }
-
-    .step-header h2 {
-        font-size: 1.4rem;
-    }
-
-    .steps-progress {
-        gap: 0;
-    }
-
-    .dot-label {
-        display: none;
-    }
-
-    .dot-number {
-        width: 32px;
-        height: 32px;
-        font-size: 0.7rem;
-    }
-
-    .services-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .booking-platforms {
-        flex-direction: column;
-    }
-
-    .platform-btn {
-        justify-content: center;
-    }
-
-    .review-actions {
-        flex-direction: column;
-    }
-
-    .action-btn {
-        justify-content: center;
-    }
-
-    .step-footer {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .btn-next,
-    .btn-back {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .navbar-brand {
-        font-size: 1.1rem;
-    }
-
-    .brand-icon {
-        font-size: 1.2rem;
-    }
-
-    .form-section {
-        padding: 15px;
-    }
-
-    .review-content .review-item {
-        flex-direction: column;
-        gap: 2px;
-    }
-
-    .review-content .review-value {
-        text-align: right;
-    }
-}
-
-/* ===== تنسيقات الطباعة ===== */
-@media print {
-    .navbar,
-    .progress-indicator,
-    .step-footer,
-    .review-actions,
-    .site-footer {
-        display: none !important;
-    }
-
-    .step-card {
-        box-shadow: none !important;
-        border: none !important;
-        background: #fff !important;
-        color: #000 !important;
-        padding: 20px !important;
-    }
-
-    body,
-    body.light-mode {
-        background: #fff !important;
-    }
-
-    .step-card .step-header h2 {
-        -webkit-text-fill-color: #000 !important;
-        background: none !important;
-    }
-
-    .review-container {
-        border: 1px solid #ddd !important;
-        background: #fff !important;
-        color: #000 !important;
-    }
-
-    .review-content .review-label {
-        color: #555 !important;
-    }
-
-    .review-content .review-value {
-        color: #000 !important;
-    }
-
-    .review-section-title {
-        color: #000 !important;
-        border-bottom-color: #999 !important;
-    }
-
-    .warning-box {
-        background: #f5f5f5 !important;
-        border-color: #999 !important;
-    }
-}
-
-/* ============================================
-   ADDITIONS: Validation + Toast + Official Print Form
-   ============================================ */
-
 /* ===== Toast Notifications ===== */
 .al-toast {
     position: fixed;
-    top: 100px;
+    top: 90px;
     left: 50%;
     transform: translateX(-50%) translateY(-20px);
     background: var(--secondary);
     border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    padding: 16px 24px;
+    border-radius: var(--radius-sm);
+    padding: 14px 22px;
     display: flex;
     align-items: center;
     gap: 12px;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     z-index: 9999;
     opacity: 0;
     transition: all 0.3s ease;
     box-shadow: var(--shadow);
-    min-width: 300px;
+    min-width: 280px;
     justify-content: center;
 }
 
@@ -1232,10 +1115,10 @@ body.light-mode .footer-social a {
 }
 
 .al-toast i {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
-/* ===== Validation Styles ===== */
+/* ===== Validation ===== */
 .is-invalid {
     border-color: #dc3545 !important;
     box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15) !important;
@@ -1494,5 +1377,181 @@ body.light-mode .is-invalid {
         background: #fff !important;
         color: #000 !important;
         padding: 0 !important;
+    }
+}
+
+/* ===== استجابة للشاشات الصغيرة ===== */
+@media (max-width: 992px) {
+    .step-card {
+        padding: 25px 20px;
+    }
+
+    .step-header h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .step-card {
+        padding: 18px 15px;
+    }
+
+    .step-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .step-header .step-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.4rem;
+    }
+
+    .steps-progress {
+        gap: 0;
+    }
+
+    .dot-label {
+        display: none;
+    }
+
+    .dot-number {
+        width: 32px;
+        height: 32px;
+        font-size: 0.7rem;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .booking-platforms {
+        flex-direction: column;
+    }
+
+    .platform-btn {
+        justify-content: center;
+    }
+
+    .review-actions {
+        flex-direction: column;
+    }
+
+    .action-btn {
+        justify-content: center;
+    }
+
+    .step-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-next,
+    .btn-back {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .brand-icon {
+        font-size: 1.1rem;
+    }
+
+    .form-section {
+        padding: 14px 16px;
+    }
+
+    .review-content .review-item {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .review-content .review-value {
+        text-align: right;
+    }
+
+    .country-info-card {
+        margin-top: 15px;
+    }
+
+    .hotel-booking-section {
+        padding: 16px;
+    }
+
+    .review-container {
+        padding: 16px;
+    }
+
+    .progress-indicator {
+        padding: 80px 0 15px;
+    }
+
+    .main-content {
+        padding: 5px 0 40px;
+    }
+
+    .site-footer {
+        padding: 20px 0;
+        margin-top: 20px;
+    }
+
+    .al-toast {
+        min-width: 200px;
+        padding: 12px 18px;
+        font-size: 0.85rem;
+        top: 75px;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .service-card {
+        padding: 18px 10px;
+    }
+
+    .service-icon {
+        font-size: 1.8rem;
+    }
+
+    .service-card h5 {
+        font-size: 0.8rem;
+    }
+
+    .service-card p {
+        font-size: 0.65rem;
+    }
+
+    .form-control,
+    .country-search select {
+        padding: 10px 14px;
+        font-size: 0.85rem;
+    }
+
+    .btn-next,
+    .btn-back {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+
+    .action-btn {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+
+    .platform-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+
+    .btn-confirm-hotel {
+        padding: 8px 18px;
+        font-size: 0.8rem;
     }
 }
