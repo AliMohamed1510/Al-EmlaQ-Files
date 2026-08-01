@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>AET - منصة حجز المواعيد</title>
+<title>AET - منصة AL EMLAQ TRAVEL</title>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="shortcut icon" href="image.png">
 
@@ -218,7 +218,7 @@ label, .control-label { width: 100%; }
     <div class="selection-card">
         <img src="image.png" alt="AET Logo" style="max-height: 100px; margin-bottom: 20px;">
         <h1>مرحباً بك في منصة AET</h1>
-        <p>الرجاء اختيار الدولة المراد حجز موعد لها</p>
+        <p>الرجاء اختيار الدولة المراد ملئ الابلكيشن لها</p>
 
         <select id="countrySelect" class="country-select">
             <option value="" selected disabled>-- اختر الدولة --</option>
@@ -4775,8 +4775,8 @@ label, .control-label { width: 100%; }
 <div class="form-group m_5" id="divSubmit">
 <button type="submit" name="action" value="valBookNow" id="valBookNow" class="btn btn-success">Submit</button>
 <button type="reset" name="reset" onclick="document.location.reload()" class="btn btn-in
-                            <button type="button" id="valBookNow" class="btn btn-success" onclick="printApplication()">يُقدَّم / طباعة الاستمارة</button>
-                            <button type="reset" name="reset" onclick="document.location.reload()" class="btn btn-info">إعادة تعيين</button>
+                            <button type="button" id="valBookNow" class="btn btn-success" onclick="generatePDF()" style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); border: none; padding: 15px 50px; font-size: 18px; border-radius: 50px; color: white; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(212,175,55,0.4);">📄 تحميل PDF</button>
+                            <button type="reset" name="reset" onclick="document.location.reload()" class="btn btn-info" style="background: #666; border: none; padding: 12px 30px; border-radius: 25px; color: white; cursor: pointer;">إعادة تعيين</button>
                         </div>
                     </div>
                 </form>
@@ -5546,103 +5546,125 @@ function copyAddressHost() {
     }
 }
 
-function printApplication() {
+function generatePDF() {
     // Validate form first
     if(!$("#thisForm").valid()) {
         alert("الرجاء تعبئة جميع الحقول المطلوبة (*)");
         return;
     }
 
-    // Gather form data
-    var formData = {};
-    $("#thisForm").serializeArray().forEach(function(item) {
-        formData[item.name] = item.value;
-    });
-
-    // Get country name
     var countryName = $("#formCountryName").text() || $("#selected_country_input").val();
+    var now = new Date().toLocaleDateString('ar-EG');
 
-    // Build print window content
-    var printContent = `
-    <!DOCTYPE html>
-    <html dir="rtl" lang="ar">
-    <head>
-        <meta charset="utf-8">
-        <title>طلب موعد - AET</title>
-        <style>
-            body { font-family: Arial, sans-serif; padding: 40px; direction: rtl; }
-            .header { text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 20px; margin-bottom: 30px; }
-            .header img { max-height: 80px; }
-            .header h1 { color: #1a1a2e; margin: 10px 0; }
-            .header h2 { color: #666; font-size: 18px; }
-            table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-            th { background: #1a1a2e; color: #d4af37; padding: 12px; text-align: right; font-size: 16px; }
-            td { padding: 10px 12px; border-bottom: 1px solid #ddd; width: 50%; }
-            tr:nth-child(even) { background: #f9f9f9; }
-            .label { font-weight: bold; color: #333; }
-            .value { color: #555; }
-            .footer { text-align: center; margin-top: 40px; color: #888; font-size: 12px; border-top: 1px solid #ddd; padding-top: 20px; }
-            @media print {
-                .no-print { display: none; }
-                body { padding: 20px; }
-            }
-        </style>
-    </head>
-    <body>
-        <div class="header">
-            <img src="https://raw.githubusercontent.com/AliMohamed1510/Al-EmlaQ-Files/main/image.png" alt="AET">
-            <h1>شركة الإملاق للسياحة</h1>
-            <h2>نموذج طلب موعد تأشيرة - ` + countryName + `</h2>
+    // Helper to get select text
+    function sel(id) { return $(id + ' option:selected').text() || '-'; }
+    function val(name) { return $("[name='" + name + "']").val() || '-'; }
+
+    // Build PDF content
+    var pdfContent = `
+    <div id="pdfContent" style="direction:rtl; font-family:'Segoe UI',Arial,sans-serif; padding:30px; width:100%; box-sizing:border-box;">
+        <div style="text-align:center; border-bottom:4px solid #d4af37; padding-bottom:20px; margin-bottom:25px;">
+            <img src="https://raw.githubusercontent.com/AliMohamed1510/Al-EmlaQ-Files/main/image.png" style="max-height:90px; margin-bottom:10px;">
+            <h1 style="color:#1a1a2e; margin:5px 0; font-size:26px;">شركة الإملاق للسياحة</h1>
+            <h2 style="color:#666; margin:5px 0; font-size:18px; font-weight:normal;">نموذج طلب موعد تأشيرة - ` + countryName + `</h2>
         </div>
 
-        <table>
-            <tr><th colspan="2">بيانات المتقدم</th></tr>
-            <tr><td class="label">الاسم الأول:</td><td class="value">` + (formData.firstname || '') + `</td></tr>
-            <tr><td class="label">اسم العائلة:</td><td class="value">` + (formData.surname || '') + `</td></tr>
-            <tr><td class="label">الجنس:</td><td class="value">` + ($('#gender option:selected').text() || '') + `</td></tr>
-            <tr><td class="label">تاريخ الميلاد:</td><td class="value">` + (formData.date_of_birth || '') + `</td></tr>
-            <tr><td class="label">الجنسية الحالية:</td><td class="value">` + ($('#current_nationality option:selected').text() || '') + `</td></tr>
-            <tr><td class="label">الحالة الاجتماعية:</td><td class="value">` + ($('#marital_status option:selected').text() || '') + `</td></tr>
+        <table style="width:100%; border-collapse:collapse; margin-bottom:20px; font-size:14px;">
+            <tr><th colspan="2" style="background:#1a1a2e; color:#d4af37; padding:12px; text-align:right; font-size:16px; border-radius:5px 5px 0 0;">👤 بيانات المتقدم</th></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; width:35%; font-weight:bold; border:1px solid #ddd;">الاسم الأول:</td><td style="padding:10px; border:1px solid #ddd;">` + val('firstname') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">اسم العائلة:</td><td style="padding:10px; border:1px solid #ddd;">` + val('surname') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">الجنس:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#gender') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">تاريخ الميلاد:</td><td style="padding:10px; border:1px solid #ddd;">` + val('date_of_birth') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">الجنسية الحالية:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#current_nationality') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">الجنسية عند الولادة:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#nationality_birth') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">الحالة الاجتماعية:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#marital_status') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">بلد الميلاد:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#country_birth') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">مكان الميلاد:</td><td style="padding:10px; border:1px solid #ddd;">` + val('place_birth') + `</td></tr>
         </table>
 
-        <table>
-            <tr><th colspan="2">عنوان الإقامة</th></tr>
-            <tr><td class="label">الدولة:</td><td class="value">` + ($('#res_country option:selected').text() || '') + `</td></tr>
-            <tr><td class="label">المدينة:</td><td class="value">` + (formData.res_city || '') + `</td></tr>
-            <tr><td class="label">الشارع:</td><td class="value">` + (formData.res_street || '') + `</td></tr>
-            <tr><td class="label">رقم المنزل:</td><td class="value">` + (formData.res_house || '') + `</td></tr>
-            <tr><td class="label">الرمز البريدي:</td><td class="value">` + (formData.res_zip || '') + `</td></tr>
-            <tr><td class="label">رقم الهاتف:</td><td class="value">` + (formData.res_telephone || '') + `</td></tr>
-            <tr><td class="label">البريد الإلكتروني:</td><td class="value">` + (formData.res_email || '') + `</td></tr>
+        <table style="width:100%; border-collapse:collapse; margin-bottom:20px; font-size:14px;">
+            <tr><th colspan="2" style="background:#1a1a2e; color:#d4af37; padding:12px; text-align:right; font-size:16px; border-radius:5px 5px 0 0;">🏠 عنوان الإقامة</th></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; width:35%; font-weight:bold; border:1px solid #ddd;">الدولة:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#res_country') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">المدينة:</td><td style="padding:10px; border:1px solid #ddd;">` + val('res_city') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">الشارع:</td><td style="padding:10px; border:1px solid #ddd;">` + val('res_street') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">رقم المنزل:</td><td style="padding:10px; border:1px solid #ddd;">` + val('res_house') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">الرمز البريدي:</td><td style="padding:10px; border:1px solid #ddd;">` + val('res_zip') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">رقم الهاتف:</td><td style="padding:10px; border:1px solid #ddd;">` + val('res_telephone') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">البريد الإلكتروني:</td><td style="padding:10px; border:1px solid #ddd;">` + val('res_email') + `</td></tr>
         </table>
 
-        <table>
-            <tr><th colspan="2">بيانات جواز السفر</th></tr>
-            <tr><td class="label">نوع الجواز:</td><td class="value">` + ($('#passport_type_id option:selected').text() || '') + `</td></tr>
-            <tr><td class="label">رقم الجواز:</td><td class="value">` + (formData.passport_no || '') + `</td></tr>
-            <tr><td class="label">جهة الإصدار:</td><td class="value">` + ($('#passport_issue_country_id option:selected').text() || '') + `</td></tr>
-            <tr><td class="label">تاريخ الإصدار:</td><td class="value">` + (formData.date_of_issue || '') + `</td></tr>
-            <tr><td class="label">تاريخ الانتهاء:</td><td class="value">` + (formData.date_of_expiry || '') + `</td></tr>
+        <table style="width:100%; border-collapse:collapse; margin-bottom:20px; font-size:14px;">
+            <tr><th colspan="2" style="background:#1a1a2e; color:#d4af37; padding:12px; text-align:right; font-size:16px; border-radius:5px 5px 0 0;">🛂 بيانات جواز السفر</th></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; width:35%; font-weight:bold; border:1px solid #ddd;">نوع الجواز:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#passport_type_id') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">رقم الجواز:</td><td style="padding:10px; border:1px solid #ddd;">` + val('passport_no') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">دولة الإصدار:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#passport_issue_country_id') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">جهة الإصدار:</td><td style="padding:10px; border:1px solid #ddd;">` + val('passport_issue_by') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">تاريخ الإصدار:</td><td style="padding:10px; border:1px solid #ddd;">` + val('date_of_issue') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">تاريخ الانتهاء:</td><td style="padding:10px; border:1px solid #ddd;">` + val('date_of_expiry') + `</td></tr>
         </table>
 
-        <table>
-            <tr><th colspan="2">تفاصيل السفر</th></tr>
-            <tr><td class="label">دخول من:</td><td class="value">` + ($('#border_first_entry option:selected').text() || '') + `</td></tr>
-            <tr><td class="label">تاريخ الوصول:</td><td class="value">` + (formData.date_of_arrival || '') + `</td></tr>
-            <tr><td class="label">تاريخ المغادرة:</td><td class="value">` + (formData.date_of_departure || '') + `</td></tr>
-            <tr><td class="label">مدة الإقامة:</td><td class="value">` + (formData.duration_stay || '') + ` يوم</td></tr>
+        <table style="width:100%; border-collapse:collapse; margin-bottom:20px; font-size:14px;">
+            <tr><th colspan="2" style="background:#1a1a2e; color:#d4af37; padding:12px; text-align:right; font-size:16px; border-radius:5px 5px 0 0;">✈️ تفاصيل السفر</th></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; width:35%; font-weight:bold; border:1px solid #ddd;">دخول من (الدولة):</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#border_first_entry') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">تاريخ الوصول:</td><td style="padding:10px; border:1px solid #ddd;">` + val('date_of_arrival') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">تاريخ المغادرة:</td><td style="padding:10px; border:1px solid #ddd;">` + val('date_of_departure') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">مدة الإقامة:</td><td style="padding:10px; border:1px solid #ddd;">` + val('duration_stay') + ` يوم</td></tr>
         </table>
 
-        <div class="footer">
-            <p>تم إنشاء هذا الطلب عبر منصة AET - شركة الإملاق للسياحة</p>
-            <p>تاريخ الطباعة: ` + new Date().toLocaleDateString('ar-EG') + `</p>
+        <table style="width:100%; border-collapse:collapse; margin-bottom:20px; font-size:14px;">
+            <tr><th colspan="2" style="background:#1a1a2e; color:#d4af37; padding:12px; text-align:right; font-size:16px; border-radius:5px 5px 0 0;">🏨 بيانات المضيف</th></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; width:35%; font-weight:bold; border:1px solid #ddd;">نوع المضيف:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#hostdetails_data') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">اسم المؤسسة/المضيف:</td><td style="padding:10px; border:1px solid #ddd;">` + val('host_org_name') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">دولة المضيف:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#host_country') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">مدينة المضيف:</td><td style="padding:10px; border:1px solid #ddd;">` + val('host_city') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">شارع المضيف:</td><td style="padding:10px; border:1px solid #ddd;">` + val('host_street') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">هاتف المضيف:</td><td style="padding:10px; border:1px solid #ddd;">` + val('host_telephone') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">بريد المضيف:</td><td style="padding:10px; border:1px solid #ddd;">` + val('host_email') + `</td></tr>
+        </table>
+
+        <table style="width:100%; border-collapse:collapse; margin-bottom:20px; font-size:14px;">
+            <tr><th colspan="2" style="background:#1a1a2e; color:#d4af37; padding:12px; text-align:right; font-size:16px; border-radius:5px 5px 0 0;">💼 المهنة</th></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; width:35%; font-weight:bold; border:1px solid #ddd;">نوع المهنة:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#occupation_type') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">اسم جهة العمل:</td><td style="padding:10px; border:1px solid #ddd;">` + val('employer_name') + `</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">دولة العمل:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#occupation_country') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">مدينة العمل:</td><td style="padding:10px; border:1px solid #ddd;">` + val('occupation_city') + `</td></tr>
+        </table>
+
+        <table style="width:100%; border-collapse:collapse; margin-bottom:20px; font-size:14px;">
+            <tr><th colspan="2" style="background:#1a1a2e; color:#d4af37; padding:12px; text-align:right; font-size:16px; border-radius:5px 5px 0 0;">💰 تغطية التكاليف</th></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:10px; width:35%; font-weight:bold; border:1px solid #ddd;">نوع الكفيل:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#sponser_type') + `</td></tr>
+            <tr><td style="padding:10px; font-weight:bold; border:1px solid #ddd;">نوع الدعم:</td><td style="padding:10px; border:1px solid #ddd;">` + sel('#support_type') + `</td></tr>
+        </table>
+
+        <div style="text-align:center; margin-top:30px; padding-top:20px; border-top:2px solid #d4af37; color:#888; font-size:12px;">
+            <p style="margin:5px 0;"><strong>تم إنشاء هذا الطلب عبر منصة AET - شركة الإملاق للسياحة</strong></p>
+            <p style="margin:5px 0;">تاريخ الإصدار: ` + now + `</p>
+            <p style="margin:5px 0;">www.al-emlaq.com</p>
         </div>
+    </div>`;
 
-        <div class="no-print" style="text-align:center; margin-top:30px;">
-            <button onclick="window.print()" style="padding:15px 40px; font-size:18px; background:#d4af37; color:white; border:none; border-radius:30px; cursor:pointer;">🖨️ اضغط هنا للطباعة</button>
-            <button onclick="window.close()" style="padding:15px 40px; font-size:18px; background:#666; color:white; border:none; border-radius:30px; cursor:pointer; margin-right:10px;">إغلاق</button>
-        </div>
-    </body>
+    // Create hidden container
+    var container = document.createElement('div');
+    container.innerHTML = pdfContent;
+    container.style.position = 'absolute';
+    container.style.left = '-9999px';
+    document.body.appendChild(container);
+
+    // Generate PDF
+    var opt = {
+        margin: 0,
+        filename: 'AET_Application_' + countryName + '_' + val('surname') + '.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(container.firstElementChild).save().then(function() {
+        document.body.removeChild(container);
+    });
+}
+</script>
+</body>
     </html>`;
 
     var printWindow = window.open('', '_blank');
@@ -5652,5 +5674,6 @@ function printApplication() {
 
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </body>
 </html>
