@@ -1,15 +1,13 @@
 // ============================================
-// الملف الرئيسي - Al EmlaQ Files (FIXED v2)
+// الملف الرئيسي - Al EmlaQ Files
 // ============================================
 
-// ===== المتغيرات العامة =====
 let uploadedFiles = {};
 let fileNames = {};
 let isHotelConfirmed = false;
 let currentStep = 1;
 let skippedServices = false;
 
-// ===== الحقول الإلزامية =====
 const requiredFields = {
     1: ['countrySelect', 'surname', 'firstname', 'birthDate', 'nationality', 'passportNumber', 'passportExpiry', 'email', 'phone'],
     2: ['mainDestination', 'firstEntry', 'arrivalDate', 'departureDate']
@@ -17,7 +15,7 @@ const requiredFields = {
 
 const requiredFiles = ['passportFile', 'insuranceFile', 'hotelFile'];
 
-// ===== التحقق من الحقول الإلزامية =====
+// ===== التحقق من الحقول =====
 function validateStep(step) {
     const fields = requiredFields[step];
     if (!fields) return true;
@@ -33,28 +31,24 @@ function validateStep(step) {
         if (!value) {
             isValid = false;
             el.classList.add('is-invalid');
-            el.style.borderColor = '#dc3545';
-            el.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.15)';
             if (!firstError) firstError = el;
         } else {
             el.classList.remove('is-invalid');
-            el.style.borderColor = '';
-            el.style.boxShadow = '';
         }
     });
 
-    // التحقق من الملفات في الخطوة 2
     if (step === 2) {
         let filesValid = true;
         requiredFiles.forEach(id => {
-            const uploadArea = document.querySelector(`#${id}`)?.closest('.upload-area');
             if (!uploadedFiles[id]) {
                 filesValid = false;
+                const uploadArea = document.querySelector(`#${id}`)?.closest('.upload-area');
                 if (uploadArea) {
                     uploadArea.style.borderColor = '#dc3545';
                     uploadArea.style.background = 'rgba(220, 53, 69, 0.05)';
                 }
             } else {
+                const uploadArea = document.querySelector(`#${id}`)?.closest('.upload-area');
                 if (uploadArea) {
                     uploadArea.style.borderColor = '';
                     uploadArea.style.background = '';
@@ -62,15 +56,7 @@ function validateStep(step) {
             }
         });
 
-        if (!isHotelConfirmed) {
-            filesValid = false;
-            const hotelBtn = document.querySelector('.btn-confirm-hotel');
-            if (hotelBtn) {
-                hotelBtn.style.animation = 'shake 0.5s ease';
-                setTimeout(() => hotelBtn.style.animation = '', 500);
-            }
-        }
-
+        if (!isHotelConfirmed) filesValid = false;
         if (!filesValid) isValid = false;
     }
 
@@ -87,63 +73,50 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('input, select, textarea').forEach(el => {
         el.addEventListener('input', function() {
             this.classList.remove('is-invalid');
-            this.style.borderColor = '';
-            this.style.boxShadow = '';
         });
         el.addEventListener('change', function() {
             this.classList.remove('is-invalid');
-            this.style.borderColor = '';
-            this.style.boxShadow = '';
         });
     });
 });
 
 // ===== التحكم في الخطوات =====
 function goToStep(step) {
-    // التحقق قبل الانتقال للأمام
     if (step > currentStep && !validateStep(currentStep)) {
         showToast(translations[currentLang]['fill_required_fields'] || 'الرجاء ملء جميع الحقول الإلزامية', 'error');
         return;
     }
 
-    // إخفاء جميع الخطوات
     document.querySelectorAll('.step-section').forEach(el => {
         el.classList.remove('active');
     });
 
-    // إظهار الخطوة المطلوبة
     const target = document.getElementById(`step${step}`);
     if (target) {
         target.classList.add('active');
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // تحديث مؤشر التقدم
     document.querySelectorAll('.step-dot').forEach((dot, index) => {
         const num = index + 1;
         dot.classList.remove('active', 'completed');
-        if (num === step) {
-            dot.classList.add('active');
-        } else if (num < step) {
-            dot.classList.add('completed');
-        }
+        if (num === step) dot.classList.add('active');
+        else if (num < step) dot.classList.add('completed');
     });
 
-    // تحديث الخطوط
     document.querySelectorAll('.step-line').forEach((line, index) => {
         line.classList.toggle('active', index < step - 1);
     });
 
     currentStep = step;
 
-    // إذا وصلنا للخطوة 4، عرض الملف
     if (step === 4) {
         generateFilePreview();
         generatePrintableForm();
     }
 }
 
-// ===== Toast Notification =====
+// ===== Toast =====
 function showToast(message, type = 'info') {
     const existing = document.querySelector('.al-toast');
     if (existing) existing.remove();
@@ -163,7 +136,7 @@ function showToast(message, type = 'info') {
     }, 3000);
 }
 
-// ===== تبديل الوضع المظلم =====
+// ===== تبديل الثيم =====
 function toggleTheme() {
     document.body.classList.toggle('light-mode');
     const icon = document.getElementById('themeIcon');
@@ -176,7 +149,6 @@ function toggleTheme() {
     }
 }
 
-// تحميل الثيم المحفوظ
 document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('al-emlaq-theme');
     if (savedTheme === 'light') {
@@ -202,7 +174,6 @@ function bookHotel(platform) {
     window.open(urls[platform] || urls.booking, '_blank');
 }
 
-// ===== تأكيد حجز الفندق =====
 function confirmHotel() {
     const country = document.getElementById('countrySelect').value;
     if (!country) {
@@ -213,7 +184,7 @@ function confirmHotel() {
     isHotelConfirmed = true;
     const btn = document.querySelector('.btn-confirm-hotel');
     btn.classList.add('confirmed');
-    btn.innerHTML = `<i class="fas fa-check-circle"></i> ${translations[currentLang]['hotel_confirmed']}`;
+    btn.innerHTML = `<i class="fas fa-check-circle"></i> ${translations[currentLang]['confirm_hotel']}`;
 
     showHotelStatus(translations[currentLang]['hotel_confirmed'], 'success');
 }
@@ -226,8 +197,7 @@ function showHotelStatus(message, type) {
 
 // ===== رفع الملفات =====
 document.addEventListener('DOMContentLoaded', function() {
-    const fileInputs = document.querySelectorAll('input[type="file"]');
-    fileInputs.forEach(input => {
+    document.querySelectorAll('input[type="file"]').forEach(input => {
         input.addEventListener('change', function(e) {
             if (this.files.length > 0) {
                 const fileName = this.files[0].name;
@@ -237,7 +207,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     nameDisplay.textContent = fileName;
                     nameDisplay.style.color = '#c9a84c';
                 }
-                // إضافة class للإشارة إلى وجود ملف
                 const uploadArea = this.closest('.upload-area');
                 if (uploadArea) {
                     uploadArea.classList.add('has-file');
@@ -251,15 +220,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// ===== جمع جميع بيانات النموذج =====
+// ===== جمع البيانات =====
 function collectFormData() {
     return {
-        // الدولة والتأشيرة
         country: document.getElementById('countrySelect')?.value || '',
         visaType: document.getElementById('visaType')?.value || '',
         stayDays: document.getElementById('stayDays')?.value || '',
-
-        // البيانات الشخصية
         surname: document.getElementById('surname')?.value || '',
         firstname: document.getElementById('firstname')?.value || '',
         birthDate: document.getElementById('birthDate')?.value || '',
@@ -270,26 +236,18 @@ function collectFormData() {
         civilStatus: document.getElementById('civilStatus')?.value || '',
         nationalId: document.getElementById('nationalId')?.value || '',
         otherNationalities: document.getElementById('otherNationalities')?.value || '',
-
-        // جواز السفر
         passportType: document.getElementById('passportType')?.value || '',
         passportNumber: document.getElementById('passportNumber')?.value || '',
         passportIssueDate: document.getElementById('passportIssueDate')?.value || '',
         passportExpiry: document.getElementById('passportExpiry')?.value || '',
         passportIssuedBy: document.getElementById('passportIssuedBy')?.value || '',
-
-        // الاتصال
         homeAddress: document.getElementById('homeAddress')?.value || '',
         email: document.getElementById('email')?.value || '',
         phone: document.getElementById('phone')?.value || '',
-
-        // العمل
         occupation: document.getElementById('occupation')?.value || '',
         employer: document.getElementById('employer')?.value || '',
         employerAddress: document.getElementById('employerAddress')?.value || '',
         employerPhone: document.getElementById('employerPhone')?.value || '',
-
-        // الرحلة
         mainDestination: document.getElementById('mainDestination')?.value || '',
         firstEntry: document.getElementById('firstEntry')?.value || '',
         entriesCount: document.getElementById('entriesCount')?.value || '',
@@ -298,23 +256,15 @@ function collectFormData() {
         departureDate: document.getElementById('departureDate')?.value || '',
         fingerprints: document.getElementById('fingerprints')?.value || '',
         fingerprintsDate: document.getElementById('fingerprintsDate')?.value || '',
-
-        // الإقامة
         invitingPerson: document.getElementById('invitingPerson')?.value || '',
         invitingPhone: document.getElementById('invitingPhone')?.value || '',
         invitingEmail: document.getElementById('invitingEmail')?.value || '',
         invitingAddress: document.getElementById('invitingAddress')?.value || '',
-
-        // الشركة
         companyName: document.getElementById('companyName')?.value || '',
         companyPhone: document.getElementById('companyPhone')?.value || '',
         contactPerson: document.getElementById('contactPerson')?.value || '',
-
-        // التكاليف
         costsCoveredBy: document.getElementById('costsCoveredBy')?.value || '',
         meansOfSupport: document.getElementById('meansOfSupport')?.value || '',
-
-        // فرد العائلة
         euFamilySurname: document.getElementById('euFamilySurname')?.value || '',
         euFamilyFirstname: document.getElementById('euFamilyFirstname')?.value || '',
         euFamilyDob: document.getElementById('euFamilyDob')?.value || '',
@@ -324,47 +274,7 @@ function collectFormData() {
     };
 }
 
-// ===== معالجة الملفات =====
-function processFiles() {
-    const required = ['passportFile', 'insuranceFile', 'workFile', 'bankFile', 'photoFile', 'hotelFile'];
-    let allUploaded = true;
-    let missing = [];
-
-    required.forEach(id => {
-        if (!uploadedFiles[id]) {
-            allUploaded = false;
-            const label = document.querySelector(`label[for="${id}"]`)?.textContent || id;
-            missing.push(label);
-        }
-    });
-
-    if (!isHotelConfirmed) {
-        allUploaded = false;
-        missing.push(translations[currentLang]['hotel_booking_title']);
-    }
-
-    if (allUploaded) {
-        showStatus(translations[currentLang]['file_ready'], 'success');
-        goToStep(4);
-    } else {
-        showStatus(`${translations[currentLang]['confirm_all_documents']}: ${missing.join(', ')}`, 'error');
-    }
-}
-
-function showStatus(message, type) {
-    const statusDiv = document.getElementById('uploadStatus') || createStatusDiv();
-    statusDiv.textContent = message;
-    statusDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} mt-3`;
-}
-
-function createStatusDiv() {
-    const div = document.createElement('div');
-    div.id = 'uploadStatus';
-    document.querySelector('.documents-section').appendChild(div);
-    return div;
-}
-
-// ===== الخدمات =====
+// ===== خدمات =====
 function bookFlight() {
     window.open('https://www.google.com/travel/flights', '_blank');
     goToStep(4);
@@ -385,7 +295,7 @@ function skipServices() {
     goToStep(4);
 }
 
-// ===== إنشاء معاينة الملف =====
+// ===== معاينة الملف =====
 function generateFilePreview() {
     const container = document.getElementById('filePreview');
     const data = collectFormData();
@@ -525,7 +435,7 @@ function generateFilePreview() {
     `;
 }
 
-// ===== إنشاء نموذج الطباعة الرسمي =====
+// ===== نموذج الطباعة =====
 function generatePrintableForm() {
     const data = collectFormData();
     const lang = currentLang;
@@ -564,14 +474,14 @@ function generatePrintableForm() {
                 <div class="field-row">
                     <div class="field-num">2</div>
                     <div class="field-content">
-                        <label>${lbl('اللقب عند الولادة', 'Surname at birth (Former family name(s))')}</label>
+                        <label>${lbl('اللقب عند الولادة', 'Surname at birth')}</label>
                         <div class="field-value">${data.surname || ''}</div>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field-num">3</div>
                     <div class="field-content">
-                        <label>${lbl('الاسم الأول (الأسماء)', 'First name(s) (Given name(s))')}</label>
+                        <label>${lbl('الاسم الأول', 'First name(s)')}</label>
                         <div class="field-value">${data.firstname || ''}</div>
                     </div>
                 </div>
@@ -579,7 +489,7 @@ function generatePrintableForm() {
                     <div class="field-half">
                         <div class="field-num">4</div>
                         <div class="field-content">
-                            <label>${lbl('تاريخ الميلاد (يوم-شهر-سنة)', 'Date of birth (day-month-year)')}</label>
+                            <label>${lbl('تاريخ الميلاد', 'Date of birth')}</label>
                             <div class="field-value">${data.birthDate || ''}</div>
                         </div>
                     </div>
@@ -630,7 +540,7 @@ function generatePrintableForm() {
                 <div class="field-row">
                     <div class="field-num">11</div>
                     <div class="field-content">
-                        <label>${lbl('الرقم القومي', 'National identity number, where applicable')}</label>
+                        <label>${lbl('الرقم القومي', 'National identity number')}</label>
                         <div class="field-value">${data.nationalId || ''}</div>
                     </div>
                 </div>
@@ -684,14 +594,14 @@ function generatePrintableForm() {
                     <div class="field-half">
                         <div class="field-num">-</div>
                         <div class="field-content">
-                            <label>${lbl('البريد الإلكتروني', 'E-mail address')}</label>
+                            <label>${lbl('البريد الإلكتروني', 'Email')}</label>
                             <div class="field-value">${data.email || ''}</div>
                         </div>
                     </div>
                     <div class="field-half">
                         <div class="field-num">-</div>
                         <div class="field-content">
-                            <label>${lbl('رقم الهاتف', 'Telephone number')}</label>
+                            <label>${lbl('رقم الهاتف', 'Telephone')}</label>
                             <div class="field-value">${data.phone || ''}</div>
                         </div>
                     </div>
@@ -707,7 +617,7 @@ function generatePrintableForm() {
                     <div class="field-half">
                         <div class="field-num">20</div>
                         <div class="field-content">
-                            <label>${lbl('جهة العمل', "Employer and employer's address")}</label>
+                            <label>${lbl('جهة العمل', 'Employer')}</label>
                             <div class="field-value">${data.employer || ''}</div>
                         </div>
                     </div>
@@ -732,14 +642,14 @@ function generatePrintableForm() {
                     <div class="field-half">
                         <div class="field-num">23</div>
                         <div class="field-content">
-                            <label>${lbl('عدد مرات الدخول', 'Number of entries requested')}</label>
+                            <label>${lbl('عدد مرات الدخول', 'Number of entries')}</label>
                             <div class="field-value">${data.entriesCount || ''}</div>
                         </div>
                     </div>
                     <div class="field-half">
                         <div class="field-num">24</div>
                         <div class="field-content">
-                            <label>${lbl('مدة الإقامة (أيام)', 'Duration of intended stay')}</label>
+                            <label>${lbl('مدة الإقامة', 'Duration of stay')}</label>
                             <div class="field-value">${data.stayDays || ''}</div>
                         </div>
                     </div>
@@ -748,14 +658,14 @@ function generatePrintableForm() {
                     <div class="field-half">
                         <div class="field-num">28</div>
                         <div class="field-content">
-                            <label>${lbl('تاريخ الوصول المتوقع', 'Intended date of arrival')}</label>
+                            <label>${lbl('تاريخ الوصول', 'Arrival')}</label>
                             <div class="field-value">${data.arrivalDate || ''}</div>
                         </div>
                     </div>
                     <div class="field-half">
                         <div class="field-num">29</div>
                         <div class="field-content">
-                            <label>${lbl('تاريخ المغادرة المتوقع', 'Intended date of departure')}</label>
+                            <label>${lbl('تاريخ المغادرة', 'Departure')}</label>
                             <div class="field-value">${data.departureDate || ''}</div>
                         </div>
                     </div>
@@ -763,7 +673,7 @@ function generatePrintableForm() {
                 <div class="field-row">
                     <div class="field-num">26</div>
                     <div class="field-content">
-                        <label>${lbl('هل تم أخذ بصمات الأصابع سابقاً؟', 'Fingerprints collected previously?')}</label>
+                        <label>${lbl('بصمات سابقة؟', 'Fingerprints collected?')}</label>
                         <div class="checkbox-group">
                             <span class="checkbox-item ${data.fingerprints === 'نعم' || data.fingerprints === 'Yes' ? 'checked' : ''}">${lbl('نعم', 'Yes')}</span>
                             <span class="checkbox-item ${data.fingerprints === 'لا' || data.fingerprints === 'No' ? 'checked' : ''}">${lbl('لا', 'No')}</span>
@@ -774,14 +684,14 @@ function generatePrintableForm() {
                 <div class="field-row">
                     <div class="field-num">31</div>
                     <div class="field-content">
-                        <label>${lbl('اسم المدعو / الفندق', 'Name of inviting person / hotel')}</label>
+                        <label>${lbl('اسم المدعو / الفندق', 'Inviting person / hotel')}</label>
                         <div class="field-value">${data.invitingPerson || ''}</div>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field-num">32</div>
                     <div class="field-content">
-                        <label>${lbl('اسم الشركة المدعوة', 'Name and address of inviting company')}</label>
+                        <label>${lbl('الشركة المدعوة', 'Inviting company')}</label>
                         <div class="field-value">${data.companyName || ''}</div>
                     </div>
                 </div>
@@ -789,7 +699,7 @@ function generatePrintableForm() {
                     <div class="field-half">
                         <div class="field-num">33</div>
                         <div class="field-content">
-                            <label>${lbl('تُمول التكاليف بواسطة', 'Cost of travelling and living covered by')}</label>
+                            <label>${lbl('الممول', 'Covered by')}</label>
                             <div class="field-value">${data.costsCoveredBy || ''}</div>
                         </div>
                     </div>
@@ -821,7 +731,7 @@ function generatePrintableForm() {
     `;
 }
 
-// ===== طباعة الملف =====
+// ===== طباعة =====
 function printFile() {
     const container = document.getElementById('filePreview');
     if (container.querySelector('.review-placeholder')) {
@@ -832,7 +742,7 @@ function printFile() {
     window.print();
 }
 
-// ===== تحميل PDF =====
+// ===== PDF =====
 function downloadPDF() {
     const container = document.getElementById('filePreview');
     if (container.querySelector('.review-placeholder')) {
@@ -879,8 +789,6 @@ function resetAll() {
                 el.value = '';
             }
             el.classList.remove('is-invalid');
-            el.style.borderColor = '';
-            el.style.boxShadow = '';
         }
     });
 
@@ -928,7 +836,7 @@ function resetAll() {
     goToStep(1);
 }
 
-// ===== تهيئة الصفحة =====
+// ===== تهيئة =====
 document.addEventListener('DOMContentLoaded', function() {
     goToStep(1);
     console.log('✦ Al EmlaQ Files ✦');
