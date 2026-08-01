@@ -1,24 +1,18 @@
 // ============================================
-// ملف الترجمة - Al EmlaQ Files (FIXED)
-// دعم اللغة العربية والإنجليزية
+// ملف الترجمة - Al EmlaQ Files
 // ============================================
 
 const translations = {
     ar: {
-        // شريط التنقل
         'nav_home': 'الرئيسية',
         'nav_step1': 'الخطوة 1',
         'nav_step2': 'الخطوة 2',
         'nav_step3': 'الخطوة 3',
         'nav_step4': 'الخطوة 4',
-
-        // مؤشر التقدم
         'step1_label': 'البيانات',
         'step2_label': 'المستندات',
         'step3_label': 'الخدمات',
         'step4_label': 'المراجعة',
-
-        // الخطوة 1
         'step1_title': 'البيانات الشخصية و جواز السفر',
         'step1_subtitle': 'أدخل بياناتك الشخصية كما في جواز السفر',
         'country_label': 'الدولة المطلوبة *',
@@ -33,8 +27,6 @@ const translations = {
         'visa_medical': 'أسباب طبية',
         'visa_transit': 'عبور مطار',
         'stay_days_label': 'مدة الإقامة (أيام)',
-
-        // البيانات الشخصية
         'personal_data': 'البيانات الشخصية',
         'surname_label': 'اللقب (كما في جواز السفر) *',
         'firstname_label': 'الاسم الأول (كما في جواز السفر) *',
@@ -55,8 +47,6 @@ const translations = {
         'widow': 'أرمل',
         'national_id_label': 'الرقم القومي (إن وجد)',
         'other_nationalities_label': 'جنسيات أخرى',
-
-        // بيانات جواز السفر
         'passport_data': 'بيانات جواز السفر',
         'passport_type_label': 'نوع وثيقة السفر',
         'ordinary_passport': 'جواز سفر عادي',
@@ -68,21 +58,15 @@ const translations = {
         'passport_issue_date_label': 'تاريخ الإصدار',
         'passport_expiry_label': 'تاريخ الانتهاء *',
         'passport_issued_by_label': 'جهة الإصدار (البلد)',
-
-        // بيانات الاتصال
         'contact_data': 'بيانات الاتصال',
         'home_address_label': 'عنوان السكن',
         'email_label': 'البريد الإلكتروني *',
         'phone_label': 'رقم الهاتف *',
-
-        // بيانات العمل
         'work_data': 'بيانات العمل / الدراسة',
         'occupation_label': 'المهنة الحالية',
         'employer_label': 'جهة العمل / الدراسة',
         'employer_address_label': 'عنوان جهة العمل / الدراسة',
         'employer_phone_label': 'هاتف جهة العمل',
-
-        // الخطوة 2
         'step2_title': 'تفاصيل الرحلة والمستندات',
         'step2_subtitle': 'أدخل تفاصيل الرحلة وقم برفع المستندات المطلوبة',
         'trip_details': 'تفاصيل الرحلة',
@@ -99,21 +83,15 @@ const translations = {
         'yes': 'نعم',
         'no': 'لا',
         'fingerprints_date_label': 'تاريخ أخذ البصمات (إن وجد)',
-
-        // الإقامة
         'accommodation_data': 'بيانات الإقامة / المدعو',
         'inviting_person_label': 'اسم المدعو / الفندق في دولة الوجهة',
         'inviting_phone_label': 'هاتف المدعو / الفندق',
         'inviting_email_label': 'بريد المدعو / الفندق',
         'inviting_address_label': 'عنوان المدعو / الفندق',
-
-        // الشركة
         'company_data': 'بيانات الشركة / المنظمة المدعوة',
         'company_name_label': 'اسم وعنوان الشركة / المنظمة',
         'company_phone_label': 'هاتف الشركة',
         'contact_person_label': 'مسؤول الاتصال (الاسم والعنوان والهاتف والبريد)',
-
-        // التكاليف
         'costs_data': 'تكاليف السفر والمعيشة',
         'costs_covered_by_label': 'تُمول التكاليف بواسطة',
         'by_applicant': 'مقدم الطلب',
@@ -121,8 +99,6 @@ const translations = {
         'by_company': 'شركة / منظمة',
         'by_other': 'أخرى',
         'means_of_support_label': 'وسائل الدعم',
-
-        // فرد العائلة
         'eu_family_data': 'بيانات فرد العائلة من الاتحاد الأوروبي (إن وجد)',
         'eu_family_surname_label': 'اللقب',
         'eu_family_firstname_label': 'الاسم الأول',
@@ -130,8 +106,6 @@ const translations = {
         'eu_family_nationality_label': 'الجنسية',
         'eu_family_document_label': 'رقم جواز السفر أو بطاقة الهوية',
         'eu_family_relation_label': 'صلة القرابة',
-
-        // حجز الفندق
         'hotel_booking_title': '🏨 حجز الفندق',
         'confirm_hotel': 'تم حجز الفندق',
         'documents_title': '📎 رفع المستندات',
@@ -144,8 +118,6 @@ const translations = {
         'upload_hint': 'اضغط للرفع',
         'hotel_confirmed': '✅ تم تأكيد حجز الفندق',
         'hotel_not_confirmed': '⚠️ الرجاء تأكيد حجز الفندق',
-
-        // الخطوة 3
         'step3_title': 'خدمات السفر',
         'step3_subtitle': 'اختر الخدمات التي تحتاجها لرحلتك',
         'flight_booking': 'حجز الطيران',
@@ -156,45 +128,31 @@ const translations = {
         'car_desc': 'سيارات بأسعار مميزة',
         'skip_services': 'تخطي الخدمات',
         'skip_desc': 'متابعة بدون خدمات',
-
-        // الخطوة 4
         'step4_title': 'مراجعة الملف النهائي',
         'step4_subtitle': 'تأكد من صحة جميع البيانات قبل الطباعة',
         'review_placeholder': 'الملف جاهز للعرض بعد إكمال جميع الخطوات',
         'print_file': 'طباعة الملف',
         'download_pdf': 'تحميل PDF',
         'new_file': 'ملف جديد',
-
-        // أزرار
         'next_step': 'التالي',
         'back_step': 'السابق',
-
-        // التذييل
         'footer_text': 'أداة مساعدة لتحضير ملفات تأشيرة شنغن - ليست بديلاً عن التقديم الرسمي',
-
-        // رسائل
         'select_country_first': 'الرجاء اختيار الدولة أولاً',
         'confirm_all_documents': 'الرجاء رفع جميع المستندات وتأكيد حجز الفندق',
         'file_ready': 'الملف جاهز!',
         'reset_confirm': 'هل أنت متأكد من رغبتك في بدء ملف جديد؟ سيتم مسح جميع البيانات.',
         'fill_required_fields': 'الرجاء ملء جميع الحقول الإلزامية المعلمة بـ (*)'
     },
-
     en: {
-        // Navigation
         'nav_home': 'Home',
         'nav_step1': 'Step 1',
         'nav_step2': 'Step 2',
         'nav_step3': 'Step 3',
         'nav_step4': 'Step 4',
-
-        // Progress
         'step1_label': 'Data',
         'step2_label': 'Documents',
         'step3_label': 'Services',
         'step4_label': 'Review',
-
-        // Step 1
         'step1_title': 'Personal Data & Passport',
         'step1_subtitle': 'Enter your personal data as in your passport',
         'country_label': 'Required Country *',
@@ -209,8 +167,6 @@ const translations = {
         'visa_medical': 'Medical Reasons',
         'visa_transit': 'Airport Transit',
         'stay_days_label': 'Stay Duration (Days)',
-
-        // Personal Data
         'personal_data': 'Personal Data',
         'surname_label': 'Surname (as in passport) *',
         'firstname_label': 'First Name(s) (as in passport) *',
@@ -231,8 +187,6 @@ const translations = {
         'widow': 'Widow(er)',
         'national_id_label': 'National Identity Number',
         'other_nationalities_label': 'Other Nationalities',
-
-        // Passport Data
         'passport_data': 'Passport Data',
         'passport_type_label': 'Type of Travel Document',
         'ordinary_passport': 'Ordinary Passport',
@@ -244,21 +198,15 @@ const translations = {
         'passport_issue_date_label': 'Date of Issue',
         'passport_expiry_label': 'Valid Until *',
         'passport_issued_by_label': 'Issued by (Country)',
-
-        // Contact Data
         'contact_data': 'Contact Information',
         'home_address_label': 'Home Address',
         'email_label': 'Email Address *',
         'phone_label': 'Telephone Number *',
-
-        // Work Data
         'work_data': 'Work / Study Information',
         'occupation_label': 'Current Occupation',
         'employer_label': 'Employer / Educational Establishment',
         'employer_address_label': 'Employer Address',
         'employer_phone_label': 'Employer Telephone',
-
-        // Step 2
         'step2_title': 'Trip Details & Documents',
         'step2_subtitle': 'Enter trip details and upload required documents',
         'trip_details': 'Trip Details',
@@ -275,21 +223,15 @@ const translations = {
         'yes': 'Yes',
         'no': 'No',
         'fingerprints_date_label': 'Date, if known',
-
-        // Accommodation
         'accommodation_data': 'Accommodation / Inviting Person',
         'inviting_person_label': 'Name of Inviting Person / Hotel',
         'inviting_phone_label': 'Telephone No.',
         'inviting_email_label': 'Email Address',
         'inviting_address_label': 'Address',
-
-        // Company
         'company_data': 'Inviting Company / Organisation',
         'company_name_label': 'Name and Address',
         'company_phone_label': 'Telephone No.',
         'contact_person_label': 'Contact Person Details',
-
-        // Costs
         'costs_data': 'Cost of Travelling and Living',
         'costs_covered_by_label': 'Covered by',
         'by_applicant': 'Applicant',
@@ -297,8 +239,6 @@ const translations = {
         'by_company': 'Company / Organisation',
         'by_other': 'Other',
         'means_of_support_label': 'Means of Support',
-
-        // EU Family
         'eu_family_data': 'EU/EEA/CH Family Member (if applicable)',
         'eu_family_surname_label': 'Surname',
         'eu_family_firstname_label': 'First Name(s)',
@@ -306,8 +246,6 @@ const translations = {
         'eu_family_nationality_label': 'Nationality',
         'eu_family_document_label': 'Travel Document or ID Card No.',
         'eu_family_relation_label': 'Family Relationship',
-
-        // Hotel & Documents
         'hotel_booking_title': '🏨 Hotel Booking',
         'confirm_hotel': 'Hotel Booked',
         'documents_title': '📎 Upload Documents',
@@ -320,8 +258,6 @@ const translations = {
         'upload_hint': 'Click to upload',
         'hotel_confirmed': '✅ Hotel booking confirmed',
         'hotel_not_confirmed': '⚠️ Please confirm hotel booking',
-
-        // Step 3
         'step3_title': 'Travel Services',
         'step3_subtitle': 'Choose the services you need for your trip',
         'flight_booking': 'Flight Booking',
@@ -332,23 +268,15 @@ const translations = {
         'car_desc': 'Cars at great prices',
         'skip_services': 'Skip Services',
         'skip_desc': 'Continue without services',
-
-        // Step 4
         'step4_title': 'Final File Review',
         'step4_subtitle': 'Verify all data is correct before printing',
         'review_placeholder': 'File ready to view after completing all steps',
         'print_file': 'Print File',
         'download_pdf': 'Download PDF',
         'new_file': 'New File',
-
-        // Buttons
         'next_step': 'Next',
         'back_step': 'Back',
-
-        // Footer
         'footer_text': 'Schengen visa file preparation assistant - Not a substitute for official submission',
-
-        // Messages
         'select_country_first': 'Please select a country first',
         'confirm_all_documents': 'Please upload all documents and confirm hotel booking',
         'file_ready': 'File ready!',
@@ -359,24 +287,11 @@ const translations = {
 
 let currentLang = 'ar';
 
-// ===== Map of select IDs to their option translation keys =====
-const selectOptionsMap = {
-    'visaType': ['visa_tourism', 'visa_business', 'visa_study', 'visa_family', 'visa_official', 'visa_medical', 'visa_transit'],
-    'sex': ['male', 'female', 'other'],
-    'civilStatus': ['single', 'married', 'registered_partnership', 'separated', 'divorced', 'widow'],
-    'passportType': ['ordinary_passport', 'diplomatic_passport', 'service_passport', 'official_passport', 'special_passport'],
-    'entriesCount': ['single_entry', 'two_entries', 'multiple_entries'],
-    'fingerprints': ['no', 'yes'],
-    'costsCoveredBy': ['by_applicant', 'by_sponsor', 'by_company', 'by_other']
-};
-
 function toggleLanguage() {
     currentLang = currentLang === 'ar' ? 'en' : 'ar';
-    const html = document.documentElement;
-    html.lang = currentLang;
-    html.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = currentLang;
+    document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
 
-    // Update all data-i18n elements
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[currentLang][key]) {
@@ -384,11 +299,9 @@ function toggleLanguage() {
         }
     });
 
-    // Update language button label
     const langLabel = document.getElementById('langLabel');
     if (langLabel) langLabel.textContent = currentLang === 'ar' ? 'EN' : 'عربي';
 
-    // Update select default option
     const countrySelect = document.getElementById('countrySelect');
     if (countrySelect) {
         const firstOption = countrySelect.querySelector('option[value=""]');
@@ -397,98 +310,13 @@ function toggleLanguage() {
         }
     }
 
-    // Update all select option texts
-    Object.keys(selectOptionsMap).forEach(selectId => {
-        const select = document.getElementById(selectId);
-        if (!select) return;
-        const keys = selectOptionsMap[selectId];
-        const options = select.querySelectorAll('option');
-        options.forEach((opt, idx) => {
-            if (keys[idx] && translations[currentLang][keys[idx]]) {
-                // Preserve value, update text
-                const val = opt.value;
-                opt.textContent = translations[currentLang][keys[idx]];
-                // For some selects, we need to keep Arabic values for the form
-                // but display in current language
-                if (selectId === 'fingerprints') {
-                    opt.value = currentLang === 'ar' ? (val === 'Yes' ? 'نعم' : 'لا') : (val === 'نعم' ? 'Yes' : 'No');
-                }
-            }
-        });
-    });
-
-    // Update nav arrows direction
-    updateNavArrows();
-
-    // Update service arrows direction
-    updateServiceArrows();
-
-    // Update country info if a country is selected
-    if (typeof updateCountryInfo === 'function') {
-        updateCountryInfo();
-    }
-
-    // Refresh review if on step 4
-    if (currentStep === 4) {
-        if (typeof generateFilePreview === 'function') generateFilePreview();
-        if (typeof generatePrintableForm === 'function') generatePrintableForm();
-    }
-
     localStorage.setItem('al-emlaq-lang', currentLang);
-}
-
-function updateNavArrows() {
-    const isRTL = currentLang === 'ar';
-    document.querySelectorAll('.nav-arrow').forEach(arrow => {
-        arrow.className = `fas nav-arrow ${isRTL ? 'fa-arrow-left' : 'fa-arrow-right'}`;
-    });
-
-    // Update back buttons - arrow should point right in RTL, left in LTR
-    document.querySelectorAll('.btn-back .nav-arrow').forEach(arrow => {
-        arrow.className = `fas nav-arrow ${isRTL ? 'fa-arrow-right' : 'fa-arrow-left'}`;
-    });
-}
-
-function updateServiceArrows() {
-    const isRTL = currentLang === 'ar';
-    document.querySelectorAll('.service-arrow').forEach(arrow => {
-        arrow.textContent = isRTL ? '←' : '→';
-    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     const savedLang = localStorage.getItem('al-emlaq-lang');
     if (savedLang && savedLang !== 'ar') {
         currentLang = savedLang;
-        // Apply language without toggling
-        const html = document.documentElement;
-        html.lang = currentLang;
-        html.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if (translations[currentLang][key]) {
-                el.textContent = translations[currentLang][key];
-            }
-        });
-
-        const langLabel = document.getElementById('langLabel');
-        if (langLabel) langLabel.textContent = currentLang === 'ar' ? 'EN' : 'عربي';
-
-        // Update selects
-        Object.keys(selectOptionsMap).forEach(selectId => {
-            const select = document.getElementById(selectId);
-            if (!select) return;
-            const keys = selectOptionsMap[selectId];
-            const options = select.querySelectorAll('option');
-            options.forEach((opt, idx) => {
-                if (keys[idx] && translations[currentLang][keys[idx]]) {
-                    opt.textContent = translations[currentLang][keys[idx]];
-                }
-            });
-        });
-
-        updateNavArrows();
-        updateServiceArrows();
+        toggleLanguage();
     }
 });
