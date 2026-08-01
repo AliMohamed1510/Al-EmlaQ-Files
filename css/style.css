@@ -1,791 +1,707 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al EmlaQ Files - مساعد تأشيرة شنغن</title>
+/* ============================================
+   Al EmlaQ Files - Style Sheet
+   ============================================ */
 
-    <!-- Bootstrap & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+:root {
+    --primary: #0a0a0f;
+    --secondary: #1a1a2e;
+    --accent: #c9a84c;
+    --accent-glow: rgba(201, 168, 76, 0.3);
+    --text-primary: #e8e6e3;
+    --text-secondary: #a8a6a3;
+    --glass-bg: rgba(10, 10, 15, 0.85);
+    --glass-border: rgba(201, 168, 76, 0.15);
+    --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-arabic: 'Cairo', sans-serif;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-lg: 24px;
+}
 
-    <!-- ملف التنسيقات -->
-    <link rel="stylesheet" href="style.css">
-    <base target="_blank">
-<base target="_blank">
-</head>
-<body>
-    <!-- ===== شريط التنقل العلوي ===== -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <span class="brand-icon">✦</span>
-                <span class="brand-text">Al EmlaQ Files</span>
-                <span class="brand-sub">✧</span>
-            </a>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
-            <div class="d-flex align-items-center gap-3">
-                <!-- تبديل اللغة -->
-                <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()">
-                    <i class="fas fa-globe"></i>
-                    <span id="langLabel">EN</span>
-                </button>
+body {
+    background: var(--primary);
+    color: var(--text-primary);
+    font-family: var(--font-arabic);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: var(--transition);
+    line-height: 1.6;
+}
 
-                <!-- تبديل الوضع المظلم -->
-                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-                    <i class="fas fa-moon" id="themeIcon"></i>
-                </button>
+body.light-mode {
+    --primary: #f5f0eb;
+    --secondary: #ffffff;
+    --text-primary: #1a1a2e;
+    --text-secondary: #4a4a5e;
+    --glass-bg: rgba(255, 255, 255, 0.92);
+    --glass-border: rgba(201, 168, 76, 0.25);
+    --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    background: var(--primary);
+}
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
+/* ===== شريط التنقل ===== */
+.navbar {
+    background: rgba(10, 10, 15, 0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+    padding: 12px 0;
+    transition: var(--transition);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#step1" data-i18n="nav_home">الرئيسية</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#step1" data-i18n="nav_step1">الخطوة 1</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#step2" data-i18n="nav_step2">الخطوة 2</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#step3" data-i18n="nav_step3">الخطوة 3</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#step4" data-i18n="nav_step4">الخطوة 4</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+body.light-mode .navbar {
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+}
 
-    <!-- ===== مؤشر التقدم ===== -->
-    <div class="progress-indicator">
-        <div class="container">
-            <div class="steps-progress">
-                <div class="step-dot active" data-step="1">
-                    <span class="dot-number">1</span>
-                    <span class="dot-label" data-i18n="step1_label">البيانات</span>
-                </div>
-                <div class="step-line"></div>
-                <div class="step-dot" data-step="2">
-                    <span class="dot-number">2</span>
-                    <span class="dot-label" data-i18n="step2_label">المستندات</span>
-                </div>
-                <div class="step-line"></div>
-                <div class="step-dot" data-step="3">
-                    <span class="dot-number">3</span>
-                    <span class="dot-label" data-i18n="step3_label">الخدمات</span>
-                </div>
-                <div class="step-line"></div>
-                <div class="step-dot" data-step="4">
-                    <span class="dot-number">4</span>
-                    <span class="dot-label" data-i18n="step4_label">المراجعة</span>
-                </div>
-            </div>
-        </div>
-    </div>
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 1.3rem;
+    color: var(--text-primary) !important;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
 
-    <!-- ===== المحتوى الرئيسي ===== -->
-    <main class="main-content">
-        <div class="container">
+.brand-icon {
+    color: var(--accent);
+    font-size: 1.6rem;
+    animation: glow 2s ease-in-out infinite;
+}
 
-            <!-- ===== الخطوة 1: البيانات الشخصية و جواز السفر ===== -->
-            <section id="step1" class="step-section active">
-                <div class="step-card glass-card">
-                    <div class="step-header">
-                        <div class="step-icon"><i class="fas fa-passport"></i></div>
-                        <h2 data-i18n="step1_title">البيانات الشخصية و جواز السفر</h2>
-                        <p class="step-subtitle" data-i18n="step1_subtitle">أدخل بياناتك الشخصية كما في جواز السفر</p>
-                    </div>
+.brand-text {
+    background: linear-gradient(135deg, var(--accent), #f5d98a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
-                    <div class="step-body">
-                        <!-- بيانات الدولة والتأشيرة -->
-                        <div class="row g-4 mb-4">
-                            <div class="col-lg-7">
-                                <div class="form-group">
-                                    <label data-i18n="country_label">الدولة المطلوبة</label>
-                                    <div class="country-search">
-                                        <i class="fas fa-search"></i>
-                                        <select id="countrySelect" class="form-control" onchange="updateCountryInfo()">
-                                            <option value="" data-i18n="select_country">-- اختر الدولة --</option>
-                                        </select>
-                                    </div>
-                                </div>
+@keyframes glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
 
-                                <div class="row g-3 mt-3">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label data-i18n="visa_type_label">نوع التأشيرة</label>
-                                            <select id="visaType" class="form-control">
-                                                <option value="سياحة" data-i18n="visa_tourism">سياحة</option>
-                                                <option value="عمل" data-i18n="visa_business">عمل</option>
-                                                <option value="دراسة" data-i18n="visa_study">دراسة</option>
-                                                <option value="زيارة عائلية" data-i18n="visa_family">زيارة عائلية</option>
-                                                <option value="زيارة رسمية" data-i18n="visa_official">زيارة رسمية</option>
-                                                <option value="أسباب طبية" data-i18n="visa_medical">أسباب طبية</option>
-                                                <option value="عبور مطار" data-i18n="visa_transit">عبور مطار</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label data-i18n="stay_days_label">مدة الإقامة (أيام)</label>
-                                            <input type="number" id="stayDays" class="form-control" value="7" min="1" max="90">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+.lang-toggle, .theme-toggle {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    color: var(--text-primary);
+    padding: 8px 14px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-arabic);
+}
 
-                            <div class="col-lg-5">
-                                <div class="country-info-card">
-                                    <div class="country-flag-display" id="countryFlagDisplay">🌍</div>
-                                    <h4 id="countryNameDisplay" data-i18n="select_country">اختر دولة</h4>
-                                    <div id="countryRequirements">
-                                        <p class="text-muted" data-i18n="select_country_hint">اختر دولة لعرض المتطلبات</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+.lang-toggle:hover, .theme-toggle:hover {
+    background: rgba(201, 168, 76, 0.15);
+    border-color: var(--accent);
+}
 
-                        <!-- البيانات الشخصية -->
-                        <div class="form-section">
-                            <h5 class="section-title"><i class="fas fa-user"></i> <span data-i18n="personal_data">البيانات الشخصية</span></h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="surname_label">اللقب (كما في جواز السفر)</label>
-                                        <input type="text" id="surname" class="form-control" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="firstname_label">الاسم الأول (كما في جواز السفر)</label>
-                                        <input type="text" id="firstname" class="form-control" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="birth_date_label">تاريخ الميلاد (يوم-شهر-سنة)</label>
-                                        <input type="date" id="birthDate" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="birth_place_label">مكان الميلاد</label>
-                                        <input type="text" id="birthPlace" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="birth_country_label">بلد الميلاد</label>
-                                        <input type="text" id="birthCountry" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="nationality_label">الجنسية الحالية</label>
-                                        <input type="text" id="nationality" class="form-control" value="مصري">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="sex_label">الجنس</label>
-                                        <select id="sex" class="form-control">
-                                            <option value="ذكر" data-i18n="male">ذكر</option>
-                                            <option value="أنثى" data-i18n="female">أنثى</option>
-                                            <option value="أخرى" data-i18n="other">أخرى</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="civil_status_label">الحالة الاجتماعية</label>
-                                        <select id="civilStatus" class="form-control">
-                                            <option value="أعزب" data-i18n="single">أعزب</option>
-                                            <option value="متزوج" data-i18n="married">متزوج</option>
-                                            <option value="شراكة مسجلة" data-i18n="registered_partnership">شراكة مسجلة</option>
-                                            <option value="منفصل" data-i18n="separated">منفصل</option>
-                                            <option value="مطلق" data-i18n="divorced">مطلق</option>
-                                            <option value="أرمل" data-i18n="widow">أرمل</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="national_id_label">الرقم القومي (إن وجد)</label>
-                                        <input type="text" id="nationalId" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="other_nationalities_label">جنسيات أخرى</label>
-                                        <input type="text" id="otherNationalities" class="form-control" placeholder="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+/* ===== مؤشر التقدم ===== */
+.progress-indicator {
+    padding: 90px 0 25px;
+    position: relative;
+    z-index: 5;
+}
 
-                        <!-- بيانات جواز السفر -->
-                        <div class="form-section mt-4">
-                            <h5 class="section-title"><i class="fas fa-passport"></i> <span data-i18n="passport_data">بيانات جواز السفر</span></h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="passport_type_label">نوع وثيقة السفر</label>
-                                        <select id="passportType" class="form-control">
-                                            <option value="جواز سفر عادي" data-i18n="ordinary_passport">جواز سفر عادي</option>
-                                            <option value="جواز سفر دبلوماسي" data-i18n="diplomatic_passport">جواز سفر دبلوماسي</option>
-                                            <option value="جواز سفر خدمة" data-i18n="service_passport">جواز سفر خدمة</option>
-                                            <option value="جواز سفر رسمي" data-i18n="official_passport">جواز سفر رسمي</option>
-                                            <option value="جواز سفر خاص" data-i18n="special_passport">جواز سفر خاص</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="passport_number_label">رقم وثيقة السفر</label>
-                                        <input type="text" id="passportNumber" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label data-i18n="passport_issue_date_label">تاريخ الإصدار</label>
-                                        <input type="date" id="passportIssueDate" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label data-i18n="passport_expiry_label">تاريخ الانتهاء</label>
-                                        <input type="date" id="passportExpiry" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label data-i18n="passport_issued_by_label">جهة الإصدار (البلد)</label>
-                                        <input type="text" id="passportIssuedBy" class="form-control" value="مصر">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+.steps-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    max-width: 700px;
+    margin: 0 auto;
+}
 
-                        <!-- بيانات الاتصال -->
-                        <div class="form-section mt-4">
-                            <h5 class="section-title"><i class="fas fa-address-card"></i> <span data-i18n="contact_data">بيانات الاتصال</span></h5>
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label data-i18n="home_address_label">عنوان السكن</label>
-                                        <textarea id="homeAddress" class="form-control" rows="2"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="email_label">البريد الإلكتروني</label>
-                                        <input type="email" id="email" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="phone_label">رقم الهاتف</label>
-                                        <input type="tel" id="phone" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+.step-dot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
 
-                        <!-- بيانات العمل -->
-                        <div class="form-section mt-4">
-                            <h5 class="section-title"><i class="fas fa-briefcase"></i> <span data-i18n="work_data">بيانات العمل / الدراسة</span></h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="occupation_label">المهنة الحالية</label>
-                                        <input type="text" id="occupation" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="employer_label">جهة العمل / الدراسة</label>
-                                        <input type="text" id="employer" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label data-i18n="employer_address_label">عنوان جهة العمل / الدراسة</label>
-                                        <textarea id="employerAddress" class="form-control" rows="2"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="employer_phone_label">هاتف جهة العمل</label>
-                                        <input type="tel" id="employerPhone" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+.dot-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(201, 168, 76, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
 
-                    <div class="step-footer">
-                        <button class="btn-next" onclick="goToStep(2)">
-                            <span data-i18n="next_step">التالي</span>
-                            <i class="fas fa-arrow-left nav-arrow"></i>
-                        </button>
-                    </div>
-                </div>
-            </section>
+.step-dot.active .dot-number {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 30px rgba(201, 168, 76, 0.3);
+}
 
-            <!-- ===== الخطوة 2: تفاصيل الرحلة والمستندات ===== -->
-            <section id="step2" class="step-section">
-                <div class="step-card glass-card">
-                    <div class="step-header">
-                        <div class="step-icon"><i class="fas fa-route"></i></div>
-                        <h2 data-i18n="step2_title">تفاصيل الرحلة والمستندات</h2>
-                        <p class="step-subtitle" data-i18n="step2_subtitle">أدخل تفاصيل الرحلة وقم برفع المستندات المطلوبة</p>
-                    </div>
+.step-dot.completed .dot-number {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
 
-                    <div class="step-body">
-                        <!-- تفاصيل الرحلة -->
-                        <div class="form-section">
-                            <h5 class="section-title"><i class="fas fa-plane"></i> <span data-i18n="trip_details">تفاصيل الرحلة</span></h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="main_destination_label">الوجهة الرئيسية</label>
-                                        <input type="text" id="mainDestination" class="form-control" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="first_entry_label">دولة أول دخول</label>
-                                        <input type="text" id="firstEntry" class="form-control" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="entries_count_label">عدد مرات الدخول المطلوبة</label>
-                                        <select id="entriesCount" class="form-control">
-                                            <option value="دخول مرة واحدة" data-i18n="single_entry">دخول مرة واحدة</option>
-                                            <option value="دخول مرتين" data-i18n="two_entries">دخول مرتين</option>
-                                            <option value="دخول متعدد" data-i18n="multiple_entries">دخول متعدد</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="purpose_detail_label">معلومات إضافية عن الغرض</label>
-                                        <input type="text" id="purposeDetail" class="form-control" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="arrival_date_label">تاريخ الوصول المتوقع</label>
-                                        <input type="date" id="arrivalDate" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="departure_date_label">تاريخ المغادرة المتوقع</label>
-                                        <input type="date" id="departureDate" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="fingerprints_label">هل تم أخذ بصمات الأصابع سابقاً لطلب شنغن؟</label>
-                                        <select id="fingerprints" class="form-control">
-                                            <option value="لا" data-i18n="no">لا</option>
-                                            <option value="نعم" data-i18n="yes">نعم</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="fingerprints_date_label">تاريخ أخذ البصمات (إن وجد)</label>
-                                        <input type="date" id="fingerprintsDate" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+.dot-label {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
 
-                        <!-- بيانات الإقامة -->
-                        <div class="form-section mt-4">
-                            <h5 class="section-title"><i class="fas fa-hotel"></i> <span data-i18n="accommodation_data">بيانات الإقامة / المدعو</span></h5>
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label data-i18n="inviting_person_label">اسم المدعو / الفندق في دولة الوجهة</label>
-                                        <input type="text" id="invitingPerson" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="inviting_phone_label">هاتف المدعو / الفندق</label>
-                                        <input type="tel" id="invitingPhone" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="inviting_email_label">بريد المدعو / الفندق</label>
-                                        <input type="email" id="invitingEmail" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label data-i18n="inviting_address_label">عنوان المدعو / الفندق</label>
-                                        <textarea id="invitingAddress" class="form-control" rows="2"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+.step-dot.active .dot-label {
+    color: var(--accent);
+}
 
-                        <!-- بيانات الشركة المدعوة -->
-                        <div class="form-section mt-4">
-                            <h5 class="section-title"><i class="fas fa-building"></i> <span data-i18n="company_data">بيانات الشركة / المنظمة المدعوة</span></h5>
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label data-i18n="company_name_label">اسم وعنوان الشركة / المنظمة</label>
-                                        <textarea id="companyName" class="form-control" rows="2"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="company_phone_label">هاتف الشركة</label>
-                                        <input type="tel" id="companyPhone" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="contact_person_label">مسؤول الاتصال (الاسم والعنوان والهاتف والبريد)</label>
-                                        <input type="text" id="contactPerson" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+.step-line {
+    flex: 1;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 5px;
+    transition: var(--transition);
+    margin-bottom: 20px;
+}
 
-                        <!-- تكاليف السفر -->
-                        <div class="form-section mt-4">
-                            <h5 class="section-title"><i class="fas fa-euro-sign"></i> <span data-i18n="costs_data">تكاليف السفر والمعيشة</span></h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="costs_covered_by_label">تُمول التكاليف بواسطة</label>
-                                        <select id="costsCoveredBy" class="form-control">
-                                            <option value="مقدم الطلب" data-i18n="by_applicant">مقدم الطلب</option>
-                                            <option value="ضامن / مضيف" data-i18n="by_sponsor">ضامن / مضيف</option>
-                                            <option value="شركة / منظمة" data-i18n="by_company">شركة / منظمة</option>
-                                            <option value="أخرى" data-i18n="by_other">أخرى</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="means_of_support_label">وسائل الدعم</label>
-                                        <select id="meansOfSupport" class="form-control" multiple>
-                                            <option value="سيولة نقدية">سيولة نقدية</option>
-                                            <option value="شيكات سياحية">شيكات سياحية</option>
-                                            <option value="بطاقة ائتمان">بطاقة ائتمان</option>
-                                            <option value="إقامة مدفوعة مسبقاً">إقامة مدفوعة مسبقاً</option>
-                                            <option value="نقل مدفوع مسبقاً">نقل مدفوع مسبقاً</option>
-                                            <option value="جميع النفقات مغطاة">جميع النفقات مغطاة</option>
-                                            <option value="إقامة مقدمة">إقامة مقدمة</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+.step-line.active {
+    background: var(--accent);
+    box-shadow: 0 0 15px rgba(201, 168, 76, 0.2);
+}
 
-                        <!-- بيانات فرد العائلة من الاتحاد الأوروبي -->
-                        <div class="form-section mt-4">
-                            <h5 class="section-title"><i class="fas fa-users"></i> <span data-i18n="eu_family_data">بيانات فرد العائلة من الاتحاد الأوروبي (إن وجد)</span></h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="eu_family_surname_label">اللقب</label>
-                                        <input type="text" id="euFamilySurname" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="eu_family_firstname_label">الاسم الأول</label>
-                                        <input type="text" id="euFamilyFirstname" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="eu_family_dob_label">تاريخ الميلاد</label>
-                                        <input type="date" id="euFamilyDob" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="eu_family_nationality_label">الجنسية</label>
-                                        <input type="text" id="euFamilyNationality" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="eu_family_document_label">رقم جواز السفر أو بطاقة الهوية</label>
-                                        <input type="text" id="euFamilyDocument" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label data-i18n="eu_family_relation_label">صلة القرابة</label>
-                                        <select id="euFamilyRelation" class="form-control">
-                                            <option value="">-- اختر --</option>
-                                            <option value="زوج/ة">زوج/ة</option>
-                                            <option value="ابن/ة">ابن/ة</option>
-                                            <option value="حفيد/ة">حفيد/ة</option>
-                                            <option value="سلف معول">سلف معول</option>
-                                            <option value="شراكة مسجلة">شراكة مسجلة</option>
-                                            <option value="أخرى">أخرى</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+/* ===== المحتوى ===== */
+.main-content { padding: 10px 0 60px; }
 
-                        <!-- قسم حجز الفندق -->
-                        <div class="hotel-booking-section mt-4">
-                            <h5 data-i18n="hotel_booking_title">🏨 حجز الفندق</h5>
-                            <div class="row g-3">
-                                <div class="col-md-8">
-                                    <div class="booking-platforms">
-                                        <button class="platform-btn booking" onclick="bookHotel('booking')">
-                                            <i class="fas fa-building"></i> Booking.com
-                                        </button>
-                                        <button class="platform-btn agoda" onclick="bookHotel('agoda')">
-                                            <i class="fas fa-hotel"></i> Agoda
-                                        </button>
-                                        <button class="platform-btn expedia" onclick="bookHotel('expedia')">
-                                            <i class="fas fa-plane"></i> Expedia
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <button class="btn-confirm-hotel" onclick="confirmHotel()">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span data-i18n="confirm_hotel">تم حجز الفندق</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div id="hotelStatus" class="hotel-status"></div>
-                        </div>
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: var(--transition);
+}
 
-                        <!-- قسم رفع المستندات -->
-                        <div class="documents-section mt-4">
-                            <h5 data-i18n="documents_title">📎 رفع المستندات</h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="upload-box">
-                                        <label data-i18n="passport_label">صورة جواز السفر</label>
-                                        <div class="upload-area" onclick="document.getElementById('passportFile').click()">
-                                            <i class="fas fa-upload"></i>
-                                            <span data-i18n="upload_hint">اضغط للرفع</span>
-                                            <input type="file" id="passportFile" accept=".pdf,.jpg,.png" hidden>
-                                        </div>
-                                        <span class="file-name" id="passportFileName"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="upload-box">
-                                        <label data-i18n="insurance_label">التأمين الطبي</label>
-                                        <div class="upload-area" onclick="document.getElementById('insuranceFile').click()">
-                                            <i class="fas fa-upload"></i>
-                                            <span data-i18n="upload_hint">اضغط للرفع</span>
-                                            <input type="file" id="insuranceFile" accept=".pdf,.jpg,.png" hidden>
-                                        </div>
-                                        <span class="file-name" id="insuranceFileName"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="upload-box">
-                                        <label data-i18n="work_label">إثبات العمل / السجل التجاري</label>
-                                        <div class="upload-area" onclick="document.getElementById('workFile').click()">
-                                            <i class="fas fa-upload"></i>
-                                            <span data-i18n="upload_hint">اضغط للرفع</span>
-                                            <input type="file" id="workFile" accept=".pdf,.jpg,.png" hidden>
-                                        </div>
-                                        <span class="file-name" id="workFileName"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="upload-box">
-                                        <label data-i18n="bank_label">كشف الحساب البنكي</label>
-                                        <div class="upload-area" onclick="document.getElementById('bankFile').click()">
-                                            <i class="fas fa-upload"></i>
-                                            <span data-i18n="upload_hint">اضغط للرفع</span>
-                                            <input type="file" id="bankFile" accept=".pdf,.jpg,.png" hidden>
-                                        </div>
-                                        <span class="file-name" id="bankFileName"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="upload-box">
-                                        <label data-i18n="photo_label">الصورة الشخصية</label>
-                                        <div class="upload-area" onclick="document.getElementById('photoFile').click()">
-                                            <i class="fas fa-upload"></i>
-                                            <span data-i18n="upload_hint">اضغط للرفع</span>
-                                            <input type="file" id="photoFile" accept=".jpg,.png" hidden>
-                                        </div>
-                                        <span class="file-name" id="photoFileName"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="upload-box">
-                                        <label data-i18n="hotel_file_label">حجز الفندق (PDF)</label>
-                                        <div class="upload-area" onclick="document.getElementById('hotelFile').click()">
-                                            <i class="fas fa-upload"></i>
-                                            <span data-i18n="upload_hint">اضغط للرفع</span>
-                                            <input type="file" id="hotelFile" accept=".pdf" hidden>
-                                        </div>
-                                        <span class="file-name" id="hotelFileName"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+.step-section { display: none; }
+.step-section.active { display: block; animation: fadeSlideUp 0.6s ease forwards; }
 
-                    <div class="step-footer">
-                        <button class="btn-back" onclick="goToStep(1)">
-                            <i class="fas fa-arrow-right nav-arrow"></i>
-                            <span data-i18n="back_step">السابق</span>
-                        </button>
-                        <button class="btn-next" onclick="goToStep(3)">
-                            <span data-i18n="next_step">التالي</span>
-                            <i class="fas fa-arrow-left nav-arrow"></i>
-                        </button>
-                    </div>
-                </div>
-            </section>
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-            <!-- ===== الخطوة 3: الخدمات الإضافية ===== -->
-            <section id="step3" class="step-section">
-                <div class="step-card glass-card">
-                    <div class="step-header">
-                        <div class="step-icon"><i class="fas fa-concierge-bell"></i></div>
-                        <h2 data-i18n="step3_title">خدمات السفر</h2>
-                        <p class="step-subtitle" data-i18n="step3_subtitle">اختر الخدمات التي تحتاجها لرحلتك</p>
-                    </div>
+.step-card { padding: 35px 40px 30px; }
 
-                    <div class="step-body">
-                        <div class="services-grid">
-                            <div class="service-card" onclick="bookFlight()">
-                                <div class="service-icon"><i class="fas fa-plane-departure"></i></div>
-                                <h5 data-i18n="flight_booking">حجز الطيران</h5>
-                                <p data-i18n="flight_desc">أفضل عروض الطيران</p>
-                                <span class="service-arrow">→</span>
-                            </div>
+.step-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-                            <div class="service-card" onclick="buyInsurance()">
-                                <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
-                                <h5 data-i18n="insurance_booking">التأمين الطبي</h5>
-                                <p data-i18n="insurance_desc">تغطية 30,000 يورو</p>
-                                <span class="service-arrow">→</span>
-                            </div>
+.step-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.15), rgba(201, 168, 76, 0.05));
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    font-size: 1.8rem;
+    color: var(--accent);
+}
 
-                            <div class="service-card" onclick="bookCar()">
-                                <div class="service-icon"><i class="fas fa-car"></i></div>
-                                <h5 data-i18n="car_rental">تأجير سيارات</h5>
-                                <p data-i18n="car_desc">سيارات بأسعار مميزة</p>
-                                <span class="service-arrow">→</span>
-                            </div>
+.step-header h2 {
+    font-weight: 900;
+    font-size: 1.8rem;
+    margin-bottom: 3px;
+    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
-                            <div class="service-card" onclick="skipServices()">
-                                <div class="service-icon"><i class="fas fa-forward"></i></div>
-                                <h5 data-i18n="skip_services">تخطي الخدمات</h5>
-                                <p data-i18n="skip_desc">متابعة بدون خدمات</p>
-                                <span class="service-arrow">→</span>
-                            </div>
-                        </div>
-                    </div>
+.step-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
 
-                    <div class="step-footer">
-                        <button class="btn-back" onclick="goToStep(2)">
-                            <i class="fas fa-arrow-right nav-arrow"></i>
-                            <span data-i18n="back_step">السابق</span>
-                        </button>
-                    </div>
-                </div>
-            </section>
+/* ===== أزرار ===== */
+.step-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(201, 168, 76, 0.1);
+}
 
-            <!-- ===== الخطوة 4: المراجعة والطباعة ===== -->
-            <section id="step4" class="step-section">
-                <div class="step-card glass-card">
-                    <div class="step-header">
-                        <div class="step-icon"><i class="fas fa-file-check"></i></div>
-                        <h2 data-i18n="step4_title">مراجعة الملف النهائي</h2>
-                        <p class="step-subtitle" data-i18n="step4_subtitle">تأكد من صحة جميع البيانات قبل الطباعة</p>
-                    </div>
+.btn-next, .btn-back {
+    padding: 11px 28px;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-arabic);
+}
 
-                    <div class="step-body">
-                        <div class="review-container" id="filePreview">
-                            <div class="review-placeholder">
-                                <i class="fas fa-file-alt"></i>
-                                <p data-i18n="review_placeholder">الملف جاهز للعرض بعد إكمال جميع الخطوات</p>
-                            </div>
-                        </div>
+.btn-next {
+    background: linear-gradient(135deg, var(--accent), #d4b85a);
+    color: #0a0a0f;
+}
 
-                        <div class="review-actions">
-                            <button class="action-btn print" onclick="printFile()">
-                                <i class="fas fa-print"></i>
-                                <span data-i18n="print_file">طباعة الملف</span>
-                            </button>
-                            <button class="action-btn pdf" onclick="downloadPDF()">
-                                <i class="fas fa-file-pdf"></i>
-                                <span data-i18n="download_pdf">تحميل PDF</span>
-                            </button>
-                            <button class="action-btn reset" onclick="resetAll()">
-                                <i class="fas fa-redo"></i>
-                                <span data-i18n="new_file">ملف جديد</span>
-                            </button>
-                        </div>
-                    </div>
+.btn-next:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 10px 30px rgba(201, 168, 76, 0.3);
+}
 
-                    <div class="step-footer">
-                        <button class="btn-back" onclick="goToStep(3)">
-                            <i class="fas fa-arrow-right nav-arrow"></i>
-                            <span data-i18n="back_step">السابق</span>
-                        </button>
-                    </div>
-                </div>
-            </section>
+.btn-back {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    border: 1px solid rgba(201, 168, 76, 0.15);
+}
 
-        </div>
-    </main>
+.btn-back:hover {
+    background: rgba(201, 168, 76, 0.1);
+    color: var(--text-primary);
+    transform: translateX(5px);
+}
 
-    <!-- ===== التذييل ===== -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="brand-icon">✦</span>
-                    <span>Al EmlaQ Files</span>
-                </div>
-                <p class="footer-text" data-i18n="footer_text">
-                    أداة مساعدة لتحضير ملفات تأشيرة شنغن - ليست بديلاً عن التقديم الرسمي
-                </p>
-                <div class="footer-social">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
+/* ===== النموذج ===== */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
+}
 
-    <!-- ===== JavaScript ===== -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="translations.js"></script>
-    <script src="countries.js"></script>
-    <script src="main.js"></script>
-</body>
-</html>
+.form-control, .country-search select {
+    width: 100%;
+    padding: 12px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    transition: var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: var(--font-arabic);
+}
+
+body.light-mode .form-control,
+body.light-mode .country-search select {
+    background: rgba(0, 0, 0, 0.03);
+    color: var(--text-primary);
+}
+
+.form-control:focus, .country-search select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+}
+
+.country-search { position: relative; }
+.country-search i {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+.country-search select { padding-right: 45px; cursor: pointer; }
+
+/* ===== أقسام النموذج ===== */
+.form-section {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(201, 168, 76, 0.08);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 18px;
+}
+
+.section-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ===== معلومات الدولة ===== */
+.country-info-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    height: 100%;
+    transition: var(--transition);
+}
+
+.country-flag-display { font-size: 3rem; margin-bottom: 8px; }
+.country-info-card h4 { font-weight: 700; font-size: 1.1rem; margin-bottom: 10px; }
+.country-info-card ul { list-style: none; padding: 0; text-align: right; }
+.country-info-card ul li {
+    padding: 4px 0;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.05);
+}
+.country-info-card ul li:last-child { border-bottom: none; }
+
+/* ===== حجز الفندق ===== */
+.hotel-booking-section {
+    background: rgba(201, 168, 76, 0.03);
+    border: 1px solid rgba(201, 168, 76, 0.08);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+}
+
+.booking-platforms {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.platform-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-family: var(--font-arabic);
+}
+.platform-btn.booking { background: #003580; color: #fff; }
+.platform-btn.agoda { background: #ff6f00; color: #fff; }
+.platform-btn.expedia { background: #0066cc; color: #fff; }
+.platform-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+
+.btn-confirm-hotel {
+    padding: 10px 25px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-family: var(--font-arabic);
+}
+.btn-confirm-hotel:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(40,167,69,0.3); }
+.btn-confirm-hotel.confirmed { background: linear-gradient(135deg, #17a2b8, #0dcaf0); }
+
+.hotel-status {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border-radius: var(--radius-sm);
+    display: none;
+}
+.hotel-status.show { display: block; }
+.hotel-status.success { background: rgba(40,167,69,0.15); border: 1px solid rgba(40,167,69,0.3); color: #28a745; }
+.hotel-status.error { background: rgba(220,53,69,0.15); border: 1px solid rgba(220,53,69,0.3); color: #dc3545; }
+
+/* ===== رفع المستندات ===== */
+.upload-box { margin-bottom: 10px; }
+.upload-box label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.upload-area {
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px dashed rgba(201, 168, 76, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+.upload-area:hover { border-color: var(--accent); background: rgba(201, 168, 76, 0.05); }
+.upload-area i { font-size: 1.4rem; color: var(--accent); opacity: 0.5; }
+.upload-area span { color: var(--text-secondary); font-size: 0.8rem; }
+.upload-area.has-file { border-color: var(--accent); background: rgba(201, 168, 76, 0.05); }
+
+.file-name {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* ===== خدمات السفر ===== */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 18px;
+}
+
+.service-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    border-radius: var(--radius);
+    padding: 25px 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+.service-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+.service-icon { font-size: 2.2rem; color: var(--accent); margin-bottom: 8px; }
+.service-card h5 { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
+.service-card p { color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0; }
+.service-arrow {
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--accent);
+    font-size: 1.1rem;
+    transition: var(--transition);
+}
+.service-card:hover .service-arrow { transform: translateX(-5px); }
+
+/* ===== مراجعة الملف ===== */
+.review-container {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius);
+    padding: 25px;
+    min-height: 220px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(201, 168, 76, 0.08);
+}
+.review-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 180px;
+    color: var(--text-secondary);
+}
+.review-placeholder i { font-size: 2.8rem; margin-bottom: 12px; opacity: 0.3; }
+
+.review-content { animation: fadeSlideUp 0.4s ease forwards; }
+.review-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(201, 168, 76, 0.2);
+}
+.review-header h3 { font-weight: 900; color: var(--accent); margin-bottom: 3px; font-size: 1.2rem; }
+.review-header p { color: var(--text-secondary); font-size: 0.85rem; }
+
+.review-section-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--accent);
+    margin: 16px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.review-content .review-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.05);
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.review-content .review-label { color: var(--text-secondary); font-weight: 600; font-size: 0.85rem; }
+.review-content .review-value { font-weight: 700; color: var(--text-primary); font-size: 0.85rem; text-align: right; }
+
+.warning-box {
+    background: rgba(201, 168, 76, 0.08);
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 10px 15px !important;
+    margin-top: 12px;
+}
+
+.review-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.action-btn {
+    padding: 11px 28px;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-family: var(--font-arabic);
+}
+.action-btn.print { background: linear-gradient(135deg, #6c757d, #495057); color: #fff; }
+.action-btn.print:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(108,117,125,0.3); }
+.action-btn.pdf { background: linear-gradient(135deg, #dc3545, #e74c3c); color: #fff; }
+.action-btn.pdf:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(220,53,69,0.3); }
+.action-btn.reset { background: linear-gradient(135deg, var(--accent), #d4b85a); color: #0a0a0f; }
+.action-btn.reset:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(201,168,76,0.3); }
+
+/* ===== التذييل ===== */
+.site-footer {
+    background: rgba(10, 10, 15, 0.95);
+    border-top: 1px solid rgba(201, 168, 76, 0.08);
+    padding: 30px 0;
+    margin-top: 30px;
+}
+.footer-content { text-align: center; }
+.footer-brand { font-size: 1.2rem; font-weight: 900; color: var(--text-primary); }
+.footer-brand .brand-icon { color: var(--accent); }
+.footer-text { color: var(--text-secondary); font-size: 0.8rem; margin: 8px 0 12px; }
+.footer-social { display: flex; justify-content: center; gap: 12px; }
+.footer-social a {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: var(--transition);
+    text-decoration: none;
+}
+.footer-social a:hover { background: rgba(201,168,76,0.15); border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
+
+/* ===== Toast ===== */
+.al-toast {
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: var(--secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    min-width: 280px;
+    justify-content: center;
+}
+.al-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.al-toast.error { border-color: #dc3545; background: rgba(220,53,69,0.1); color: #ff6b6b; }
+.al-toast.success { border-color: #28a745; background: rgba(40,167,69,0.1); color: #51cf66; }
+
+/* ===== Validation ===== */
+.is-invalid { border-color: #dc3545 !important; box-shadow: 0 0 0 3px rgba(220,53,69,0.15) !important; }
+
+/* ===== الطباعة ===== */
+#printableForm { display: none; }
+
+@media print {
+    .navbar, .progress-indicator, .step-footer, .review-actions, .site-footer,
+    .al-toast, .lang-toggle, .theme-toggle, .navbar-toggler, .navbar-collapse {
+        display: none !important;
+    }
+    #printableForm { display: block !important; }
+    body, body.light-mode { background: #fff !important; color: #000 !important; }
+}
+
+/* ===== استجابة ===== */
+@media (max-width: 768px) {
+    .step-card { padding: 18px 15px; }
+    .step-header h2 { font-size: 1.2rem; }
+    .step-icon { width: 50px; height: 50px; font-size: 1.4rem; }
+    .dot-label { display: none; }
+    .dot-number { width: 32px; height: 32px; font-size: 0.7rem; }
+    .services-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .step-footer { flex-direction: column; gap: 10px; }
+    .btn-next, .btn-back { width: 100%; justify-content: center; }
+    .review-actions { flex-direction: column; }
+    .action-btn { justify-content: center; }
+    .form-section { padding: 14px 16px; }
+    .review-container { padding: 16px; }
+    .progress-indicator { padding: 80px 0 15px; }
+    .main-content { padding: 5px 0 40px; }
+    .site-footer { padding: 20px 0; margin-top: 20px; }
+}
+
+@media (max-width: 480px) {
+    .services-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .service-card { padding: 18px 10px; }
+    .service-icon { font-size: 1.8rem; }
+    .service-card h5 { font-size: 0.8rem; }
+    .service-card p { font-size: 0.65rem; }
+    .form-control, .country-search select { padding: 10px 14px; font-size: 0.85rem; }
+    .btn-next, .btn-back { padding: 10px 20px; font-size: 0.85rem; }
+    .action-btn { padding: 10px 20px; font-size: 0.85rem; }
+}
