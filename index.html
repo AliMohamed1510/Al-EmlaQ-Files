@@ -235,6 +235,13 @@ label, .control-label { width: 100%; }
             <option value="Austria">النمسا (Austria)</option>
         </select>
 
+        <div style="margin: 25px 0; display: flex; flex-direction: column; gap: 12px; align-items: center;">
+            <p style="color:#888; font-size:14px; margin:0;">خدمات إضافية</p>
+            <a href="https://myjet24.com/" target="_blank" class="aet-btn" style="background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px;">🏨 حجز فندق</a>
+            <a href="https://myjet24.com/" target="_blank" class="aet-btn" style="background: linear-gradient(135deg, #2980b9 0%, #1c5980 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px;">✈️ حجز طيران</a>
+            <a href="https://epti-egy.org/Traveltargetweb/Pages/Policy_Qry2/Default.aspx" class="aet-btn" style="background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px;">🛡️ طباعة التأمين</a>
+        </div>
+
         <button id="proceedBtn" class="aet-btn" disabled>متابعة إلى النموذج</button>
     </div>
 </div>
@@ -4768,7 +4775,7 @@ label, .control-label { width: 100%; }
 <div class="form-group m_5" id="divSubmit">
 <button type="submit" name="action" value="valBookNow" id="valBookNow" class="btn btn-success">Submit</button>
 <button type="reset" name="reset" onclick="document.location.reload()" class="btn btn-in
-                            <button type="submit" name="action" value="valBookNow" id="valBookNow" class="btn btn-success">إرسال</button>
+                            <button type="button" id="valBookNow" class="btn btn-success" onclick="printApplication()">يُقدَّم / طباعة الاستمارة</button>
                             <button type="reset" name="reset" onclick="document.location.reload()" class="btn btn-info">إعادة تعيين</button>
                         </div>
                     </div>
@@ -5538,6 +5545,111 @@ function copyAddressHost() {
         $("#host_contact_email").val('');
     }
 }
+
+function printApplication() {
+    // Validate form first
+    if(!$("#thisForm").valid()) {
+        alert("الرجاء تعبئة جميع الحقول المطلوبة (*)");
+        return;
+    }
+
+    // Gather form data
+    var formData = {};
+    $("#thisForm").serializeArray().forEach(function(item) {
+        formData[item.name] = item.value;
+    });
+
+    // Get country name
+    var countryName = $("#formCountryName").text() || $("#selected_country_input").val();
+
+    // Build print window content
+    var printContent = `
+    <!DOCTYPE html>
+    <html dir="rtl" lang="ar">
+    <head>
+        <meta charset="utf-8">
+        <title>طلب موعد - AET</title>
+        <style>
+            body { font-family: Arial, sans-serif; padding: 40px; direction: rtl; }
+            .header { text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 20px; margin-bottom: 30px; }
+            .header img { max-height: 80px; }
+            .header h1 { color: #1a1a2e; margin: 10px 0; }
+            .header h2 { color: #666; font-size: 18px; }
+            table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+            th { background: #1a1a2e; color: #d4af37; padding: 12px; text-align: right; font-size: 16px; }
+            td { padding: 10px 12px; border-bottom: 1px solid #ddd; width: 50%; }
+            tr:nth-child(even) { background: #f9f9f9; }
+            .label { font-weight: bold; color: #333; }
+            .value { color: #555; }
+            .footer { text-align: center; margin-top: 40px; color: #888; font-size: 12px; border-top: 1px solid #ddd; padding-top: 20px; }
+            @media print {
+                .no-print { display: none; }
+                body { padding: 20px; }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://raw.githubusercontent.com/AliMohamed1510/Al-EmlaQ-Files/main/image.png" alt="AET">
+            <h1>شركة الإملاق للسياحة</h1>
+            <h2>نموذج طلب موعد تأشيرة - ` + countryName + `</h2>
+        </div>
+
+        <table>
+            <tr><th colspan="2">بيانات المتقدم</th></tr>
+            <tr><td class="label">الاسم الأول:</td><td class="value">` + (formData.firstname || '') + `</td></tr>
+            <tr><td class="label">اسم العائلة:</td><td class="value">` + (formData.surname || '') + `</td></tr>
+            <tr><td class="label">الجنس:</td><td class="value">` + ($('#gender option:selected').text() || '') + `</td></tr>
+            <tr><td class="label">تاريخ الميلاد:</td><td class="value">` + (formData.date_of_birth || '') + `</td></tr>
+            <tr><td class="label">الجنسية الحالية:</td><td class="value">` + ($('#current_nationality option:selected').text() || '') + `</td></tr>
+            <tr><td class="label">الحالة الاجتماعية:</td><td class="value">` + ($('#marital_status option:selected').text() || '') + `</td></tr>
+        </table>
+
+        <table>
+            <tr><th colspan="2">عنوان الإقامة</th></tr>
+            <tr><td class="label">الدولة:</td><td class="value">` + ($('#res_country option:selected').text() || '') + `</td></tr>
+            <tr><td class="label">المدينة:</td><td class="value">` + (formData.res_city || '') + `</td></tr>
+            <tr><td class="label">الشارع:</td><td class="value">` + (formData.res_street || '') + `</td></tr>
+            <tr><td class="label">رقم المنزل:</td><td class="value">` + (formData.res_house || '') + `</td></tr>
+            <tr><td class="label">الرمز البريدي:</td><td class="value">` + (formData.res_zip || '') + `</td></tr>
+            <tr><td class="label">رقم الهاتف:</td><td class="value">` + (formData.res_telephone || '') + `</td></tr>
+            <tr><td class="label">البريد الإلكتروني:</td><td class="value">` + (formData.res_email || '') + `</td></tr>
+        </table>
+
+        <table>
+            <tr><th colspan="2">بيانات جواز السفر</th></tr>
+            <tr><td class="label">نوع الجواز:</td><td class="value">` + ($('#passport_type_id option:selected').text() || '') + `</td></tr>
+            <tr><td class="label">رقم الجواز:</td><td class="value">` + (formData.passport_no || '') + `</td></tr>
+            <tr><td class="label">جهة الإصدار:</td><td class="value">` + ($('#passport_issue_country_id option:selected').text() || '') + `</td></tr>
+            <tr><td class="label">تاريخ الإصدار:</td><td class="value">` + (formData.date_of_issue || '') + `</td></tr>
+            <tr><td class="label">تاريخ الانتهاء:</td><td class="value">` + (formData.date_of_expiry || '') + `</td></tr>
+        </table>
+
+        <table>
+            <tr><th colspan="2">تفاصيل السفر</th></tr>
+            <tr><td class="label">دخول من:</td><td class="value">` + ($('#border_first_entry option:selected').text() || '') + `</td></tr>
+            <tr><td class="label">تاريخ الوصول:</td><td class="value">` + (formData.date_of_arrival || '') + `</td></tr>
+            <tr><td class="label">تاريخ المغادرة:</td><td class="value">` + (formData.date_of_departure || '') + `</td></tr>
+            <tr><td class="label">مدة الإقامة:</td><td class="value">` + (formData.duration_stay || '') + ` يوم</td></tr>
+        </table>
+
+        <div class="footer">
+            <p>تم إنشاء هذا الطلب عبر منصة AET - شركة الإملاق للسياحة</p>
+            <p>تاريخ الطباعة: ` + new Date().toLocaleDateString('ar-EG') + `</p>
+        </div>
+
+        <div class="no-print" style="text-align:center; margin-top:30px;">
+            <button onclick="window.print()" style="padding:15px 40px; font-size:18px; background:#d4af37; color:white; border:none; border-radius:30px; cursor:pointer;">🖨️ اضغط هنا للطباعة</button>
+            <button onclick="window.close()" style="padding:15px 40px; font-size:18px; background:#666; color:white; border:none; border-radius:30px; cursor:pointer; margin-right:10px;">إغلاق</button>
+        </div>
+    </body>
+    </html>`;
+
+    var printWindow = window.open('', '_blank');
+    printWindow.document.write(printContent);
+    printWindow.document.close();
+}
+
 </script>
 
 </body>
