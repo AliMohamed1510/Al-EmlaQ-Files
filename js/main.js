@@ -1,16 +1,106 @@
-// ============================================
-// الملف الرئيسي - Al EmlaQ Files
-// ============================================
-
-// ===== المتغيرات العامة =====
 let uploadedFiles = {};
 let fileNames = {};
 let isHotelConfirmed = false;
 let currentStep = 1;
 let skippedServices = false;
 
+// ===== الحقول الإلزامية =====
+const requiredFields = {
+    1: ['countrySelect', 'surname', 'firstname', 'birthDate', 'nationality', 'passportNumber', 'passportExpiry', 'email', 'phone'],
+    2: ['mainDestination', 'firstEntry', 'arrivalDate', 'departureDate']
+};
+
+const requiredFiles = ['passportFile', 'insuranceFile', 'hotelFile'];
+
+// ===== التحقق من الحقول الإلزامية =====
+function validateStep(step) {
+    const fields = requiredFields[step];
+    if (!fields) return true;
+
+    let isValid = true;
+    let firstError = null;
+
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+
+        const value = el.value.trim();
+        if (!value) {
+            isValid = false;
+            el.classList.add('is-invalid');
+            el.style.borderColor = '#dc3545';
+            el.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.15)';
+            if (!firstError) firstError = el;
+        } else {
+            el.classList.remove('is-invalid');
+            el.style.borderColor = '';
+            el.style.boxShadow = '';
+        }
+    });
+
+    // التحقق من الملفات في الخطوة 2
+    if (step === 2) {
+        let filesValid = true;
+        requiredFiles.forEach(id => {
+            const uploadArea = document.querySelector(`#${id}`)?.closest('.upload-area');
+            if (!uploadedFiles[id]) {
+                filesValid = false;
+                if (uploadArea) {
+                    uploadArea.style.borderColor = '#dc3545';
+                    uploadArea.style.background = 'rgba(220, 53, 69, 0.05)';
+                }
+            } else {
+                if (uploadArea) {
+                    uploadArea.style.borderColor = '';
+                    uploadArea.style.background = '';
+                }
+            }
+        });
+
+        if (!isHotelConfirmed) {
+            filesValid = false;
+            const hotelBtn = document.querySelector('.btn-confirm-hotel');
+            if (hotelBtn) {
+                hotelBtn.style.animation = 'shake 0.5s ease';
+                setTimeout(() => hotelBtn.style.animation = '', 500);
+            }
+        }
+
+        if (!filesValid) isValid = false;
+    }
+
+    if (firstError) {
+        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstError.focus();
+    }
+
+    return isValid;
+}
+
+// ===== إزالة التحقق عند الكتابة =====
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+        el.addEventListener('input', function() {
+            this.classList.remove('is-invalid');
+            this.style.borderColor = '';
+            this.style.boxShadow = '';
+        });
+        el.addEventListener('change', function() {
+            this.classList.remove('is-invalid');
+            this.style.borderColor = '';
+            this.style.boxShadow = '';
+        });
+    });
+});
+
 // ===== التحكم في الخطوات =====
 function goToStep(step) {
+    // التحقق قبل الانتقال للأمام
+    if (step > currentStep && !validateStep(currentStep)) {
+        showToast(translations[currentLang]['fill_required_fields'] || 'الرجاء ملء جميع الحقول الإلزامية', 'error');
+        return;
+    }
+
     // إخفاء جميع الخطوات
     document.querySelectorAll('.step-section').forEach(el => {
         el.classList.remove('active');
@@ -44,7 +134,28 @@ function goToStep(step) {
     // إذا وصلنا للخطوة 4، عرض الملف
     if (step === 4) {
         generateFilePreview();
+        generatePrintableForm();
     }
+}
+
+// ===== Toast Notification =====
+function showToast(message, type = 'info') {
+    const existing = document.querySelector('.al-toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.className = `al-toast ${type}`;
+    toast.innerHTML = `
+        <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+        <span>${message}</span>
+    `;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }
 
 // ===== تبديل الوضع المظلم =====
@@ -125,6 +236,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const uploadArea = this.closest('.upload-area');
                 if (uploadArea) {
                     uploadArea.classList.add('has-file');
+                    uploadArea.style.borderColor = '';
+                    uploadArea.style.background = '';
                 }
                 uploadedFiles[id] = this.files[0];
                 fileNames[id] = fileName;
@@ -304,7 +417,6 @@ function generateFilePreview() {
     const labelClass = 'review-label';
     const valueClass = 'review-value';
 
-    // Helper to create review row
     const row = (label, value) => {
         if (!value) return '';
         return `
@@ -412,13 +524,310 @@ function generateFilePreview() {
     `;
 }
 
+// ===== إنشاء نموذج الطباعة الرسمي =====
+function generatePrintableForm() {
+    const data = collectFormData();
+    const lang = currentLang;
+    
+    let printable = document.getElementById('printableForm');
+    if (!printable) {
+        printable = document.createElement('div');
+        printable.id = 'printableForm';
+        document.body.appendChild(printable);
+    }
+
+    const isAr = lang === 'ar';
+    const lbl = (ar, en) => isAr ? ar : en;
+
+    printable.innerHTML = `
+        <div class="schengen-form">
+            <div class="form-header">
+                <div class="form-title">
+                    <h1>${lbl('نموذج طلب تأشيرة شنغن', 'Application for Schengen Visa')}</h1>
+                    <p class="form-subtitle">${lbl('هذا النموذج مجاني', 'This application form is free')}</p>
+                </div>
+                <div class="photo-box">
+                    <span>${lbl('صورة شخصية', 'Photo')}</span>
+                    <small>35mm × 45mm</small>
+                </div>
+            </div>
+
+            <div class="form-section-official">
+                <div class="field-row">
+                    <div class="field-num">1</div>
+                    <div class="field-content">
+                        <label>${lbl('اللقب (العائلي)', 'Surname (Family name)')}</label>
+                        <div class="field-value">${data.surname || ''}</div>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field-num">2</div>
+                    <div class="field-content">
+                        <label>${lbl('اللقب عند الولادة', 'Surname at birth (Former family name(s))')}</label>
+                        <div class="field-value">${data.surname || ''}</div>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field-num">3</div>
+                    <div class="field-content">
+                        <label>${lbl('الاسم الأول (الأسماء)', 'First name(s) (Given name(s))')}</label>
+                        <div class="field-value">${data.firstname || ''}</div>
+                    </div>
+                </div>
+                <div class="field-row two-cols">
+                    <div class="field-half">
+                        <div class="field-num">4</div>
+                        <div class="field-content">
+                            <label>${lbl('تاريخ الميلاد (يوم-شهر-سنة)', 'Date of birth (day-month-year)')}</label>
+                            <div class="field-value">${data.birthDate || ''}</div>
+                        </div>
+                    </div>
+                    <div class="field-half">
+                        <div class="field-num">5</div>
+                        <div class="field-content">
+                            <label>${lbl('مكان الميلاد', 'Place of birth')}</label>
+                            <div class="field-value">${data.birthPlace || ''}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row two-cols">
+                    <div class="field-half">
+                        <div class="field-num">6</div>
+                        <div class="field-content">
+                            <label>${lbl('بلد الميلاد', 'Country of birth')}</label>
+                            <div class="field-value">${data.birthCountry || ''}</div>
+                        </div>
+                    </div>
+                    <div class="field-half">
+                        <div class="field-num">7</div>
+                        <div class="field-content">
+                            <label>${lbl('الجنسية الحالية', 'Current nationality')}</label>
+                            <div class="field-value">${data.nationality || ''}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row two-cols">
+                    <div class="field-half">
+                        <div class="field-num">8</div>
+                        <div class="field-content">
+                            <label>${lbl('الجنس', 'Sex')}</label>
+                            <div class="checkbox-group">
+                                <span class="checkbox-item ${data.sex === 'ذكر' || data.sex === 'Male' ? 'checked' : ''}">${lbl('ذكر', 'Male')}</span>
+                                <span class="checkbox-item ${data.sex === 'أنثى' || data.sex === 'Female' ? 'checked' : ''}">${lbl('أنثى', 'Female')}</span>
+                                <span class="checkbox-item ${data.sex === 'أخرى' || data.sex === 'Other' ? 'checked' : ''}">${lbl('أخرى', 'Other')}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field-half">
+                        <div class="field-num">9</div>
+                        <div class="field-content">
+                            <label>${lbl('الحالة الاجتماعية', 'Civil status')}</label>
+                            <div class="field-value">${data.civilStatus || ''}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field-num">11</div>
+                    <div class="field-content">
+                        <label>${lbl('الرقم القومي', 'National identity number, where applicable')}</label>
+                        <div class="field-value">${data.nationalId || ''}</div>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field-num">12</div>
+                    <div class="field-content">
+                        <label>${lbl('نوع وثيقة السفر', 'Type of travel document')}</label>
+                        <div class="field-value">${data.passportType || ''}</div>
+                    </div>
+                </div>
+                <div class="field-row two-cols">
+                    <div class="field-half">
+                        <div class="field-num">13</div>
+                        <div class="field-content">
+                            <label>${lbl('رقم الوثيقة', 'Number of travel document')}</label>
+                            <div class="field-value">${data.passportNumber || ''}</div>
+                        </div>
+                    </div>
+                    <div class="field-half">
+                        <div class="field-num">14</div>
+                        <div class="field-content">
+                            <label>${lbl('تاريخ الإصدار', 'Date of issue')}</label>
+                            <div class="field-value">${data.passportIssueDate || ''}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row two-cols">
+                    <div class="field-half">
+                        <div class="field-num">15</div>
+                        <div class="field-content">
+                            <label>${lbl('صالح حتى', 'Valid until')}</label>
+                            <div class="field-value">${data.passportExpiry || ''}</div>
+                        </div>
+                    </div>
+                    <div class="field-half">
+                        <div class="field-num">16</div>
+                        <div class="field-content">
+                            <label>${lbl('جهة الإصدار', 'Issued by')}</label>
+                            <div class="field-value">${data.passportIssuedBy || ''}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field-num">18</div>
+                    <div class="field-content">
+                        <label>${lbl('عنوان السكن', 'Home address')}</label>
+                        <div class="field-value">${data.homeAddress || ''}</div>
+                    </div>
+                </div>
+                <div class="field-row two-cols">
+                    <div class="field-half">
+                        <div class="field-num">-</div>
+                        <div class="field-content">
+                            <label>${lbl('البريد الإلكتروني', 'E-mail address')}</label>
+                            <div class="field-value">${data.email || ''}</div>
+                        </div>
+                    </div>
+                    <div class="field-half">
+                        <div class="field-num">-</div>
+                        <div class="field-content">
+                            <label>${lbl('رقم الهاتف', 'Telephone number')}</label>
+                            <div class="field-value">${data.phone || ''}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row two-cols">
+                    <div class="field-half">
+                        <div class="field-num">19</div>
+                        <div class="field-content">
+                            <label>${lbl('المهنة الحالية', 'Current occupation')}</label>
+                            <div class="field-value">${data.occupation || ''}</div>
+                        </div>
+                    </div>
+                    <div class="field-half">
+                        <div class="field-num">20</div>
+                        <div class="field-content">
+                            <label>${lbl('جهة العمل', 'Employer and employer\'s address')}</label>
+                            <div class="field-value">${data.employer || ''}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row two-cols">
+                    <div class="field-half">
+                        <div class="field-num">21</div>
+                        <div class="field-content">
+                            <label>${lbl('الوجهة الرئيسية', 'Main destination')}</label>
+                            <div class="field-value">${data.mainDestination || ''}</div>
+                        </div>
+                    </div>
+                    <div class="field-half">
+                        <div class="field-num">22</div>
+                        <div class="field-content">
+                            <label>${lbl('نوع التأشيرة', 'Type of visa')}</label>
+                            <div class="field-value">${data.visaType || ''}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row two-cols">
+                    <div class="field-half">
+                        <div class="field-num">23</div>
+                        <div class="field-content">
+                            <label>${lbl('عدد مرات الدخول', 'Number of entries requested')}</label>
+                            <div class="field-value">${data.entriesCount || ''}</div>
+                        </div>
+                    </div>
+                    <div class="field-half">
+                        <div class="field-num">24</div>
+                        <div class="field-content">
+                            <label>${lbl('مدة الإقامة (أيام)', 'Duration of intended stay')}</label>
+                            <div class="field-value">${data.stayDays || ''}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row two-cols">
+                    <div class="field-half">
+                        <div class="field-num">28</div>
+                        <div class="field-content">
+                            <label>${lbl('تاريخ الوصول المتوقع', 'Intended date of arrival')}</label>
+                            <div class="field-value">${data.arrivalDate || ''}</div>
+                        </div>
+                    </div>
+                    <div class="field-half">
+                        <div class="field-num">29</div>
+                        <div class="field-content">
+                            <label>${lbl('تاريخ المغادرة المتوقع', 'Intended date of departure')}</label>
+                            <div class="field-value">${data.departureDate || ''}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field-num">26</div>
+                    <div class="field-content">
+                        <label>${lbl('هل تم أخذ بصمات الأصابع سابقاً؟', 'Fingerprints collected previously?')}</label>
+                        <div class="checkbox-group">
+                            <span class="checkbox-item ${data.fingerprints === 'نعم' || data.fingerprints === 'Yes' ? 'checked' : ''}">${lbl('نعم', 'Yes')}</span>
+                            <span class="checkbox-item ${data.fingerprints === 'لا' || data.fingerprints === 'No' ? 'checked' : ''}">${lbl('لا', 'No')}</span>
+                            <span class="field-inline">${lbl('تاريخ:', 'Date:')} ${data.fingerprintsDate || '_____'}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field-num">31</div>
+                    <div class="field-content">
+                        <label>${lbl('اسم المدعو / الفندق', 'Name of inviting person / hotel')}</label>
+                        <div class="field-value">${data.invitingPerson || ''}</div>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field-num">32</div>
+                    <div class="field-content">
+                        <label>${lbl('اسم الشركة المدعوة', 'Name and address of inviting company')}</label>
+                        <div class="field-value">${data.companyName || ''}</div>
+                    </div>
+                </div>
+                <div class="field-row two-cols">
+                    <div class="field-half">
+                        <div class="field-num">33</div>
+                        <div class="field-content">
+                            <label>${lbl('تُمول التكاليف بواسطة', 'Cost of travelling and living covered by')}</label>
+                            <div class="field-value">${data.costsCoveredBy || ''}</div>
+                        </div>
+                    </div>
+                    <div class="field-half">
+                        <div class="field-num">34</div>
+                        <div class="field-content">
+                            <label>${lbl('وسائل الدعم', 'Means of support')}</label>
+                            <div class="field-value">${data.meansOfSupport || ''}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-footer-official">
+                <div class="signature-line">
+                    <label>${lbl('تاريخ ومكان التقديم', 'Date and place')}</label>
+                    <div class="line"></div>
+                </div>
+                <div class="signature-line">
+                    <label>${lbl('التوقيع', 'Signature')}</label>
+                    <div class="line"></div>
+                </div>
+            </div>
+
+            <div class="form-watermark">
+                Al EmlaQ Files - ${new Date().toLocaleDateString()}
+            </div>
+        </div>
+    `;
+}
+
 // ===== طباعة الملف =====
 function printFile() {
     const container = document.getElementById('filePreview');
     if (container.querySelector('.review-placeholder')) {
-        alert(translations[currentLang]['review_placeholder']);
+        showToast(translations[currentLang]['review_placeholder'], 'error');
         return;
     }
+    generatePrintableForm();
     window.print();
 }
 
@@ -426,7 +835,7 @@ function printFile() {
 function downloadPDF() {
     const container = document.getElementById('filePreview');
     if (container.querySelector('.review-placeholder')) {
-        alert(translations[currentLang]['review_placeholder']);
+        showToast(translations[currentLang]['review_placeholder'], 'error');
         return;
     }
 
@@ -446,7 +855,6 @@ function downloadPDF() {
 function resetAll() {
     if (!confirm(translations[currentLang]['reset_confirm'])) return;
 
-    // إعادة تعيين الحقول
     const fields = [
         'countrySelect', 'visaType', 'stayDays', 'surname', 'firstname', 'birthDate',
         'birthPlace', 'birthCountry', 'nationality', 'sex', 'civilStatus', 'nationalId',
@@ -469,42 +877,43 @@ function resetAll() {
             } else {
                 el.value = '';
             }
+            el.classList.remove('is-invalid');
+            el.style.borderColor = '';
+            el.style.boxShadow = '';
         }
     });
 
-    // إعادة تعيين القيم الافتراضية
     document.getElementById('stayDays').value = '7';
     document.getElementById('nationality').value = 'مصري';
     document.getElementById('passportIssuedBy').value = 'مصر';
 
-    // إعادة تعيين رفع الملفات
     document.querySelectorAll('input[type="file"]').forEach(input => {
         input.value = '';
         const nameDisplay = document.getElementById(input.id + 'Name');
         if (nameDisplay) nameDisplay.textContent = '';
         const uploadArea = input.closest('.upload-area');
-        if (uploadArea) uploadArea.classList.remove('has-file');
+        if (uploadArea) {
+            uploadArea.classList.remove('has-file');
+            uploadArea.style.borderColor = '';
+            uploadArea.style.background = '';
+        }
     });
 
-    // إعادة تعيين المتغيرات
     uploadedFiles = {};
     fileNames = {};
     isHotelConfirmed = false;
     skippedServices = false;
 
-    // إعادة تعيين زر تأكيد الفندق
     const btn = document.querySelector('.btn-confirm-hotel');
     if (btn) {
         btn.classList.remove('confirmed');
         btn.innerHTML = `<i class="fas fa-check-circle"></i> ${translations[currentLang]['confirm_hotel']}`;
     }
 
-    // إعادة تعيين معلومات الدولة
     document.getElementById('countryFlagDisplay').textContent = '🌍';
     document.getElementById('countryNameDisplay').textContent = translations[currentLang]['select_country'];
     document.getElementById('countryRequirements').innerHTML = `<p class="text-muted">${translations[currentLang]['select_country_hint']}</p>`;
 
-    // إعادة تعيين معاينة الملف
     document.getElementById('filePreview').innerHTML = `
         <div class="review-placeholder">
             <i class="fas fa-file-alt"></i>
@@ -512,15 +921,21 @@ function resetAll() {
         </div>
     `;
 
-    // العودة للخطوة 1
+    const printable = document.getElementById('printableForm');
+    if (printable) printable.innerHTML = '';
+
     goToStep(1);
 }
 
 // ===== تهيئة الصفحة =====
 document.addEventListener('DOMContentLoaded', function() {
-    // تفعيل الخطوة الأولى
     goToStep(1);
-
     console.log('✦ Al EmlaQ Files ✦');
     console.log('تم تحميل الموقع بنجاح');
 });
+"""
+
+with open('/mnt/agents/output/main.js', 'w', encoding='utf-8') as f:
+    f.write(main_js)
+
+print("main.js created successfully")
