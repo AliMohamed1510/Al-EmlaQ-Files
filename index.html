@@ -3,99 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الشنغن الذكية لملفات السفارات</title>
+    <title>منصة ملفات سفارات الشنغن الذكية</title>
+    <!-- مكتبات تحويل HTML إلى PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        /* تنسيق رائع ومظلم */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: #0f172a; color: #e2e8f0; display: flex; justify-content: center; padding: 30px; min-height: 100vh; }
+        /* ===== تنسيق المنصة العامة ===== */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0d1117; color: #e2e8f0; display: flex; justify-content: center; padding: 20px; min-height: 100vh; }
         
-        .app-container { background: #1e293b; width: 100%; max-width: 850px; padding: 30px; border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; }
+        .app-container { background: #161b22; width: 100%; max-width: 1000px; padding: 25px; border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; }
 
-        h1 { text-align: center; font-size: 24px; border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 25px; }
-        
         /* إدارة الخطوات */
         .step { display: none; animation: fadeIn 0.4s ease; }
         .step.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* العناصر الأساسية */
+        h1 { text-align: center; font-size: 24px; border-bottom: 1px solid #30363d; padding-bottom: 15px; margin-bottom: 25px; color: #f0f6fc; }
+
+        /* أزرار التنقل */
+        .btn { padding: 12px 25px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 16px; }
+        .btn-primary { background: #238636; color: white; }
+        .btn-primary:hover { background: #2ea043; }
+        .btn-secondary { background: #1f2937; color: white; }
+        .btn-secondary:hover { background: #374151; }
+        .btn-warning { background: #d29922; color: #0d1117; }
+        .btn-warning:hover { background: #e3b341; }
+        .btn-danger { background: #da3633; color: white; }
+        .btn-danger:hover { background: #f85149; }
+        
+        .nav-actions { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
+        .nav-actions .btn { flex: 1; min-width: 120px; text-align: center; }
+
+        /* تنسيق عناصر النماذج */
         .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; color: #94a3b8; font-weight: 600; }
-        input[type="text"], input[type="file"], select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; outline: none; }
-        input:focus, select:focus { border-color: #3b82f6; }
-        
-        /* الأزرار */
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.2s; }
-        .btn-primary { background: #3b82f6; color: white; }
-        .btn-primary:hover { background: #2563eb; }
-        .btn-success { background: #22c55e; color: white; }
-        .btn-success:hover { background: #16a34a; }
-        .btn-secondary { background: #475569; color: white; }
-        .btn-secondary:hover { background: #334155; }
-        .btn-warning { background: #eab308; color: black; }
-        .btn-warning:hover { background: #ca8a04; }
-        .btn-outline { background: transparent; border: 1px solid #475569; color: #e2e8f0; }
-        .btn-outline:hover { background: #1e293b; }
-        
-        /* تخطيط الخيارات */
-        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 20px 0; }
-        .option-card { background: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.2s; }
-        .option-card:hover { border-color: #3b82f6; transform: scale(1.02); }
-        .option-card h4 { margin-bottom: 5px; color: #f8fafc; }
-        .option-card p { font-size: 12px; color: #94a3b8; }
+        label { display: block; margin-bottom: 8px; color: #8b949e; font-weight: 600; }
+        input[type="text"], input[type="date"], input[type="file"], select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #30363d; background: #0d1117; color: white; outline: none; }
+        input:focus, select:focus { border-color: #58a6ff; }
+
+        /* بطاقة الخيارات */
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin: 20px 0; }
+        .option-card { background: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .option-card:hover { border-color: #58a6ff; transform: scale(1.02); }
+        .option-card h4 { margin-bottom: 5px; color: #f0f6fc; }
+        .option-card p { font-size: 12px; color: #8b949e; }
 
         /* صندوق المراجعة */
-        .review-box { background: #0f172a; padding: 15px; border-radius: 10px; border: 1px solid #334155; margin-bottom: 15px; }
-        .review-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #334155; padding: 8px 0; }
-        .review-row span:first-child { color: #94a3b8; }
-        
-        @media (max-width: 600px) { .app-container { padding: 15px; } }
+        .review-box { background: #0d1117; padding: 15px; border-radius: 10px; border: 1px solid #30363d; margin-bottom: 15px; }
+        .review-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #30363d; padding: 8px 0; }
+        .review-row span:first-child { color: #8b949e; }
+
+        /* ===== تنسيق النموذج الإيطالي للطباعة (مطابق 100%) ===== */
+        #italyFormContainer {
+            background: white; color: black; width: 210mm; min-height: 297mm; padding: 20px;
+            box-sizing: border-box; font-family: 'Times New Roman', Times, serif; font-size: 11px;
+            direction: ltr; position: relative; margin: 0 auto; margin-top: 20px;
+        }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+        .header img { height: 50px; }
+        .title-box { text-align: center; flex: 1; padding: 0 10px; }
+        .title-box h2 { margin: 0; font-size: 16px; font-weight: bold; text-decoration: underline; }
+        .title-box p { margin: 3px 0; font-size: 11px; color: #333; }
+        .disclaimer { font-size: 9px; margin-bottom: 8px; color: #333; }
+        .form-table { width: 100%; border-collapse: collapse; margin-bottom: -1px; }
+        .form-table td { border: 1px solid #000; padding: 5px 8px; vertical-align: middle; }
+        .input-field { border: none; border-bottom: 1px dotted #333; width: 98%; background: transparent; font-family: inherit; font-size: inherit; padding: 2px; outline: none; }
+        .input-field:focus { background: #f0f8ff; }
+        .checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+        .checkbox-group label { display: flex; align-items: center; gap: 4px; font-family: inherit; color: black; font-size: 10px; margin: 0; }
+        .footer-note { margin-top: 15px; font-size: 10px; border-top: 1px solid #ccc; padding-top: 10px; }
+        .signature-line { display: flex; justify-content: space-between; margin-top: 25px; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <h1>منصة ملفات السفارات الذكية</h1>
+    <h1>منصة إنشاء ملفات سفارات الشنغن</h1>
 
-    <!-- الخطوة 1: اختيار الدولة -->
+    <!-- ================== الخطوة 1: اختيار الدولة ================== -->
     <div id="step-1" class="step active">
+        <h2>1. اختيار الدولة</h2>
         <div class="form-group">
-            <label>1. اختر الدولة المستهدفة (شنغن)</label>
-            <select id="input-country">
+            <label>الدولة المستهدفة</label>
+            <select id="countrySelect">
                 <option value="">-- اختر الدولة --</option>
-                <option value="Italy">إيطاليا</option>
-                <option value="Spain">إسبانيا</option>
-                <option value="Switzerland">سويسرا</option>
-                <option value="Sweden">السويد</option>
-                <option value="Slovakia">سلوفاكيا</option>
-                <option value="Portugal">البرتغال</option>
-                <option value="Malta">مالطا</option>
-                <option value="Hungary">المجر (هنغاريا)</option>
-                <option value="Greece">اليونان</option>
-                <option value="Croatia">كرواتيا</option>
-                <option value="Austria">النمسا</option>
+                <option value="italy">إيطاليا</option>
+                <option value="spain">إسبانيا</option>
+                <option value="switzerland">سويسرا</option>
+                <option value="sweden">السويد</option>
+                <option value="slovakia">سلوفاكيا</option>
+                <option value="portugal">البرتغال</option>
+                <option value="malta">مالطا</option>
+                <option value="hungary">المجر (هنغاريا)</option>
+                <option value="greece">اليونان</option>
+                <option value="croatia">كرواتيا</option>
+                <option value="austria">النمسا</option>
             </select>
         </div>
-        <button class="btn btn-primary" onclick="nextStep(2)">التالي: حجز الفندق</button>
-    </div>
-
-    <!-- الخطوة 2: حجز الفندق -->
-    <div id="step-2" class="step">
-        <div class="form-group">
-            <label>2. حجز الفندق عبر MyJet24</label>
-            <p style="color: #94a3b8; margin-bottom: 15px;">يرجى التوجه للموقع، إتمام الحجز، ثم العودة والضغط على "تم الحجز".</p>
-            <a href="https://myjet24.com/" target="_blank" style="display: block; text-decoration: none;">
-                <button class="btn btn-secondary">الذهاب إلى MyJet24 للحجز</button>
-            </a>
-            <button class="btn btn-success" onclick="nextStep(3)">تم حجز الفندق والعودة</button>
+        <div class="nav-actions">
+            <button class="btn btn-primary" onclick="goToStep(2)">التالي: حجز الفندق</button>
         </div>
     </div>
 
-    <!-- الخطوة 3: رفع المستندات -->
-    <div id="step-3" class="step">
+    <!-- ================== الخطوة 2: حجز الفندق ================== -->
+    <div id="step-2" class="step">
+        <h2>2. حجز الفندق</h2>
         <div class="form-group">
-            <label>3. رفع المستندات المطلوبة</label>
-            <div style="background:#0f172a; padding:15px; border-radius:8px; margin-bottom:15px;">
+            <p style="color: #8b949e; margin-bottom: 15px;">يرجى التوجه إلى MyJet24 لإتمام حجز الفندق، ثم العودة والضغط على "تم الحجز".</p>
+            <a href="https://myjet24.com/" target="_blank" style="display: block; text-decoration: none;">
+                <button class="btn btn-secondary" style="width: 100%; margin-bottom: 15px;">الذهاب إلى MyJet24 للحجز</button>
+            </a>
+        </div>
+        <div class="nav-actions">
+            <button class="btn btn-secondary" onclick="goToStep(1)">رجوع</button>
+            <button class="btn btn-primary" onclick="goToStep(3)">تم حجز الفندق</button>
+        </div>
+    </div>
+
+    <!-- ================== الخطوة 3: رفع المستندات ================== -->
+    <div id="step-3" class="step">
+        <h2>3. رفع المستندات</h2>
+        <div class="form-group">
+            <div style="background:#0d1117; padding:15px; border-radius:8px; margin-bottom:15px;">
                 <label style="margin-top:0;">صورة جواز السفر</label>
                 <input type="file" accept="image/*">
                 <label>حجز الفندق (PDF/صورة)</label>
@@ -103,116 +132,158 @@
                 <label>خطاب العمل / السجل التجاري</label>
                 <input type="file" accept=".pdf,image/*">
             </div>
-            <button class="btn btn-primary" onclick="nextStep(4)">رفع المستندات والانتقال للنموذج</button>
+        </div>
+        <div class="nav-actions">
+            <button class="btn btn-secondary" onclick="goToStep(2)">رجوع</button>
+            <button class="btn btn-primary" onclick="goToStep(4)">رفع الملفات والانتقال للنموذج</button>
         </div>
     </div>
 
-    <!-- الخطوة 4: نموذج بيانات السفارة -->
+    <!-- ================== الخطوة 4: نموذج السفارة (إيطاليا) ================== -->
     <div id="step-4" class="step">
+        <h2>4. نموذج سفارة إيطاليا (تعبئة تلقائية)</h2>
         <div class="form-group">
-            <label>4. نموذج بيانات سفارة الشنغن (تعبئة دقيقة)</label>
-            <p style="color:#94a3b8; font-size:14px; margin-bottom:15px;">(جميع الخانات إجبارية، يرجى مراجعتها بدقة)</p>
-            
-            <input type="text" placeholder="الاسم الأول (كما في الجواز)">
-            <input type="text" placeholder="اللقب / العائلة">
-            <input type="text" placeholder="رقم جواز السفر">
-            <input type="text" placeholder="مكان وتاريخ الميلاد">
-            <input type="text" placeholder="مدة الإقامة المطلوبة">
-            
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button class="btn btn-secondary" style="flex:1;" onclick="prevStep(3)">رجوع</button>
-                <button class="btn btn-primary" style="flex:2;" onclick="nextStep(5)">تأكيد البيانات</button>
+            <div style="background:#0d1117; padding:15px; border-radius:8px; display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:20px;">
+                <div><label>1. Surname</label><input type="text" id="f1" oninput="updateForm()"></div>
+                <div><label>3. First Name(s)</label><input type="text" id="f3" oninput="updateForm()"></div>
+                <div><label>4. Date of Birth</label><input type="date" id="f4" oninput="updateForm()"></div>
+                <div><label>5. Place of Birth</label><input type="text" id="f5" oninput="updateForm()"></div>
+                <div><label>7. Current Nationality</label><input type="text" id="f7" value="Egyptian" oninput="updateForm()"></div>
+                <div><label>13. Passport No.</label><input type="text" id="f13" oninput="updateForm()"></div>
             </div>
+
+            <!-- عرض النموذج الإيطالي -->
+            <div id="italyFormContainer">
+                <div class="header">
+                    <div><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Flag_of_the_European_Union.svg/320px-Flag_of_the_European_Union.svg.png" alt="EU"></div>
+                    <div class="title-box">
+                        <h2>Modulo armonizzato per la presentazione della domanda di visto</h2>
+                        <p><b>Domanda di visto per gli Stati Schengen</b></p>
+                        <p><i>Modulo gratuito</i></p>
+                    </div>
+                    <div><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Emblem_of_Italy.svg/320px-Emblem_of_Italy.svg.png" alt="IT"></div>
+                </div>
+                <div class="disclaimer">I familiari dei cittadini UE, SEE o CH o dei cittadini del Regno Unito beneficiari dell'accordo di recesso UE-Regno Unito non devono compilare i campi n. 21, 22, 31, 32 e 33. I campi da 1 a 3 vanno compilati in conformità con i dati riportati nel documento di viaggio.</div>
+                <table class="form-table"><tr><td width="30%"><b>1. Cognome:</b><br><input type="text" class="input-field" id="out-f1"></td><td width="15%" rowspan="2" style="text-align:center; font-size:9px;">Spazio riservato all'amministrazione</td><td width="30%"><b>2. Cognome alla nascita:</b><br><input type="text" class="input-field"></td><td width="25%"><b>3. Nome/i:</b><br><input type="text" class="input-field" id="out-f3"></td></tr><tr><td><b>Data della domanda:</b><br><input type="date" class="input-field"></td><td><b>Numero della domanda:</b><br><input type="text" class="input-field"></td><td></td></tr></table>
+                <table class="form-table"><tr><td width="25%"><b>4. Data di nascita:</b><br><input type="text" class="input-field" id="out-f4"></td><td width="25%"><b>5. Luogo di nascita:</b><br><input type="text" class="input-field" id="out-f5"></td><td width="25%"><b>7. Cittadinanza attuale:</b><br><input type="text" class="input-field" id="out-f7"></td><td width="25%"><b>Domanda presentata presso:</b><br><input type="text" class="input-field"></td></tr><tr><td><b>6. Stato di nascita:</b><br><input type="text" class="input-field"></td><td colspan="2">Cittadinanza alla nascita: <input type="text" class="input-field" style="width: 50%;"></td><td><b>6. Altro:</b><br><input type="text" class="input-field"></td></tr></table>
+                <table class="form-table"><tr><td width="20%"><b>8. Sesso:</b><br><div class="checkbox-group"><label><input type="radio" name="gender"> Maschile</label><label><input type="radio" name="gender"> Femminile</label></div></td><td width="30%"><b>9. Stato civile:</b><br><div class="checkbox-group"><label><input type="checkbox"> Single</label><label><input type="checkbox"> Married</label><label><input type="checkbox"> Divorced</label></div></td><td width="30%"><b>10. Responsabilità genitoriale:</b><br><input type="text" class="input-field"></td><td width="20%"><b>11. Numero di identità:</b><br><input type="text" class="input-field"></td></tr></table>
+                <table class="form-table"><tr><td width="50%"><b>12. Tipo di documento di viaggio:</b><br><div class="checkbox-group"><label><input type="checkbox"> Passaporto ordinario</label><label><input type="checkbox"> Passaporto diplomatico</label></div></td><td width="50%"><b>Supporting documents:</b><br><div class="checkbox-group"><label><input type="checkbox"> Travel document</label><label><input type="checkbox"> Means of subs.</label></div></td></tr></table>
+                <table class="form-table"><tr><td width="25%"><b>13. Numero documento:</b><br><input type="text" class="input-field" id="out-f13"></td><td width="25%"><b>14. Data di rilascio:</b><br><input type="date" class="input-field"></td><td width="25%"><b>15. Valido fino al:</b><br><input type="date" class="input-field"></td><td width="25%"><b>16. Rilasciato da (Paese):</b><br><input type="text" class="input-field"></td></tr></table>
+                <table class="form-table"><tr><td width="50%"><b>17. Dati personali del familiare cittadino UE/SEE/CH:</b><br> Surname: <input type="text" class="input-field" style="width:30%;"> Name: <input type="text" class="input-field" style="width:30%;"><br> Date of birth: <input type="date" class="input-field" style="width:30%;"> Nationality: <input type="text" class="input-field" style="width:30%;"></td><td width="50%"><b>18. Parentela con cittadino UE/SEE/CH:</b><br><div class="checkbox-group"><label><input type="checkbox"> spouse</label><label><input type="checkbox"> child</label><label><input type="checkbox"> grandchild</label></div><label>Other: <input type="text" class="input-field" style="width:50%;"></label></td></tr></table>
+                <table class="form-table"><tr><td width="70%"><b>19. Indirizzo del richiedente ed email:</b><br><input type="text" class="input-field" placeholder="Indirizzo..."></td><td width="30%"><b>Telefono:</b><br><input type="text" class="input-field"></td></tr><tr><td colspan="2"><b>20. Residenza in paese diverso dalla nazionalità:</b> <label><input type="radio" name="res"> No</label> <label><input type="radio" name="res"> Yes. Permesso:</label> <input type="text" class="input-field" style="width:30%;"></td></tr></table>
+                <table class="form-table"><tr><td width="40%"><b>*21. Occupazione attuale:</b><br><input type="text" class="input-field"></td><td width="60%"><b>*22. Datore di lavoro / Scuola:</b><br><input type="text" class="input-field" placeholder="Employer name / School"></td></tr><tr><td colspan="2"><b>23. Scopo del viaggio:</b><br><div class="checkbox-group"><label><input type="checkbox"> Tourism</label><label><input type="checkbox"> Business</label><label><input type="checkbox"> Family</label><label><input type="checkbox"> Cultural</label><label><input type="checkbox"> Medical</label><label><input type="checkbox"> Study</label></div></td></tr></table>
+                <table class="form-table"><tr><td colspan="2"><b>24. Info aggiuntive:</b><br><input type="text" class="input-field"></td><td width="50%"><b>25. Stato membro di destinazione:</b><br><input type="text" class="input-field"></td><td width="50%"><b>26. Primo ingresso:</b><br><input type="text" class="input-field"></td></tr><tr><td width="33%"><b>27. Ingressi richiesti:</b><br><div class="checkbox-group"><label><input type="checkbox"> Single</label><label><input type="checkbox"> Multiple</label></div></td><td width="33%"><b>Arrivo previsto:</b><br><input type="date" class="input-field"></td><td width="34%"><b>Partenza prevista:</b><br><input type="date" class="input-field"></td></tr><tr><td colspan="2"><b>28. Impronte raccolte in precedenza?</b> <label><input type="radio" name="finger"> No</label> <label><input type="radio" name="finger"> Yes</label></td><td colspan="2"><b>29. Permesso ingresso paese finale:</b><br><input type="text" class="input-field"></td></tr></table>
+                <table class="form-table"><tr><td width="50%"><b>*30. Persona invitante / Hotel:</b><br><input type="text" class="input-field"></td><td width="50%"><b>Contatti:</b><br><input type="text" class="input-field" placeholder="Indirizzo / Email"></td></tr><tr><td><b>*31. Azienda/Organizzazione:</b><br><input type="text" class="input-field"></td><td><b>Contatto:</b><br><input type="text" class="input-field" placeholder="Referente"></td></tr><tr><td colspan="2"><b>*32. Spese coperte da:</b><br><label><input type="radio" name="cost"> Richiedente (Cash, Card)</label><label><input type="radio" name="cost"> Sponsor</label></td></tr></table>
+                <table class="form-table"><tr><td width="50%"><b>33. Compilato da (se diverso):</b><br><input type="text" class="input-field"></td><td width="50%"><b>Contatto:</b><br><input type="text" class="input-field" placeholder="Email / Phone"></td></tr></table>
+                <div class="disclaimer" style="border-top:1px solid #000; padding-top:10px; margin-top:10px;"><p>I am aware that the visa fee is not refunded if the visa is refused. I undertake to leave the territory of the Member States before the expiry of the visa.</p></div>
+                <div class="signature-line"><div><b>Luogo e data:</b> _____________________________</div><div><b>Firma del richiedente:</b> _____________________________</div></div>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <button class="btn btn-secondary" onclick="goToStep(3)">رجوع</button>
+            <button class="btn btn-primary" onclick="goToStep(5)">تأكيد النموذج (الخطوة التالية)</button>
         </div>
     </div>
 
-    <!-- الخطوة 5: الخيارات الإضافية -->
+    <!-- ================== الخطوة 5: الخيارات الإضافية ================== -->
     <div id="step-5" class="step">
-        <div class="form-group">
-            <label>5. خيارات إضافية</label>
-            <div class="options-grid">
-                <div class="option-card" onclick="window.open('https://epti-egy.org/Traveltargetweb/Pages/Policy_Qry2/Default.aspx', '_blank')">
-                    <h4>🛡️ طباعة التأمين</h4>
-                    <p>الانتقال للتأمين الطبي</p>
-                </div>
-                <div class="option-card" onclick="window.open('https://myjet24.com/', '_blank')">
-                    <h4>✈️ حجز الطيران</h4>
-                    <p>الانتقال لحجز الطيران</p>
-                </div>
-                <div class="option-card" onclick="nextStep(6)">
-                    <h4>⏭️ تخطي</h4>
-                    <p>بدون طيران أو تأمين</p>
-                </div>
-                <div class="option-card" onclick="nextStep(6)" style="border-color:#eab308;">
-                    <h4>📄 مراجعة مباشرة</h4>
-                    <p>تخطي الخيارات للمراجعة</p>
-                </div>
+        <h2>5. خيارات إضافية</h2>
+        <div class="options-grid">
+            <div class="option-card" onclick="window.open('https://epti-egy.org/Traveltargetweb/Pages/Policy_Qry2/Default.aspx', '_blank')">
+                <h4>🛡️ طباعة التأمين</h4>
+                <p>الانتقال إلى بوابة التأمين</p>
             </div>
-            <button class="btn btn-outline" onclick="prevStep(4)">رجوع</button>
+            <div class="option-card" onclick="window.open('https://myjet24.com/', '_blank')">
+                <h4>✈️ حجز الطيران</h4>
+                <p>الانتقال لحجز الطيران</p>
+            </div>
+            <div class="option-card" onclick="goToStep(6)">
+                <h4>⏭️ تخطي الخيارات</h4>
+                <p>بدون طيران أو تأمين</p>
+            </div>
+            <div class="option-card" onclick="goToStep(6)" style="border-color:#d29922;">
+                <h4>📄 مراجعة مباشرة</h4>
+                <p>تخطي للمراجعة النهائية</p>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <button class="btn btn-secondary" onclick="goToStep(4)">رجوع</button>
         </div>
     </div>
 
-    <!-- الخطوة 6: مراجعة الملف -->
+    <!-- ================== الخطوة 6: مراجعة الملف النهائي ================== -->
     <div id="step-6" class="step">
-        <div class="form-group">
-            <label>6. مراجعة الملف النهائي</label>
-            <div class="review-box">
-                <div class="review-row"><span>الدولة المختارة:</span> <span id="display-country">لم يتم الاختيار</span></div>
-                <div class="review-row"><span>حالة الفندق:</span> <span style="color:#22c55e;">✓ تم الحجز</span></div>
-                <div class="review-row"><span>المستندات:</span> <span style="color:#22c55e;">✓ تم الرفع</span></div>
-                <div class="review-row"><span>نموذج السفارة:</span> <span style="color:#22c55e;">✓ تم التعبئة</span></div>
-            </div>
-            <p style="color:#94a3b8; font-size:14px; margin-bottom:15px;">تأكد من صحة جميع البيانات. لا يمكن التعديل بعد هذه الخطوة.</p>
-            
-            <div style="display:flex; gap:10px;">
-                <button class="btn btn-secondary" style="flex:1;" onclick="prevStep(5)">رجوع</button>
-                <button class="btn btn-warning" style="flex:2;" onclick="finalizeApplication()">تأكيد البيانات واعتماد الملف</button>
-            </div>
+        <h2>6. مراجعة الملف النهائي</h2>
+        <div class="review-box">
+            <div class="review-row"><span>الدولة المختارة:</span> <span id="display-country">لم يتم الاختيار</span></div>
+            <div class="review-row"><span>حالة الفندق:</span> <span style="color:#2ea043;">✓ تم الحجز</span></div>
+            <div class="review-row"><span>المستندات:</span> <span style="color:#2ea043;">✓ تم الرفع</span></div>
+            <div class="review-row"><span>نموذج السفارة:</span> <span style="color:#2ea043;">✓ تم التعبئة</span></div>
+        </div>
+        <p style="color: #8b949e; font-size: 14px; margin-bottom: 15px;">يرجى التأكد من صحة جميع البيانات قبل إنشاء الملف النهائي.</p>
+        <div class="nav-actions">
+            <button class="btn btn-secondary" onclick="goToStep(5)">رجوع</button>
+            <button class="btn btn-warning" onclick="finalizeApplication()">تأكيد البيانات وإنشاء الملف النهائي</button>
         </div>
     </div>
 
-    <!-- الخطوة 7: الطباعة النهائية -->
+    <!-- ================== الخطوة 7: طباعة / تنزيل PDF ================== -->
     <div id="step-7" class="step" style="text-align: center;">
-        <h2 style="color:#22c55e; border:none;">✅ تم اعتماد الملف بنجاح!</h2>
-        <p style="color:#94a3b8; margin-bottom: 30px;">الملف جاهز للطباعة أو التنزيل بالترتيب الرسمي للسفارة.</p>
+        <h2 style="color: #2ea043; border:none;">✅ تم اعتماد الملف بنجاح!</h2>
+        <p style="color: #8b949e; margin-bottom: 30px;">ملف السفارة جاهز للطباعة والتقديم.</p>
         <div style="display:flex; flex-direction:column; gap:15px; max-width:300px; margin:0 auto;">
             <button class="btn btn-primary" onclick="window.print()">🖨️ طباعة الملف مباشرة</button>
-            <button class="btn btn-success">⬇️ تنزيل بصيغة PDF</button>
+            <button class="btn btn-primary" onclick="downloadPDF()">⬇️ تنزيل الملف بصيغة PDF</button>
         </div>
-        <button class="btn btn-outline" style="margin-top:30px;" onclick="location.reload()">بدء طلب جديد</button>
+        <button class="btn btn-secondary" style="margin-top:30px;" onclick="location.reload()">بدء طلب جديد</button>
     </div>
 
 </div>
 
 <script>
-    // دالة لحفظ البيانات والتنقل
-    function nextStep(step) {
-        // تحديث اسم الدولة في صفحة المراجعة
-        if(step === 6) {
-            let country = document.getElementById('input-country').value;
-            document.getElementById('display-country').innerText = country ? country : "لم يتم الاختيار";
-        }
-        changeStep(step);
-    }
-
-    function prevStep(step) {
-        changeStep(step);
-    }
-
-    function changeStep(stepNumber) {
-        // إخفاء كل الخطوات
+    // دالة التنقل بين الخطوات مع حفظ البيانات
+    function goToStep(stepNumber) {
         document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-        // إظهار الخطوة المطلوبة
         document.getElementById(`step-${stepNumber}`).classList.add('active');
-        // التمرير لأعلى الصفحة
+        
+        // تحديث معلومات المراجعة
+        if(stepNumber === 6) {
+            const country = document.getElementById('countrySelect').value;
+            const countryName = document.getElementById('countrySelect').options[document.getElementById('countrySelect').selectedIndex].text;
+            document.getElementById('display-country').innerText = country !== "" ? countryName : "لم يتم الاختيار";
+        }
         window.scrollTo(0, 0);
     }
 
+    // دالة نقل البيانات إلى النموذج الإيطالي
+    function updateForm() {
+        document.getElementById('out-f1').value = document.getElementById('f1').value;
+        document.getElementById('out-f3').value = document.getElementById('f3').value;
+        let dob = document.getElementById('f4').value;
+        document.getElementById('out-f4').value = dob ? dob.split('-').reverse().join('/') : '';
+        document.getElementById('out-f5').value = document.getElementById('f5').value;
+        document.getElementById('out-f7').value = document.getElementById('f7').value;
+        document.getElementById('out-f13').value = document.getElementById('f13').value;
+    }
+
+    // الانتقال للخطوة الأخيرة
     function finalizeApplication() {
-        // محاكاة معالجة البيانات وتحويلها لملف
-        changeStep(7);
+        goToStep(7);
+    }
+
+    // دالة تنزيل PDF للنموذج الإيطالي
+    function downloadPDF() {
+        const element = document.getElementById('italyFormContainer');
+        html2canvas(element, { scale: 2, useCORS: true }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save('Italy_Full_Schengen_Visa.pdf');
+        });
     }
 </script>
-
 </body>
 </html>
