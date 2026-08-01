@@ -13,6 +13,84 @@
     <!-- ملف التنسيقات -->
     <link rel="stylesheet" href="style.css">
     <base target="_blank">
+
+    <!-- ===== OVERRIDE BOOTSTRAP DARK MODE ===== -->
+    <style>
+        html, body {
+            background: #0a0a0f !important;
+            color: #e8e6e3 !important;
+        }
+        body * {
+            color: #e8e6e3;
+        }
+        .form-control, select.form-control, input.form-control, textarea.form-control {
+            background: rgba(255,255,255,0.05) !important;
+            color: #e8e6e3 !important;
+            border: 1px solid rgba(201,168,76,0.15) !important;
+        }
+        .form-control:focus {
+            border-color: #c9a84c !important;
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.15) !important;
+        }
+        select option {
+            background: #1a1a2e !important;
+            color: #e8e6e3 !important;
+        }
+        .navbar {
+            background: rgba(10,10,15,0.92) !important;
+            border-bottom: 1px solid rgba(201,168,76,0.1) !important;
+        }
+        .navbar-toggler {
+            background: rgba(255,255,255,0.1) !important;
+            border-color: rgba(201,168,76,0.2) !important;
+        }
+        .navbar-toggler-icon {
+            filter: invert(1) !important;
+        }
+        .nav-link {
+            color: #a8a6a3 !important;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #c9a84c !important;
+            background: rgba(201,168,76,0.08) !important;
+        }
+        .container, .row, [class*="col-"] {
+            background: transparent !important;
+        }
+        h1, h2, h3, h4, h5, h6, p, span, label, div, a, button, i, small {
+            color: inherit;
+        }
+        .step-header h2 {
+            background: linear-gradient(135deg, #e8e6e3, #a8a6a3) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+        }
+        .brand-text {
+            background: linear-gradient(135deg, #c9a84c, #f5d98a) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+        }
+        .section-title {
+            color: #c9a84c !important;
+        }
+        .step-subtitle, .text-muted {
+            color: #a8a6a3 !important;
+        }
+        .dot-label {
+            color: #a8a6a3 !important;
+        }
+        .step-dot.active .dot-label {
+            color: #c9a84c !important;
+        }
+        /* Validation */
+        .is-invalid {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 3px rgba(220,53,69,0.15) !important;
+        }
+    </style>
+
 <base target="_blank">
 </head>
 <body>
