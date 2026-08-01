@@ -1,5 +1,5 @@
 /* ============================================
-   Al EmlaQ Files - Style Sheet (FIXED + VALIDATION + OFFICIAL PRINT)
+   Al EmlaQ Files - Style Sheet (FIXED)
    تصميم فخم وغامض وعميق
    ============================================ */
 
@@ -17,8 +17,6 @@
     --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --font-arabic: 'Cairo', sans-serif;
     --font-english: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --danger: #dc3545;
-    --danger-glow: rgba(220, 53, 69, 0.15);
 }
 
 /* ===== الوضع المظلم (افتراضي) ===== */
@@ -131,66 +129,6 @@ body.light-mode .section-title {
 body.light-mode .review-section-title {
     color: var(--accent);
     border-bottom-color: var(--accent);
-}
-
-/* ===== Toast Notifications ===== */
-.al-toast {
-    position: fixed;
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-20px);
-    background: var(--secondary);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    z-index: 9999;
-    opacity: 0;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow);
-    min-width: 300px;
-    justify-content: center;
-}
-
-.al-toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-.al-toast.error {
-    border-color: var(--danger);
-    background: rgba(220, 53, 69, 0.1);
-    color: #ff6b6b;
-}
-
-.al-toast.success {
-    border-color: #28a745;
-    background: rgba(40, 167, 69, 0.1);
-    color: #51cf66;
-}
-
-.al-toast i {
-    font-size: 1.2rem;
-}
-
-/* ===== Validation Styles ===== */
-.is-invalid {
-    border-color: var(--danger) !important;
-    background: var(--danger-glow) !important;
-}
-
-.is-invalid:focus {
-    box-shadow: 0 0 0 3px var(--danger-glow) !important;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-    20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
 /* ===== الشريط العلوي ===== */
@@ -1196,7 +1134,125 @@ body.light-mode .footer-social a {
     }
 }
 
-/* ===== النموذج الرسمي للطباعة ===== */
+/* ===== تنسيقات الطباعة ===== */
+@media print {
+    .navbar,
+    .progress-indicator,
+    .step-footer,
+    .review-actions,
+    .site-footer {
+        display: none !important;
+    }
+
+    .step-card {
+        box-shadow: none !important;
+        border: none !important;
+        background: #fff !important;
+        color: #000 !important;
+        padding: 20px !important;
+    }
+
+    body,
+    body.light-mode {
+        background: #fff !important;
+    }
+
+    .step-card .step-header h2 {
+        -webkit-text-fill-color: #000 !important;
+        background: none !important;
+    }
+
+    .review-container {
+        border: 1px solid #ddd !important;
+        background: #fff !important;
+        color: #000 !important;
+    }
+
+    .review-content .review-label {
+        color: #555 !important;
+    }
+
+    .review-content .review-value {
+        color: #000 !important;
+    }
+
+    .review-section-title {
+        color: #000 !important;
+        border-bottom-color: #999 !important;
+    }
+
+    .warning-box {
+        background: #f5f5f5 !important;
+        border-color: #999 !important;
+    }
+}
+
+/* ============================================
+   ADDITIONS: Validation + Toast + Official Print Form
+   ============================================ */
+
+/* ===== Toast Notifications ===== */
+.al-toast {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: var(--secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    min-width: 300px;
+    justify-content: center;
+}
+
+.al-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.al-toast.error {
+    border-color: #dc3545;
+    background: rgba(220, 53, 69, 0.1);
+    color: #ff6b6b;
+}
+
+.al-toast.success {
+    border-color: #28a745;
+    background: rgba(40, 167, 69, 0.1);
+    color: #51cf66;
+}
+
+.al-toast i {
+    font-size: 1.2rem;
+}
+
+/* ===== Validation Styles ===== */
+.is-invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15) !important;
+}
+
+body.light-mode .is-invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15) !important;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* ===== Official Schengen Print Form ===== */
 #printableForm {
     display: none;
 }
@@ -1206,9 +1262,15 @@ body.light-mode .footer-social a {
     font-size: 10pt;
     color: #000;
     background: #fff;
-    padding: 20px;
+    padding: 15mm;
     max-width: 210mm;
     margin: 0 auto;
+    direction: ltr;
+}
+
+.schengen-form * {
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
 }
 
 .form-header {
@@ -1216,56 +1278,58 @@ body.light-mode .footer-social a {
     justify-content: space-between;
     align-items: flex-start;
     border-bottom: 2px solid #000;
-    padding-bottom: 15px;
-    margin-bottom: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .form-title h1 {
-    font-size: 16pt;
+    font-size: 14pt;
     font-weight: bold;
-    margin: 0 0 5px 0;
+    margin: 0 0 3px 0;
     text-transform: uppercase;
+    color: #000 !important;
 }
 
 .form-subtitle {
-    font-size: 9pt;
+    font-size: 8pt;
     color: #333;
     margin: 0;
     font-style: italic;
 }
 
 .photo-box {
-    width: 35mm;
-    height: 45mm;
+    width: 30mm;
+    height: 40mm;
     border: 2px solid #000;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: 8pt;
+    font-size: 7pt;
     background: #f9f9f9;
+    flex-shrink: 0;
 }
 
 .photo-box span {
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 }
 
 .photo-box small {
-    font-size: 7pt;
+    font-size: 6pt;
     color: #666;
 }
 
 .form-section-official {
     border: 1px solid #000;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .field-row {
     display: flex;
     border-bottom: 1px solid #000;
-    min-height: 30px;
+    min-height: 28px;
     align-items: stretch;
 }
 
@@ -1288,44 +1352,47 @@ body.light-mode .footer-social a {
 }
 
 .field-num {
-    width: 28px;
-    min-width: 28px;
+    width: 26px;
+    min-width: 26px;
     background: #e8e8e8;
     border-right: 1px solid #000;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 9pt;
+    font-size: 8pt;
+    color: #000;
 }
 
 .field-content {
     flex: 1;
-    padding: 4px 8px;
+    padding: 3px 6px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .field-content label {
-    font-size: 7pt;
+    font-size: 6.5pt;
     color: #333;
     text-transform: uppercase;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
     font-weight: normal;
+    line-height: 1.2;
 }
 
 .field-value {
-    font-size: 10pt;
+    font-size: 9pt;
     font-weight: bold;
-    min-height: 16px;
+    min-height: 14px;
     border-bottom: 1px dotted #999;
-    padding-bottom: 2px;
+    padding-bottom: 1px;
+    color: #000;
 }
 
 .checkbox-group {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
     flex-wrap: wrap;
 }
@@ -1333,29 +1400,33 @@ body.light-mode .footer-social a {
 .checkbox-item {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    font-size: 9pt;
+    gap: 3px;
+    font-size: 8pt;
+    color: #000;
 }
 
 .checkbox-item::before {
-    content: '☐';
-    font-size: 12pt;
+    content: '±0';
+    font-size: 11pt;
+    color: #000;
 }
 
 .checkbox-item.checked::before {
-    content: '☑';
+    content: '±1';
+    color: #000;
 }
 
 .field-inline {
-    font-size: 9pt;
-    margin-right: 20px;
+    font-size: 8pt;
+    margin-left: 15px;
+    color: #000;
 }
 
 .form-footer-official {
     display: flex;
     justify-content: space-between;
-    margin-top: 30px;
-    gap: 40px;
+    margin-top: 20px;
+    gap: 30px;
 }
 
 .signature-line {
@@ -1363,32 +1434,32 @@ body.light-mode .footer-social a {
 }
 
 .signature-line label {
-    font-size: 8pt;
+    font-size: 7pt;
     color: #333;
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     text-transform: uppercase;
 }
 
 .signature-line .line {
     border-bottom: 1px solid #000;
-    height: 40px;
+    height: 35px;
 }
 
 .form-watermark {
     text-align: center;
-    font-size: 7pt;
+    font-size: 6pt;
     color: #999;
-    margin-top: 20px;
+    margin-top: 15px;
     border-top: 1px solid #ddd;
-    padding-top: 10px;
+    padding-top: 8px;
 }
 
 /* ===== تنسيقات الطباعة ===== */
 @media print {
     @page {
         size: A4 portrait;
-        margin: 10mm;
+        margin: 8mm;
     }
 
     .navbar,
@@ -1398,7 +1469,11 @@ body.light-mode .footer-social a {
     .site-footer,
     .al-toast,
     .step-card,
-    .main-content {
+    .main-content,
+    .lang-toggle,
+    .theme-toggle,
+    .navbar-toggler,
+    .navbar-collapse {
         display: none !important;
     }
 
@@ -1413,6 +1488,7 @@ body.light-mode .footer-social a {
     }
 
     .schengen-form {
+        display: block !important;
         box-shadow: none !important;
         border: none !important;
         background: #fff !important;
