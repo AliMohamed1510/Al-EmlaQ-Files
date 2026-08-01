@@ -1,5 +1,5 @@
 /* ============================================
-   Al EmlaQ Files - Style Sheet (FIXED)
+   Al EmlaQ Files - Style Sheet (FIXED + VALIDATION + OFFICIAL PRINT)
    تصميم فخم وغامض وعميق
    ============================================ */
 
@@ -17,6 +17,8 @@
     --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --font-arabic: 'Cairo', sans-serif;
     --font-english: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --danger: #dc3545;
+    --danger-glow: rgba(220, 53, 69, 0.15);
 }
 
 /* ===== الوضع المظلم (افتراضي) ===== */
@@ -129,6 +131,66 @@ body.light-mode .section-title {
 body.light-mode .review-section-title {
     color: var(--accent);
     border-bottom-color: var(--accent);
+}
+
+/* ===== Toast Notifications ===== */
+.al-toast {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: var(--secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    min-width: 300px;
+    justify-content: center;
+}
+
+.al-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.al-toast.error {
+    border-color: var(--danger);
+    background: rgba(220, 53, 69, 0.1);
+    color: #ff6b6b;
+}
+
+.al-toast.success {
+    border-color: #28a745;
+    background: rgba(40, 167, 69, 0.1);
+    color: #51cf66;
+}
+
+.al-toast i {
+    font-size: 1.2rem;
+}
+
+/* ===== Validation Styles ===== */
+.is-invalid {
+    border-color: var(--danger) !important;
+    background: var(--danger-glow) !important;
+}
+
+.is-invalid:focus {
+    box-shadow: 0 0 0 3px var(--danger-glow) !important;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
 /* ===== الشريط العلوي ===== */
@@ -1134,55 +1196,227 @@ body.light-mode .footer-social a {
     }
 }
 
+/* ===== النموذج الرسمي للطباعة ===== */
+#printableForm {
+    display: none;
+}
+
+.schengen-form {
+    font-family: 'Arial', sans-serif;
+    font-size: 10pt;
+    color: #000;
+    background: #fff;
+    padding: 20px;
+    max-width: 210mm;
+    margin: 0 auto;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #000;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.form-title h1 {
+    font-size: 16pt;
+    font-weight: bold;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+}
+
+.form-subtitle {
+    font-size: 9pt;
+    color: #333;
+    margin: 0;
+    font-style: italic;
+}
+
+.photo-box {
+    width: 35mm;
+    height: 45mm;
+    border: 2px solid #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 8pt;
+    background: #f9f9f9;
+}
+
+.photo-box span {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.photo-box small {
+    font-size: 7pt;
+    color: #666;
+}
+
+.form-section-official {
+    border: 1px solid #000;
+    margin-bottom: 15px;
+}
+
+.field-row {
+    display: flex;
+    border-bottom: 1px solid #000;
+    min-height: 30px;
+    align-items: stretch;
+}
+
+.field-row:last-child {
+    border-bottom: none;
+}
+
+.field-row.two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.field-half {
+    display: flex;
+    border-right: 1px solid #000;
+}
+
+.field-half:last-child {
+    border-right: none;
+}
+
+.field-num {
+    width: 28px;
+    min-width: 28px;
+    background: #e8e8e8;
+    border-right: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 9pt;
+}
+
+.field-content {
+    flex: 1;
+    padding: 4px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.field-content label {
+    font-size: 7pt;
+    color: #333;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    font-weight: normal;
+}
+
+.field-value {
+    font-size: 10pt;
+    font-weight: bold;
+    min-height: 16px;
+    border-bottom: 1px dotted #999;
+    padding-bottom: 2px;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.checkbox-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9pt;
+}
+
+.checkbox-item::before {
+    content: '☐';
+    font-size: 12pt;
+}
+
+.checkbox-item.checked::before {
+    content: '☑';
+}
+
+.field-inline {
+    font-size: 9pt;
+    margin-right: 20px;
+}
+
+.form-footer-official {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 40px;
+}
+
+.signature-line {
+    flex: 1;
+}
+
+.signature-line label {
+    font-size: 8pt;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.signature-line .line {
+    border-bottom: 1px solid #000;
+    height: 40px;
+}
+
+.form-watermark {
+    text-align: center;
+    font-size: 7pt;
+    color: #999;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
 /* ===== تنسيقات الطباعة ===== */
 @media print {
+    @page {
+        size: A4 portrait;
+        margin: 10mm;
+    }
+
     .navbar,
     .progress-indicator,
     .step-footer,
     .review-actions,
-    .site-footer {
+    .site-footer,
+    .al-toast,
+    .step-card,
+    .main-content {
         display: none !important;
     }
 
-    .step-card {
-        box-shadow: none !important;
-        border: none !important;
-        background: #fff !important;
-        color: #000 !important;
-        padding: 20px !important;
+    #printableForm {
+        display: block !important;
     }
 
     body,
     body.light-mode {
         background: #fff !important;
+        color: #000 !important;
     }
 
-    .step-card .step-header h2 {
-        -webkit-text-fill-color: #000 !important;
-        background: none !important;
-    }
-
-    .review-container {
-        border: 1px solid #ddd !important;
+    .schengen-form {
+        box-shadow: none !important;
+        border: none !important;
         background: #fff !important;
         color: #000 !important;
-    }
-
-    .review-content .review-label {
-        color: #555 !important;
-    }
-
-    .review-content .review-value {
-        color: #000 !important;
-    }
-
-    .review-section-title {
-        color: #000 !important;
-        border-bottom-color: #999 !important;
-    }
-
-    .warning-box {
-        background: #f5f5f5 !important;
-        border-color: #999 !important;
+        padding: 0 !important;
     }
 }
