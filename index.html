@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>AET platform</title>
+<title>AET - Appointment Booking Platform</title>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="shortcut icon" href="https://raw.githubusercontent.com/AliMohamed1510/Al-EmlaQ-Files/main/image.png">
 
@@ -263,22 +263,22 @@ label, .control-label { width: 100%; }
 <div id="country-selection" style="display:block; text-align:center; min-height:100vh; padding-top:120px; padding-bottom:40px; width:100%;">
     <div class="selection-card" style="display:inline-block; text-align:center; max-width:600px; width:90%; vertical-align:top;">
         <img src="https://raw.githubusercontent.com/AliMohamed1510/Al-EmlaQ-Files/main/image.png" alt="AET Logo" style="max-height: 100px; margin-bottom: 20px;">
-        <h1>Welcome to the AET platform</h1>
-        <p>Please select the country for which you wish to fill out the form. </p>
+        <h1 data-key="welcome_title">Welcome to the AET platform</h1>
+        <p data-key="welcome_desc">Please select the country for which you wish to fill out the form.</p>
 
         <select id="countrySelect" class="country-select">
             <option value="" selected disabled data-key="select_country">-- Select Country --</option>
-            <option value="Italy">إيطاليا (Italy)</option>
-            <option value="Spain">إسبانيا (Spain)</option>
-            <option value="Switzerland">سويسرا (Switzerland)</option>
-            <option value="Sweden">السويد (Sweden)</option>
-            <option value="Slovakia">سلوفاكيا (Slovakia)</option>
-            <option value="Portugal">البرتغال (Portugal)</option>
-            <option value="Malta">مالطا (Malta)</option>
-            <option value="Hungary">المجر - هنغاريا (Hungary)</option>
-            <option value="Greece">اليونان (Greece)</option>
-            <option value="Croatia">كرواتيا (Croatia)</option>
-            <option value="Austria">النمسا (Austria)</option>
+            <option value="Italy" data-country="Italy">Italy</option>
+            <option value="Spain" data-country="Spain">Spain</option>
+            <option value="Switzerland" data-country="Switzerland">Switzerland</option>
+            <option value="Sweden" data-country="Sweden">Sweden</option>
+            <option value="Slovakia" data-country="Slovakia">Slovakia</option>
+            <option value="Portugal" data-country="Portugal">Portugal</option>
+            <option value="Malta" data-country="Malta">Malta</option>
+            <option value="Hungary" data-country="Hungary">Hungary</option>
+            <option value="Greece" data-country="Greece">Greece</option>
+            <option value="Croatia" data-country="Croatia">Croatia</option>
+            <option value="Austria" data-country="Austria">Austria</option>
         </select>
 
         <div style="margin: 25px 0; display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%;">
@@ -4868,10 +4868,13 @@ countrySelect.addEventListener('change', function() {
 
 proceedBtn.addEventListener('click', function() {
     const country = countrySelect.value;
-    const countryText = countrySelect.options[countrySelect.selectedIndex].text;
+    const currentLang = document.documentElement.lang || 'en';
+    const c = countryNames[currentLang] || countryNames['en'];
+    const countryText = c[country] || country;
+    const t = translations[currentLang] || translations['en'];
 
     if (country) {
-        selectedCountryBadge.textContent = 'الدولة: ' + countryText;
+        selectedCountryBadge.textContent = (t.country_badge || 'Country: ') + countryText;
         formCountryName.textContent = countryText;
         selectedCountryInput.value = country;
 
@@ -5728,10 +5731,23 @@ function generatePDF() {
 
 <script>
 // Translation data
+const countryNames = {
+    en: { Italy:"Italy", Spain:"Spain", Switzerland:"Switzerland", Sweden:"Sweden", Slovakia:"Slovakia", Portugal:"Portugal", Malta:"Malta", Hungary:"Hungary", Greece:"Greece", Croatia:"Croatia", Austria:"Austria" },
+    ar: { Italy:"إيطاليا", Spain:"إسبانيا", Switzerland:"سويسرا", Sweden:"السويد", Slovakia:"سلوفاكيا", Portugal:"البرتغال", Malta:"مالطا", Hungary:"المجر", Greece:"اليونان", Croatia:"كرواتيا", Austria:"النمسا" },
+    fr: { Italy:"Italie", Spain:"Espagne", Switzerland:"Suisse", Sweden:"Suède", Slovakia:"Slovaquie", Portugal:"Portugal", Malta:"Malte", Hungary:"Hongrie", Greece:"Grèce", Croatia:"Croatie", Austria:"Autriche" },
+    de: { Italy:"Italien", Spain:"Spanien", Switzerland:"Schweiz", Sweden:"Schweden", Slovakia:"Slowakei", Portugal:"Portugal", Malta:"Malta", Hungary:"Ungarn", Greece:"Griechenland", Croatia:"Kroatien", Austria:"Österreich" },
+    it: { Italy:"Italia", Spain:"Spagna", Switzerland:"Svizzera", Sweden:"Svezia", Slovakia:"Slovacchia", Portugal:"Portogallo", Malta:"Malta", Hungary:"Ungheria", Greece:"Grecia", Croatia:"Croazia", Austria:"Austria" },
+    es: { Italy:"Italia", Spain:"España", Switzerland:"Suiza", Sweden:"Suecia", Slovakia:"Eslovaquia", Portugal:"Portugal", Malta:"Malta", Hungary:"Hungría", Greece:"Grecia", Croatia:"Croacia", Austria:"Austria" },
+    pt: { Italy:"Itália", Spain:"Espanha", Switzerland:"Suíça", Sweden:"Suécia", Slovakia:"Eslováquia", Portugal:"Portugal", Malta:"Malta", Hungary:"Hungria", Greece:"Grécia", Croatia:"Croácia", Austria:"Áustria" },
+    tr: { Italy:"İtalya", Spain:"İspanya", Switzerland:"İsviçre", Sweden:"İsveç", Slovakia:"Slovakya", Portugal:"Portekiz", Malta:"Malta", Hungary:"Macaristan", Greece:"Yunanistan", Croatia:"Hırvatistan", Austria:"Avusturya" },
+    zh: { Italy:"意大利", Spain:"西班牙", Switzerland:"瑞士", Sweden:"瑞典", Slovakia:"斯洛伐克", Portugal:"葡萄牙", Malta:"马耳他", Hungary:"匈牙利", Greece:"希腊", Croatia:"克罗地亚", Austria:"奥地利" },
+    ru: { Italy:"Италия", Spain:"Испания", Switzerland:"Швейцария", Sweden:"Швеция", Slovakia:"Словакия", Portugal:"Португалия", Malta:"Мальта", Hungary:"Венгрия", Greece:"Греция", Croatia:"Хорватия", Austria:"Австрия" }
+};
+
 const translations = {
     en: {
-        welcome_title: "Welcome to AET Platform",
-        welcome_desc: "Please select the country you want to apply for",
+        welcome_title: "Welcome to the AET platform",
+        welcome_desc: "Please select the country for which you wish to fill out the form.",
         select_country: "-- Select Country --",
         extra_services: "Additional Services",
         btn_hotel: "🏨 Hotel Booking",
@@ -5883,6 +5899,7 @@ const translations = {
 
 function switchLanguage(lang) {
     const t = translations[lang];
+    const c = countryNames[lang] || countryNames['en'];
     if (!t) return;
 
     // Update HTML direction
@@ -5893,12 +5910,12 @@ function switchLanguage(lang) {
     document.querySelectorAll('[data-key]').forEach(el => {
         const key = el.getAttribute('data-key');
         if (t[key]) {
-            // For form title, keep the country name
             if (key === 'form_title') {
                 const countryName = document.getElementById('formCountryName').textContent;
                 el.innerHTML = t[key] + '<span id="formCountryName">' + countryName + '</span>';
             } else if (key === 'country_badge') {
-                const countryText = document.getElementById('selectedCountryBadge').textContent.split(':')[1] || '';
+                const countryVal = document.getElementById('selected_country_input').value;
+                const countryText = c[countryVal] || countryVal;
                 el.textContent = t[key] + countryText;
             } else {
                 el.textContent = t[key];
@@ -5906,10 +5923,19 @@ function switchLanguage(lang) {
         }
     });
 
+    // Translate country options
+    document.querySelectorAll('#countrySelect option[data-country]').forEach(opt => {
+        const countryKey = opt.getAttribute('data-country');
+        if (c[countryKey]) {
+            opt.textContent = c[countryKey];
+        }
+    });
+
     // Update country badge if visible
     const badge = document.getElementById('selectedCountryBadge');
     if (badge && badge.style.display !== 'none') {
-        const countryText = badge.textContent.split(':')[1] || badge.textContent.split(' ')[1] || '';
+        const countryVal = document.getElementById('selected_country_input').value;
+        const countryText = c[countryVal] || countryVal;
         badge.textContent = (t.country_badge || 'Country: ') + countryText;
     }
 
@@ -5940,10 +5966,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
 // Translation data
+const countryNames = {
+    en: { Italy:"Italy", Spain:"Spain", Switzerland:"Switzerland", Sweden:"Sweden", Slovakia:"Slovakia", Portugal:"Portugal", Malta:"Malta", Hungary:"Hungary", Greece:"Greece", Croatia:"Croatia", Austria:"Austria" },
+    ar: { Italy:"إيطاليا", Spain:"إسبانيا", Switzerland:"سويسرا", Sweden:"السويد", Slovakia:"سلوفاكيا", Portugal:"البرتغال", Malta:"مالطا", Hungary:"المجر", Greece:"اليونان", Croatia:"كرواتيا", Austria:"النمسا" },
+    fr: { Italy:"Italie", Spain:"Espagne", Switzerland:"Suisse", Sweden:"Suède", Slovakia:"Slovaquie", Portugal:"Portugal", Malta:"Malte", Hungary:"Hongrie", Greece:"Grèce", Croatia:"Croatie", Austria:"Autriche" },
+    de: { Italy:"Italien", Spain:"Spanien", Switzerland:"Schweiz", Sweden:"Schweden", Slovakia:"Slowakei", Portugal:"Portugal", Malta:"Malta", Hungary:"Ungarn", Greece:"Griechenland", Croatia:"Kroatien", Austria:"Österreich" },
+    it: { Italy:"Italia", Spain:"Spagna", Switzerland:"Svizzera", Sweden:"Svezia", Slovakia:"Slovacchia", Portugal:"Portogallo", Malta:"Malta", Hungary:"Ungheria", Greece:"Grecia", Croatia:"Croazia", Austria:"Austria" },
+    es: { Italy:"Italia", Spain:"España", Switzerland:"Suiza", Sweden:"Suecia", Slovakia:"Eslovaquia", Portugal:"Portugal", Malta:"Malta", Hungary:"Hungría", Greece:"Grecia", Croatia:"Croacia", Austria:"Austria" },
+    pt: { Italy:"Itália", Spain:"Espanha", Switzerland:"Suíça", Sweden:"Suécia", Slovakia:"Eslováquia", Portugal:"Portugal", Malta:"Malta", Hungary:"Hungria", Greece:"Grécia", Croatia:"Croácia", Austria:"Áustria" },
+    tr: { Italy:"İtalya", Spain:"İspanya", Switzerland:"İsviçre", Sweden:"İsveç", Slovakia:"Slovakya", Portugal:"Portekiz", Malta:"Malta", Hungary:"Macaristan", Greece:"Yunanistan", Croatia:"Hırvatistan", Austria:"Avusturya" },
+    zh: { Italy:"意大利", Spain:"西班牙", Switzerland:"瑞士", Sweden:"瑞典", Slovakia:"斯洛伐克", Portugal:"葡萄牙", Malta:"马耳他", Hungary:"匈牙利", Greece:"希腊", Croatia:"克罗地亚", Austria:"奥地利" },
+    ru: { Italy:"Италия", Spain:"Испания", Switzerland:"Швейцария", Sweden:"Швеция", Slovakia:"Словакия", Portugal:"Португалия", Malta:"Мальта", Hungary:"Венгрия", Greece:"Греция", Croatia:"Хорватия", Austria:"Австрия" }
+};
+
 const translations = {
     en: {
-        welcome_title: "Welcome to AET Platform",
-        welcome_desc: "Please select the country you want to apply for",
+        welcome_title: "Welcome to the AET platform",
+        welcome_desc: "Please select the country for which you wish to fill out the form.",
         select_country: "-- Select Country --",
         extra_services: "Additional Services",
         btn_hotel: "🏨 Hotel Booking",
@@ -6095,6 +6134,7 @@ const translations = {
 
 function switchLanguage(lang) {
     const t = translations[lang];
+    const c = countryNames[lang] || countryNames['en'];
     if (!t) return;
 
     // Update HTML direction
@@ -6105,12 +6145,12 @@ function switchLanguage(lang) {
     document.querySelectorAll('[data-key]').forEach(el => {
         const key = el.getAttribute('data-key');
         if (t[key]) {
-            // For form title, keep the country name
             if (key === 'form_title') {
                 const countryName = document.getElementById('formCountryName').textContent;
                 el.innerHTML = t[key] + '<span id="formCountryName">' + countryName + '</span>';
             } else if (key === 'country_badge') {
-                const countryText = document.getElementById('selectedCountryBadge').textContent.split(':')[1] || '';
+                const countryVal = document.getElementById('selected_country_input').value;
+                const countryText = c[countryVal] || countryVal;
                 el.textContent = t[key] + countryText;
             } else {
                 el.textContent = t[key];
@@ -6118,10 +6158,19 @@ function switchLanguage(lang) {
         }
     });
 
+    // Translate country options
+    document.querySelectorAll('#countrySelect option[data-country]').forEach(opt => {
+        const countryKey = opt.getAttribute('data-country');
+        if (c[countryKey]) {
+            opt.textContent = c[countryKey];
+        }
+    });
+
     // Update country badge if visible
     const badge = document.getElementById('selectedCountryBadge');
     if (badge && badge.style.display !== 'none') {
-        const countryText = badge.textContent.split(':')[1] || badge.textContent.split(' ')[1] || '';
+        const countryVal = document.getElementById('selected_country_input').value;
+        const countryText = c[countryVal] || countryVal;
         badge.textContent = (t.country_badge || 'Country: ') + countryText;
     }
 
