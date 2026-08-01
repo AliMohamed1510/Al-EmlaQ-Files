@@ -1,5 +1,5 @@
 // ============================================
-// ملف الترجمة - Al EmlaQ Files
+// ملف الترجمة - Al EmlaQ Files (FIXED)
 // دعم اللغة العربية والإنجليزية
 // ============================================
 
@@ -359,11 +359,24 @@ const translations = {
 
 let currentLang = 'ar';
 
+// ===== Map of select IDs to their option translation keys =====
+const selectOptionsMap = {
+    'visaType': ['visa_tourism', 'visa_business', 'visa_study', 'visa_family', 'visa_official', 'visa_medical', 'visa_transit'],
+    'sex': ['male', 'female', 'other'],
+    'civilStatus': ['single', 'married', 'registered_partnership', 'separated', 'divorced', 'widow'],
+    'passportType': ['ordinary_passport', 'diplomatic_passport', 'service_passport', 'official_passport', 'special_passport'],
+    'entriesCount': ['single_entry', 'two_entries', 'multiple_entries'],
+    'fingerprints': ['no', 'yes'],
+    'costsCoveredBy': ['by_applicant', 'by_sponsor', 'by_company', 'by_other']
+};
+
 function toggleLanguage() {
     currentLang = currentLang === 'ar' ? 'en' : 'ar';
-    document.documentElement.lang = currentLang;
-    document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+    const html = document.documentElement;
+    html.lang = currentLang;
+    html.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
 
+    // Update all data-i18n elements
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[currentLang][key]) {
@@ -371,9 +384,11 @@ function toggleLanguage() {
         }
     });
 
+    // Update language button label
     const langLabel = document.getElementById('langLabel');
     if (langLabel) langLabel.textContent = currentLang === 'ar' ? 'EN' : 'عربي';
 
+    // Update select default option
     const countrySelect = document.getElementById('countrySelect');
     if (countrySelect) {
         const firstOption = countrySelect.querySelector('option[value=""]');
@@ -382,13 +397,98 @@ function toggleLanguage() {
         }
     }
 
+    // Update all select option texts
+    Object.keys(selectOptionsMap).forEach(selectId => {
+        const select = document.getElementById(selectId);
+        if (!select) return;
+        const keys = selectOptionsMap[selectId];
+        const options = select.querySelectorAll('option');
+        options.forEach((opt, idx) => {
+            if (keys[idx] && translations[currentLang][keys[idx]]) {
+                // Preserve value, update text
+                const val = opt.value;
+                opt.textContent = translations[currentLang][keys[idx]];
+                // For some selects, we need to keep Arabic values for the form
+                // but display in current language
+                if (selectId === 'fingerprints') {
+                    opt.value = currentLang === 'ar' ? (val === 'Yes' ? 'نعم' : 'لا') : (val === 'نعم' ? 'Yes' : 'No');
+                }
+            }
+        });
+    });
+
+    // Update nav arrows direction
+    updateNavArrows();
+
+    // Update service arrows direction
+    updateServiceArrows();
+
+    // Update country info if a country is selected
+    if (typeof updateCountryInfo === 'function') {
+        updateCountryInfo();
+    }
+
+    // Refresh review if on step 4
+    if (currentStep === 4) {
+        if (typeof generateFilePreview === 'function') generateFilePreview();
+        if (typeof generatePrintableForm === 'function') generatePrintableForm();
+    }
+
     localStorage.setItem('al-emlaq-lang', currentLang);
+}
+
+function updateNavArrows() {
+    const isRTL = currentLang === 'ar';
+    document.querySelectorAll('.nav-arrow').forEach(arrow => {
+        arrow.className = `fas nav-arrow ${isRTL ? 'fa-arrow-left' : 'fa-arrow-right'}`;
+    });
+
+    // Update back buttons - arrow should point right in RTL, left in LTR
+    document.querySelectorAll('.btn-back .nav-arrow').forEach(arrow => {
+        arrow.className = `fas nav-arrow ${isRTL ? 'fa-arrow-right' : 'fa-arrow-left'}`;
+    });
+}
+
+function updateServiceArrows() {
+    const isRTL = currentLang === 'ar';
+    document.querySelectorAll('.service-arrow').forEach(arrow => {
+        arrow.textContent = isRTL ? '←' : '→';
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     const savedLang = localStorage.getItem('al-emlaq-lang');
     if (savedLang && savedLang !== 'ar') {
         currentLang = savedLang;
-        toggleLanguage();
+        // Apply language without toggling
+        const html = document.documentElement;
+        html.lang = currentLang;
+        html.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[currentLang][key]) {
+                el.textContent = translations[currentLang][key];
+            }
+        });
+
+        const langLabel = document.getElementById('langLabel');
+        if (langLabel) langLabel.textContent = currentLang === 'ar' ? 'EN' : 'عربي';
+
+        // Update selects
+        Object.keys(selectOptionsMap).forEach(selectId => {
+            const select = document.getElementById(selectId);
+            if (!select) return;
+            const keys = selectOptionsMap[selectId];
+            const options = select.querySelectorAll('option');
+            options.forEach((opt, idx) => {
+                if (keys[idx] && translations[currentLang][keys[idx]]) {
+                    opt.textContent = translations[currentLang][keys[idx]];
+                }
+            });
+        });
+
+        updateNavArrows();
+        updateServiceArrows();
     }
 });
