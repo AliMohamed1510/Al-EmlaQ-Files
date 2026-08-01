@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>AET - منصة   تجهيز ملفات</title>
+<title>AET - منصة حجز المواعيد</title>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<link rel="shortcut icon" href="image.png">
+<link rel="shortcut icon" href="https://raw.githubusercontent.com/AliMohamed1510/Al-EmlaQ-Files/main/image.png">
 
 <!-- Original CSS -->
 <link href="https://software.blsslovakiavisa.com/common/css/style.css" type="text/css" rel="stylesheet">
@@ -49,13 +49,15 @@ body {
 
 /* Country Selection Page */
 #country-selection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: block;
+    text-align: center;
     min-height: 100vh;
-    padding-top: 100px;
+    padding-top: 120px;
     padding-bottom: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
 }
 
 .selection-card {
@@ -67,6 +69,8 @@ body {
     max-width: 600px;
     width: 90%;
     border-top: 5px solid #d4af37;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .selection-card h1 {
@@ -209,16 +213,16 @@ label, .control-label { width: 100%; }
 
 <!-- Fixed Header -->
 <div class="aet-header">
-    <img src="image.png" alt="AET Logo" title="AET Logo">
+    <img src="https://raw.githubusercontent.com/AliMohamed1510/Al-EmlaQ-Files/main/image.png" alt="AET Logo" title="AET Logo">
     <h2>AL EMLAQ TRAVEL</h2>
 </div>
 
 <!-- Page 1: Country Selection -->
-<div id="country-selection">
-    <div class="selection-card">
-        <img src="image.png" alt="AET Logo" style="max-height: 100px; margin-bottom: 20px;">
+<div id="country-selection" style="display:block; text-align:center; min-height:100vh; padding-top:120px; padding-bottom:40px; width:100%;">
+    <div class="selection-card" style="display:inline-block; text-align:center; max-width:600px; width:90%; vertical-align:top;">
+        <img src="https://raw.githubusercontent.com/AliMohamed1510/Al-EmlaQ-Files/main/image.png" alt="AET Logo" style="max-height: 100px; margin-bottom: 20px;">
         <h1>مرحباً بك في منصة AET</h1>
-        <p>الرجاء اختيار الدولة المراد ملئ الابلكيشن لها</p>
+        <p>الرجاء اختيار الدولة المراد حجز موعد لها</p>
 
         <select id="countrySelect" class="country-select">
             <option value="" selected disabled>-- اختر الدولة --</option>
