@@ -3,234 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البيانات الشخصية وجواز السفر</title>
+    <title>منصة تأشيرات الشنغن الذكية</title>
     <style>
-        /* === تنسيق رائع وجميل بداخل الملف === */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        /* === تنسيق أساسي للواجهة === */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: #0d1117; color: #e2e8f0; display: flex; justify-content: center; padding: 30px; }
+        .container { background: #161b22; width: 100%; max-width: 800px; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 40px 20px;
-            transition: background-color 0.3s, color 0.3s;
-        }
+        h1, h2 { text-align: center; margin-bottom: 20px; }
+        
+        /* التنقل بين الخطوات */
+        .step { display: none; animation: fadeIn 0.5s; }
+        .step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background: #1e1e1e;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        /* النماذج والحقول */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #8b949e; }
+        input, select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #30363d; background: #0d1117; color: white; margin-bottom: 10px; }
+        input:focus, select:focus { border-color: #58a6ff; outline: none; }
 
-        /* تنسيق العنوان */
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 24px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 15px;
-        }
+        /* الأزرار */
+        .btn { background: #238636; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; width: 100%; margin-top: 10px; transition: 0.3s; }
+        .btn:hover { background: #2ea043; }
+        .btn-secondary { background: #1f2937; }
+        .btn-secondary:hover { background: #374151; }
+        .btn-warning { background: #d29922; }
+        .btn-warning:hover { background: #e3b341; }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #bbbbbb;
-        }
-
-        /* تنسيق الحقول والمدخلات */
-        input[type="text"], 
-        input[type="date"], 
-        select {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid #444;
-            background-color: #2c2c2c;
-            color: #ffffff;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, select:focus {
-            border-color: #007bff;
-            background-color: #333;
-        }
-
-        /* تنسيق خاص بالحقول المتجاورة (الاسم الأول واللقب مثلاً) */
-        .row {
-            display: flex;
-            gap: 20px;
-        }
-
-        .col {
-            flex: 1;
-        }
-
-        /* زر التبديل (Dark Mode) */
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: #333;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        .theme-toggle:hover {
-            background: #444;
-        }
-
-        /* تنسيق القائمة المنسدلة */
-        select option {
-            background-color: #1e1e1e;
-            color: white;
-        }
-
-        /* تحسين شكل خانة التاريخ */
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-        }
-
-        /* الوضع الفاتح (Light Mode) إذا قام المستخدم بتفعيله */
-        body.light-mode {
-            background-color: #f4f4f9;
-            color: #222;
-        }
-        body.light-mode .container {
-            background: #ffffff;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        body.light-mode label {
-            color: #555;
-        }
-        body.light-mode input, 
-        body.light-mode select {
-            background-color: #f9f9f9;
-            color: #222;
-            border: 1px solid #ccc;
-        }
-        body.light-mode .theme-toggle {
-            background: #ddd;
-            color: #222;
-        }
-        body.light-mode input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(0);
-        }
+        /* خيارات إضافية */
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
+        
+        .action-box { background: #0d1117; padding: 15px; border: 1px solid #30363d; border-radius: 10px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .action-box:hover { border-color: #58a6ff; background: #161b22; }
+        .action-box h4 { margin-bottom: 8px; color: #f0f6fc; }
+        .action-box p { font-size: 12px; color: #8b949e; }
     </style>
 </head>
 <body>
-
-    <!-- زر التبديل بين الوضع الداكن والفاتح -->
-    <button class="theme-toggle" onclick="toggleTheme()">🌙 تبديل الوضع</button>
-
     <div class="container">
-        <h2>البيانات الشخصية و جواز السفر</h2>
-
-        <!-- اختيار الدولة (تم تحديث القائمة حسب طلبك) -->
-        <div class="form-group">
-            <label for="country">اختر الدولة</label>
-            <select id="country">
-                <option value="">-- اختر الدولة --</option>
-                <option value="IT">ايطاليا</option>
-                <option value="ES">اسبانيا</option>
-                <option value="CH">سويسرا</option>
-                <option value="SE">السويد</option>
-                <option value="SK">سلوفكيا</option>
-                <option value="PT">البرتغال</option>
-                <option value="MT">مالطا</option>
-                <option value="HU">المجر-هنغاريا</option>
-                <option value="GR">اليونان</option>
-                <option value="HR">كروتيا</option>
-                <option value="AT">النمسا</option>
-            </select>
-        </div>
-
-        <!-- نوع الزيارة -->
-        <div class="form-group">
-            <label for="visit_type">نوع الزيارة</label>
-            <select id="visit_type">
-                <option value="سياحة">سياحة</option>
-                <option value="عمل">عمل</option>
-                <option value="علاج">علاج</option>
-                <option value="دراسة">دراسة</option>
-            </select>
-        </div>
-
-        <!-- الاسم الأول واللقب -->
-        <div class="row">
-            <div class="col form-group">
-                <label for="first_name">الاسم الأول (كما في جواز السفر)</label>
-                <input type="text" id="first_name" placeholder="الاسم الأول">
-            </div>
-            <div class="col form-group">
-                <label for="last_name">اللقب (كما في جواز السفر)</label>
-                <input type="text" id="last_name" placeholder="اللقب">
-            </div>
-        </div>
-
-        <!-- مكان وتاريخ الميلاد -->
-        <div class="row">
-            <div class="col form-group">
-                <label for="birth_place">مكان الميلاد</label>
-                <input type="text" id="birth_place" placeholder="مكان الميلاد">
-            </div>
-            <div class="col form-group">
-                <label for="birth_date">تاريخ الميلاد (يوم-شهر-سنة)</label>
-                <input type="date" id="birth_date">
-            </div>
-        </div>
-
-        <!-- الجنسية والجنس -->
-        <div class="row">
-            <div class="col form-group">
-                <label for="nationality">الجنسية الحالية</label>
-                <input type="text" id="nationality" value="مصري">
-            </div>
-            <div class="col form-group">
-                <label for="gender">الجنس</label>
-                <select id="gender">
-                    <option value="ذكر">ذكر</option>
-                    <option value="أنثى">أنثى</option>
+        <h1>منصة تأشيرات الشنغن</h1>
+        
+        <!-- الخطوة 1: اختيار الدولة -->
+        <div id="step1" class="step active">
+            <h2>1. اختر الدولة</h2>
+            <div class="form-group">
+                <label>الدولة المطلوبة:</label>
+                <select id="countrySelect">
+                    <option value="">-- اختر --</option>
+                    <option value="italy">ايطاليا</option>
+                    <option value="spain">اسبانيا</option>
+                    <option value="switzerland">سويسرا</option>
+                    <option value="sweden">السويد</option>
+                    <option value="slovakia">سلوفكيا</option>
+                    <option value="portugal">البرتغال</option>
+                    <option value="malta">مالطا</option>
+                    <option value="hungary">المجر-هنغاريا</option>
+                    <option value="greece">اليونان</option>
+                    <option value="croatia">كروتيا</option>
+                    <option value="austria">النمسا</option>
                 </select>
             </div>
+            <button class="btn" onclick="goToStep(2)">التالي: حجز الفندق</button>
         </div>
+
+        <!-- الخطوة 2: حجز الفندق -->
+        <div id="step2" class="step">
+            <h2>2. حجز الفندق</h2>
+            <p style="margin-bottom: 15px; color: #8b949e;">يرجى التوجه لموقع الحجز، ثم العودة والضغط على "تم الحجز".</p>
+            <button class="btn btn-secondary" onclick="window.open('https://www.booking.com', '_blank')">الذهاب لحجز الفندق</button>
+            <button class="btn" onclick="goToStep(3)">تم حجز الفندق</button>
+        </div>
+
+        <!-- الخطوة 3: رفع المستندات -->
+        <div id="step3" class="step">
+            <h2>3. رفع المستندات</h2>
+            <div class="form-group">
+                <label>صورة جواز السفر</label>
+                <input type="file" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label>حجز الفندق (PDF/Image)</label>
+                <input type="file" accept=".pdf,image/*">
+            </div>
+            <div class="form-group">
+                <label>خطاب العمل / السجل التجاري</label>
+                <input type="file" accept=".pdf,image/*">
+            </div>
+            <button class="btn" onclick="goToStep(4)">رفع الملفات وإنشاء النموذج</button>
+        </div>
+
+        <!-- الخطوة 4 و 5: الخيارات الإضافية -->
+        <div id="step4" class="step">
+            <h2>4. خيارات إضافية</h2>
+            <p style="color: #8b949e; margin-bottom: 20px;">اختر ما تريد فعله بعد إنشاء النموذج:</p>
+            <div class="options-grid">
+                <div class="action-box" onclick="window.open('https://www.axa-assistance.com', '_blank')">
+                    <h4>🛡️ طباعة التأمين الطبي</h4>
+                    <p>التوجه لشراء التأمين</p>
+                </div>
+                <div class="action-box" onclick="window.open('https://www.skyscanner.net', '_blank')">
+                    <h4>✈️ حجز تذكرة الطيران</h4>
+                    <p>التوجه لحجز التذكرة</p>
+                </div>
+                <div class="action-box" style="border-color: #d29922;" onclick="goToStep(5)">
+                    <h4>⏭️ تخطي الخطوة</h4>
+                    <p>المتابعة دون تأمين أو طيران</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- الخطوة 6 و 7: المراجعة والطباعة -->
+        <div id="step5" class="step">
+            <h2>5. مراجعة الملف النهائي</h2>
+            <div style="background: #0d1117; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                <p style="margin-bottom: 5px;"><strong>الدولة:</strong> <span id="reviewCountry">لم يتم الاختيار</span></p>
+                <p style="margin-bottom: 5px;"><strong>المستندات المرفوعة:</strong> 3 ملفات</p>
+                <p style="color: #8b949e;">الرجاء التأكد من صحة البيانات قبل الطباعة.</p>
+            </div>
+            <button class="btn btn-warning" onclick="finalizeApplication()">تأكيد البيانات واعتماد الملف</button>
+        </div>
+
     </div>
 
     <script>
-        // دالة تبديل الوضع (التي كانت تسبب الخطأ السابق)
-        function toggleTheme() {
-            const body = document.body;
-            const button = document.querySelector('.theme-toggle');
+        // دالة التنقل بين الخطوات
+        function goToStep(stepNumber) {
+            // إخفاء الكل
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            // إظهار المطلوب
+            document.getElementById(`step${stepNumber}`).classList.add('active');
             
-            // تبديل الكلاس
-            body.classList.toggle('light-mode');
-            
-            // تغيير نص الزر حسب الوضع الحالي
-            if (body.classList.contains('light-mode')) {
-                button.innerHTML = '☀️ الوضع الفاتح';
-            } else {
-                button.innerHTML = '🌙 تبديل الوضع';
+            // تحديث اسم الدولة في صفحة المراجعة
+            if(stepNumber === 5) {
+                const country = document.getElementById('countrySelect').value;
+                const countryName = document.getElementById('countrySelect').options[document.getElementById('countrySelect').selectedIndex].text;
+                document.getElementById('reviewCountry').innerText = country !== "" ? countryName : "لم يتم الاختيار";
             }
+        }
+
+        // دالة الطباعة النهائية
+        function finalizeApplication() {
+            alert("✅ تم اعتماد الملف بنجاح! جاري تجهيز المستندات للطباعة...");
+            window.print(); // ستقوم بفتح نافذة الطباعة للمتصفح
         }
     </script>
 </body>
