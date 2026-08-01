@@ -21,7 +21,7 @@ const translations = {
         // الخطوة 1
         'step1_title': 'البيانات الشخصية و جواز السفر',
         'step1_subtitle': 'أدخل بياناتك الشخصية كما في جواز السفر',
-        'country_label': 'الدولة المطلوبة',
+        'country_label': 'الدولة المطلوبة *',
         'select_country': '-- اختر الدولة --',
         'select_country_hint': 'اختر دولة لعرض المتطلبات',
         'visa_type_label': 'نوع التأشيرة',
@@ -36,12 +36,12 @@ const translations = {
 
         // البيانات الشخصية
         'personal_data': 'البيانات الشخصية',
-        'surname_label': 'اللقب (كما في جواز السفر)',
-        'firstname_label': 'الاسم الأول (كما في جواز السفر)',
-        'birth_date_label': 'تاريخ الميلاد (يوم-شهر-سنة)',
+        'surname_label': 'اللقب (كما في جواز السفر) *',
+        'firstname_label': 'الاسم الأول (كما في جواز السفر) *',
+        'birth_date_label': 'تاريخ الميلاد (يوم-شهر-سنة) *',
         'birth_place_label': 'مكان الميلاد',
         'birth_country_label': 'بلد الميلاد',
-        'nationality_label': 'الجنسية الحالية',
+        'nationality_label': 'الجنسية الحالية *',
         'sex_label': 'الجنس',
         'male': 'ذكر',
         'female': 'أنثى',
@@ -64,16 +64,16 @@ const translations = {
         'service_passport': 'جواز سفر خدمة',
         'official_passport': 'جواز سفر رسمي',
         'special_passport': 'جواز سفر خاص',
-        'passport_number_label': 'رقم وثيقة السفر',
+        'passport_number_label': 'رقم وثيقة السفر *',
         'passport_issue_date_label': 'تاريخ الإصدار',
-        'passport_expiry_label': 'تاريخ الانتهاء',
+        'passport_expiry_label': 'تاريخ الانتهاء *',
         'passport_issued_by_label': 'جهة الإصدار (البلد)',
 
         // بيانات الاتصال
         'contact_data': 'بيانات الاتصال',
         'home_address_label': 'عنوان السكن',
-        'email_label': 'البريد الإلكتروني',
-        'phone_label': 'رقم الهاتف',
+        'email_label': 'البريد الإلكتروني *',
+        'phone_label': 'رقم الهاتف *',
 
         // بيانات العمل
         'work_data': 'بيانات العمل / الدراسة',
@@ -86,15 +86,15 @@ const translations = {
         'step2_title': 'تفاصيل الرحلة والمستندات',
         'step2_subtitle': 'أدخل تفاصيل الرحلة وقم برفع المستندات المطلوبة',
         'trip_details': 'تفاصيل الرحلة',
-        'main_destination_label': 'الوجهة الرئيسية',
-        'first_entry_label': 'دولة أول دخول',
+        'main_destination_label': 'الوجهة الرئيسية *',
+        'first_entry_label': 'دولة أول دخول *',
         'entries_count_label': 'عدد مرات الدخول المطلوبة',
         'single_entry': 'دخول مرة واحدة',
         'two_entries': 'دخول مرتين',
         'multiple_entries': 'دخول متعدد',
         'purpose_detail_label': 'معلومات إضافية عن الغرض',
-        'arrival_date_label': 'تاريخ الوصول المتوقع',
-        'departure_date_label': 'تاريخ المغادرة المتوقع',
+        'arrival_date_label': 'تاريخ الوصول المتوقع *',
+        'departure_date_label': 'تاريخ المغادرة المتوقع *',
         'fingerprints_label': 'هل تم أخذ بصمات الأصابع سابقاً لطلب شنغن؟',
         'yes': 'نعم',
         'no': 'لا',
@@ -135,12 +135,12 @@ const translations = {
         'hotel_booking_title': '🏨 حجز الفندق',
         'confirm_hotel': 'تم حجز الفندق',
         'documents_title': '📎 رفع المستندات',
-        'passport_label': 'صورة جواز السفر',
-        'insurance_label': 'التأمين الطبي',
+        'passport_label': 'صورة جواز السفر *',
+        'insurance_label': 'التأمين الطبي *',
         'work_label': 'إثبات العمل / السجل التجاري',
         'bank_label': 'كشف الحساب البنكي',
         'photo_label': 'الصورة الشخصية',
-        'hotel_file_label': 'حجز الفندق (PDF)',
+        'hotel_file_label': 'حجز الفندق (PDF) *',
         'upload_hint': 'اضغط للرفع',
         'hotel_confirmed': '✅ تم تأكيد حجز الفندق',
         'hotel_not_confirmed': '⚠️ الرجاء تأكيد حجز الفندق',
@@ -176,7 +176,8 @@ const translations = {
         'select_country_first': 'الرجاء اختيار الدولة أولاً',
         'confirm_all_documents': 'الرجاء رفع جميع المستندات وتأكيد حجز الفندق',
         'file_ready': 'الملف جاهز!',
-        'reset_confirm': 'هل أنت متأكد من رغبتك في بدء ملف جديد؟ سيتم مسح جميع البيانات.'
+        'reset_confirm': 'هل أنت متأكد من رغبتك في بدء ملف جديد؟ سيتم مسح جميع البيانات.',
+        'fill_required_fields': 'الرجاء ملء جميع الحقول الإلزامية المعلمة بـ (*)'
     },
 
     en: {
@@ -196,7 +197,7 @@ const translations = {
         // Step 1
         'step1_title': 'Personal Data & Passport',
         'step1_subtitle': 'Enter your personal data as in your passport',
-        'country_label': 'Required Country',
+        'country_label': 'Required Country *',
         'select_country': '-- Select Country --',
         'select_country_hint': 'Select a country to view requirements',
         'visa_type_label': 'Visa Type',
@@ -211,12 +212,12 @@ const translations = {
 
         // Personal Data
         'personal_data': 'Personal Data',
-        'surname_label': 'Surname (as in passport)',
-        'firstname_label': 'First Name(s) (as in passport)',
-        'birth_date_label': 'Date of Birth (day-month-year)',
+        'surname_label': 'Surname (as in passport) *',
+        'firstname_label': 'First Name(s) (as in passport) *',
+        'birth_date_label': 'Date of Birth (day-month-year) *',
         'birth_place_label': 'Place of Birth',
         'birth_country_label': 'Country of Birth',
-        'nationality_label': 'Current Nationality',
+        'nationality_label': 'Current Nationality *',
         'sex_label': 'Sex',
         'male': 'Male',
         'female': 'Female',
@@ -239,16 +240,16 @@ const translations = {
         'service_passport': 'Service Passport',
         'official_passport': 'Official Passport',
         'special_passport': 'Special Passport',
-        'passport_number_label': 'Number of Travel Document',
+        'passport_number_label': 'Number of Travel Document *',
         'passport_issue_date_label': 'Date of Issue',
-        'passport_expiry_label': 'Valid Until',
+        'passport_expiry_label': 'Valid Until *',
         'passport_issued_by_label': 'Issued by (Country)',
 
         // Contact Data
         'contact_data': 'Contact Information',
         'home_address_label': 'Home Address',
-        'email_label': 'Email Address',
-        'phone_label': 'Telephone Number',
+        'email_label': 'Email Address *',
+        'phone_label': 'Telephone Number *',
 
         // Work Data
         'work_data': 'Work / Study Information',
@@ -261,15 +262,15 @@ const translations = {
         'step2_title': 'Trip Details & Documents',
         'step2_subtitle': 'Enter trip details and upload required documents',
         'trip_details': 'Trip Details',
-        'main_destination_label': 'Member State of Main Destination',
-        'first_entry_label': 'Member State of First Entry',
+        'main_destination_label': 'Member State of Main Destination *',
+        'first_entry_label': 'Member State of First Entry *',
         'entries_count_label': 'Number of Entries Requested',
         'single_entry': 'Single Entry',
         'two_entries': 'Two Entries',
         'multiple_entries': 'Multiple Entries',
         'purpose_detail_label': 'Additional Information on Purpose',
-        'arrival_date_label': 'Intended Date of Arrival',
-        'departure_date_label': 'Intended Date of Departure',
+        'arrival_date_label': 'Intended Date of Arrival *',
+        'departure_date_label': 'Intended Date of Departure *',
         'fingerprints_label': 'Fingerprints collected previously for Schengen visa?',
         'yes': 'Yes',
         'no': 'No',
@@ -310,12 +311,12 @@ const translations = {
         'hotel_booking_title': '🏨 Hotel Booking',
         'confirm_hotel': 'Hotel Booked',
         'documents_title': '📎 Upload Documents',
-        'passport_label': 'Passport Copy',
-        'insurance_label': 'Medical Insurance',
+        'passport_label': 'Passport Copy *',
+        'insurance_label': 'Medical Insurance *',
         'work_label': 'Employment Proof / Commercial Register',
         'bank_label': 'Bank Statement',
         'photo_label': 'Passport Photo',
-        'hotel_file_label': 'Hotel Booking (PDF)',
+        'hotel_file_label': 'Hotel Booking (PDF) *',
         'upload_hint': 'Click to upload',
         'hotel_confirmed': '✅ Hotel booking confirmed',
         'hotel_not_confirmed': '⚠️ Please confirm hotel booking',
@@ -351,7 +352,8 @@ const translations = {
         'select_country_first': 'Please select a country first',
         'confirm_all_documents': 'Please upload all documents and confirm hotel booking',
         'file_ready': 'File ready!',
-        'reset_confirm': 'Are you sure you want to start a new file? All data will be cleared.'
+        'reset_confirm': 'Are you sure you want to start a new file? All data will be cleared.',
+        'fill_required_fields': 'Please fill all required fields marked with (*)'
     }
 };
 
@@ -362,7 +364,6 @@ function toggleLanguage() {
     document.documentElement.lang = currentLang;
     document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
 
-    // تحديث النصوص
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[currentLang][key]) {
@@ -370,11 +371,9 @@ function toggleLanguage() {
         }
     });
 
-    // تحديث زر اللغة
     const langLabel = document.getElementById('langLabel');
     if (langLabel) langLabel.textContent = currentLang === 'ar' ? 'EN' : 'عربي';
 
-    // تحديث placeholder في select
     const countrySelect = document.getElementById('countrySelect');
     if (countrySelect) {
         const firstOption = countrySelect.querySelector('option[value=""]');
@@ -383,11 +382,9 @@ function toggleLanguage() {
         }
     }
 
-    // حفظ اللغة في localStorage
     localStorage.setItem('al-emlaq-lang', currentLang);
 }
 
-// تحميل اللغة المحفوظة
 document.addEventListener('DOMContentLoaded', function() {
     const savedLang = localStorage.getItem('al-emlaq-lang');
     if (savedLang && savedLang !== 'ar') {
