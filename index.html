@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>AET - منصة AL EMLAQ TRAVEL</title>
+<title>AET - منصة حجز المواعيد</title>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="shortcut icon" href="image.png">
 
@@ -218,7 +218,7 @@ label, .control-label { width: 100%; }
     <div class="selection-card">
         <img src="image.png" alt="AET Logo" style="max-height: 100px; margin-bottom: 20px;">
         <h1>مرحباً بك في منصة AET</h1>
-        <p>الرجاء اختيار الدولة المراد ملئ الابلكيشن لها</p>
+        <p>الرجاء اختيار الدولة المراد حجز موعد لها</p>
 
         <select id="countrySelect" class="country-select">
             <option value="" selected disabled>-- اختر الدولة --</option>
@@ -235,11 +235,11 @@ label, .control-label { width: 100%; }
             <option value="Austria">النمسا (Austria)</option>
         </select>
 
-        <div style="margin: 25px 0; display: flex; flex-direction: column; gap: 12px; align-items: center;">
+        <div style="margin: 25px 0; display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%;">
             <p style="color:#888; font-size:14px; margin:0;">خدمات إضافية</p>
-            <a href="https://myjet24.com/" target="_blank" class="aet-btn" style="background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px;">🏨 حجز فندق</a>
-            <a href="https://myjet24.com/" target="_blank" class="aet-btn" style="background: linear-gradient(135deg, #2980b9 0%, #1c5980 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px;">✈️ حجز طيران</a>
-            <a href="https://epti-egy.org/Traveltargetweb/Pages/Policy_Qry2/Default.aspx" class="aet-btn" style="background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px;">🛡️ طباعة التأمين</a>
+            <a href="https://myjet24.com/" target="_blank" id="btnHotel" class="aet-btn service-btn" style="background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px; opacity: 0.4; pointer-events: none; transition: all 0.3s;">🏨 حجز فندق</a>
+            <a href="https://myjet24.com/" target="_blank" id="btnFlight" class="aet-btn service-btn" style="background: linear-gradient(135deg, #2980b9 0%, #1c5980 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px; opacity: 0.4; pointer-events: none; transition: all 0.3s;">✈️ حجز طيران</a>
+            <a href="https://epti-egy.org/Traveltargetweb/Pages/Policy_Qry2/Default.aspx" id="btnInsurance" class="aet-btn service-btn" style="background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px; opacity: 0.4; pointer-events: none; transition: all 0.3s;">🛡️ طباعة التأمين</a>
         </div>
 
         <button id="proceedBtn" class="aet-btn" disabled>متابعة إلى النموذج</button>
@@ -4802,7 +4802,22 @@ const formCountryName = document.getElementById('formCountryName');
 const selectedCountryInput = document.getElementById('selected_country_input');
 
 countrySelect.addEventListener('change', function() {
-    proceedBtn.disabled = !this.value;
+    var hasValue = !!this.value;
+    proceedBtn.disabled = !hasValue;
+
+    // Enable/disable service buttons
+    var serviceBtns = document.querySelectorAll('.service-btn');
+    serviceBtns.forEach(function(btn) {
+        if (hasValue) {
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'auto';
+            btn.style.cursor = 'pointer';
+        } else {
+            btn.style.opacity = '0.4';
+            btn.style.pointerEvents = 'none';
+            btn.style.cursor = 'not-allowed';
+        }
+    });
 });
 
 proceedBtn.addEventListener('click', function() {
