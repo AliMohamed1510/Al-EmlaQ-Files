@@ -1,3 +1,8 @@
+// ============================================
+// الملف الرئيسي - Al EmlaQ Files (UPDATED)
+// ============================================
+
+// ===== المتغيرات العامة =====
 let uploadedFiles = {};
 let fileNames = {};
 let isHotelConfirmed = false;
@@ -528,7 +533,7 @@ function generateFilePreview() {
 function generatePrintableForm() {
     const data = collectFormData();
     const lang = currentLang;
-    
+
     let printable = document.getElementById('printableForm');
     if (!printable) {
         printable = document.createElement('div');
@@ -706,7 +711,7 @@ function generatePrintableForm() {
                     <div class="field-half">
                         <div class="field-num">20</div>
                         <div class="field-content">
-                            <label>${lbl('جهة العمل', 'Employer and employer\'s address')}</label>
+                            <label>${lbl('جهة العمل', 'Employer and employer's address')}</label>
                             <div class="field-value">${data.employer || ''}</div>
                         </div>
                     </div>
@@ -933,9 +938,3 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✦ Al EmlaQ Files ✦');
     console.log('تم تحميل الموقع بنجاح');
 });
-"""
-
-with open('/mnt/agents/output/main.js', 'w', encoding='utf-8') as f:
-    f.write(main_js)
-
-print("main.js created successfully")
