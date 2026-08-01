@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>AET - منصة حجز المواعيد</title>
+<title>AET platform</title>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="shortcut icon" href="https://raw.githubusercontent.com/AliMohamed1510/Al-EmlaQ-Files/main/image.png">
 
@@ -16,6 +16,34 @@
 <link href="https://software.blsslovakiavisa.com/css_appoint/datepicker.css" rel="stylesheet" type="text/css">
 
 <style>
+/* Language Switcher */
+.lang-switcher {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.lang-switcher select {
+    padding: 8px 15px;
+    border-radius: 25px;
+    border: 2px solid #d4af37;
+    background: rgba(255,255,255,0.1);
+    color: #d4af37;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+.lang-switcher select option {
+    background: #1a1a2e;
+    color: #d4af37;
+}
+
+/* RTL overrides */
+html[dir="rtl"] .lang-switcher {
+    left: auto;
+    right: 20px;
+}
+
 /* AET Custom Styles */
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -215,17 +243,31 @@ label, .control-label { width: 100%; }
 <div class="aet-header">
     <img src="https://raw.githubusercontent.com/AliMohamed1510/Al-EmlaQ-Files/main/image.png" alt="AET Logo" title="AET Logo">
     <h2>AL EMLAQ TRAVEL</h2>
+    <div class="lang-switcher">
+        <select id="langSelect" onchange="switchLanguage(this.value)">
+            <option value="en">🇬🇧 English</option>
+            <option value="ar">🇸🇦 العربية</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="it">🇮🇹 Italiano</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="pt">🇵🇹 Português</option>
+            <option value="tr">🇹🇷 Türkçe</option>
+            <option value="zh">🇨🇳 中文</option>
+            <option value="ru">🇷🇺 Русский</option>
+        </select>
+    </div>
 </div>
 
 <!-- Page 1: Country Selection -->
 <div id="country-selection" style="display:block; text-align:center; min-height:100vh; padding-top:120px; padding-bottom:40px; width:100%;">
     <div class="selection-card" style="display:inline-block; text-align:center; max-width:600px; width:90%; vertical-align:top;">
         <img src="https://raw.githubusercontent.com/AliMohamed1510/Al-EmlaQ-Files/main/image.png" alt="AET Logo" style="max-height: 100px; margin-bottom: 20px;">
-        <h1>مرحباً بك في منصة AET</h1>
-        <p>الرجاء اختيار الدولة المراد حجز موعد لها</p>
+        <h1>Welcome to the AET platform</h1>
+        <p>Please select the country for which you wish to fill out the form. </p>
 
         <select id="countrySelect" class="country-select">
-            <option value="" selected disabled>-- اختر الدولة --</option>
+            <option value="" selected disabled data-key="select_country">-- Select Country --</option>
             <option value="Italy">إيطاليا (Italy)</option>
             <option value="Spain">إسبانيا (Spain)</option>
             <option value="Switzerland">سويسرا (Switzerland)</option>
@@ -240,13 +282,13 @@ label, .control-label { width: 100%; }
         </select>
 
         <div style="margin: 25px 0; display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%;">
-            <p style="color:#888; font-size:14px; margin:0;">خدمات إضافية</p>
-            <a href="https://myjet24.com/" target="_blank" id="btnHotel" class="aet-btn service-btn" style="background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px; opacity: 0.4; pointer-events: none; transition: all 0.3s;">🏨 حجز فندق</a>
-            <a href="https://myjet24.com/" target="_blank" id="btnFlight" class="aet-btn service-btn" style="background: linear-gradient(135deg, #2980b9 0%, #1c5980 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px; opacity: 0.4; pointer-events: none; transition: all 0.3s;">✈️ حجز طيران</a>
-            <a href="https://epti-egy.org/Traveltargetweb/Pages/Policy_Qry2/Default.aspx" id="btnInsurance" class="aet-btn service-btn" style="background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px; opacity: 0.4; pointer-events: none; transition: all 0.3s;">🛡️ طباعة التأمين</a>
+            <p style="color:#888; font-size:14px; margin:0;" data-key="extra_services">Additional Services</p>
+            <a href="https://myjet24.com/" target="_blank" id="btnHotel" class="aet-btn service-btn" style="background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px; opacity: 0.4; pointer-events: none; transition: all 0.3s;" data-key="btn_hotel">🏨 Hotel Booking</a>
+            <a href="https://myjet24.com/" target="_blank" id="btnFlight" class="aet-btn service-btn" style="background: linear-gradient(135deg, #2980b9 0%, #1c5980 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px; opacity: 0.4; pointer-events: none; transition: all 0.3s;" data-key="btn_flight">✈️ Flight Booking</a>
+            <a href="https://epti-egy.org/Traveltargetweb/Pages/Policy_Qry2/Default.aspx" id="btnInsurance" class="aet-btn service-btn" style="background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%); text-decoration: none; display: inline-block; font-size: 16px; padding: 12px 35px; opacity: 0.4; pointer-events: none; transition: all 0.3s;" data-key="btn_insurance">🛡️ Print Insurance</a>
         </div>
 
-        <button id="proceedBtn" class="aet-btn" disabled>متابعة إلى النموذج</button>
+        <button id="proceedBtn" class="aet-btn" disabled data-key="btn_proceed">Continue to Form</button>
     </div>
 </div>
 
@@ -255,13 +297,13 @@ label, .control-label { width: 100%; }
     <div class="wrap" style="text-align: center;">
         <span class="country-badge" id="selectedCountryBadge">الدولة: -</span>
         <br>
-        <button class="back-btn" onclick="showCountrySelection()">← تغيير الدولة</button>
+        <button class="back-btn" onclick="showCountrySelection()" data-key="btn_back">← Change Country</button>
     </div>
 
     <div class="auth-container">
         <div class="card">
             <header class="auth-header" style="width: 100%;">
-                <h1 class="auth-title" style="text-align: center; width: 100%;"> نموذج حجز الموعد - <span id="formCountryName"></span></h1>
+                <h1 class="auth-title" style="text-align: center; width: 100%;" data-key="form_title">Appointment Booking Form - <span id="formCountryName"></span></h1>
             </header>
 
             <div class="auth-content" style="padding: 0px 50px; min-height: 0px;">
@@ -4779,8 +4821,8 @@ label, .control-label { width: 100%; }
 <div class="form-group m_5" id="divSubmit">
 <button type="submit" name="action" value="valBookNow" id="valBookNow" class="btn btn-success">Submit</button>
 <button type="reset" name="reset" onclick="document.location.reload()" class="btn btn-in
-                            <button type="button" id="valBookNow" class="btn btn-success" onclick="generatePDF()" style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); border: none; padding: 15px 50px; font-size: 18px; border-radius: 50px; color: white; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(212,175,55,0.4);">📄 تحميل PDF</button>
-                            <button type="reset" name="reset" onclick="document.location.reload()" class="btn btn-info" style="background: #666; border: none; padding: 12px 30px; border-radius: 25px; color: white; cursor: pointer;">إعادة تعيين</button>
+                            <button type="button" id="valBookNow" class="btn btn-success" onclick="generatePDF()" style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); border: none; padding: 15px 50px; font-size: 18px; border-radius: 50px; color: white; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(212,175,55,0.4);" data-key="btn_pdf">📄 Download PDF</button>
+                            <button type="reset" name="reset" onclick="document.location.reload()" class="btn btn-info" style="background: #666; border: none; padding: 12px 30px; border-radius: 25px; color: white; cursor: pointer;" data-key="btn_reset">Reset</button>
                         </div>
                     </div>
                 </form>
@@ -5683,6 +5725,207 @@ function generatePDF() {
     });
 }
 </script>
+
+<script>
+// Translation data
+const translations = {
+    en: {
+        welcome_title: "Welcome to AET Platform",
+        welcome_desc: "Please select the country you want to apply for",
+        select_country: "-- Select Country --",
+        extra_services: "Additional Services",
+        btn_hotel: "🏨 Hotel Booking",
+        btn_flight: "✈️ Flight Booking",
+        btn_insurance: "🛡️ Print Insurance",
+        btn_proceed: "Continue to Form",
+        form_title: "Appointment Booking Form - ",
+        btn_back: "← Change Country",
+        btn_pdf: "📄 Download PDF",
+        btn_reset: "Reset",
+        country_badge: "Country: "
+    },
+    ar: {
+        welcome_title: "مرحباً بك في منصة AET",
+        welcome_desc: "الرجاء اختيار الدولة المراد ملء الطلب لها",
+        select_country: "-- اختر الدولة --",
+        extra_services: "خدمات إضافية",
+        btn_hotel: "🏨 حجز فندق",
+        btn_flight: "✈️ حجز طيران",
+        btn_insurance: "🛡️ طباعة التأمين",
+        btn_proceed: "متابعة إلى النموذج",
+        form_title: "نموذج حجز الموعد - ",
+        btn_back: "← تغيير الدولة",
+        btn_pdf: "📄 تحميل PDF",
+        btn_reset: "إعادة تعيين",
+        country_badge: "الدولة: "
+    },
+    fr: {
+        welcome_title: "Bienvenue sur la plateforme AET",
+        welcome_desc: "Veuillez sélectionner le pays pour lequel vous souhaitez postuler",
+        select_country: "-- Sélectionner un pays --",
+        extra_services: "Services supplémentaires",
+        btn_hotel: "🏨 Réservation d'hôtel",
+        btn_flight: "✈️ Réservation de vol",
+        btn_insurance: "🛡️ Imprimer l'assurance",
+        btn_proceed: "Continuer vers le formulaire",
+        form_title: "Formulaire de demande de rendez-vous - ",
+        btn_back: "← Changer de pays",
+        btn_pdf: "📄 Télécharger PDF",
+        btn_reset: "Réinitialiser",
+        country_badge: "Pays: "
+    },
+    de: {
+        welcome_title: "Willkommen bei der AET-Plattform",
+        welcome_desc: "Bitte wählen Sie das Land aus, für das Sie sich bewerben möchten",
+        select_country: "-- Land auswählen --",
+        extra_services: "Zusätzliche Dienstleistungen",
+        btn_hotel: "🏨 Hotelbuchung",
+        btn_flight: "✈️ Flugbuchung",
+        btn_insurance: "🛡️ Versicherung drucken",
+        btn_proceed: "Weiter zum Formular",
+        form_title: "Terminbuchungsformular - ",
+        btn_back: "← Land ändern",
+        btn_pdf: "📄 PDF herunterladen",
+        btn_reset: "Zurücksetzen",
+        country_badge: "Land: "
+    },
+    it: {
+        welcome_title: "Benvenuto nella piattaforma AET",
+        welcome_desc: "Seleziona il paese per cui desideri richiedere il visto",
+        select_country: "-- Seleziona Paese --",
+        extra_services: "Servizi aggiuntivi",
+        btn_hotel: "🏨 Prenotazione hotel",
+        btn_flight: "✈️ Prenotazione volo",
+        btn_insurance: "🛡️ Stampa assicurazione",
+        btn_proceed: "Continua al modulo",
+        form_title: "Modulo di prenotazione appuntamento - ",
+        btn_back: "← Cambia paese",
+        btn_pdf: "📄 Scarica PDF",
+        btn_reset: "Reimposta",
+        country_badge: "Paese: "
+    },
+    es: {
+        welcome_title: "Bienvenido a la plataforma AET",
+        welcome_desc: "Por favor seleccione el país para el que desea aplicar",
+        select_country: "-- Seleccionar país --",
+        extra_services: "Servicios adicionales",
+        btn_hotel: "🏨 Reserva de hotel",
+        btn_flight: "✈️ Reserva de vuelo",
+        btn_insurance: "🛡️ Imprimir seguro",
+        btn_proceed: "Continuar al formulario",
+        form_title: "Formulario de reserva de cita - ",
+        btn_back: "← Cambiar país",
+        btn_pdf: "📄 Descargar PDF",
+        btn_reset: "Restablecer",
+        country_badge: "País: "
+    },
+    pt: {
+        welcome_title: "Bem-vindo à plataforma AET",
+        welcome_desc: "Por favor, selecione o país para o qual deseja solicitar",
+        select_country: "-- Selecionar país --",
+        extra_services: "Serviços adicionais",
+        btn_hotel: "🏨 Reserva de hotel",
+        btn_flight: "✈️ Reserva de voo",
+        btn_insurance: "🛡️ Imprimir seguro",
+        btn_proceed: "Continuar para o formulário",
+        form_title: "Formulário de agendamento - ",
+        btn_back: "← Mudar país",
+        btn_pdf: "📄 Baixar PDF",
+        btn_reset: "Redefinir",
+        country_badge: "País: "
+    },
+    tr: {
+        welcome_title: "AET Platformuna Hoş Geldiniz",
+        welcome_desc: "Lütfen başvurmak istediğiniz ülkeyi seçin",
+        select_country: "-- Ülke Seçin --",
+        extra_services: "Ek hizmetler",
+        btn_hotel: "🏨 Otel rezervasyonu",
+        btn_flight: "✈️ Uçak bileti",
+        btn_insurance: "🛡️ Sigorta yazdır",
+        btn_proceed: "Forma devam et",
+        form_title: "Randevu formu - ",
+        btn_back: "← Ülke değiştir",
+        btn_pdf: "📄 PDF indir",
+        btn_reset: "Sıfırla",
+        country_badge: "Ülke: "
+    },
+    zh: {
+        welcome_title: "欢迎来到AET平台",
+        welcome_desc: "请选择您要申请的国家",
+        select_country: "-- 选择国家 --",
+        extra_services: "附加服务",
+        btn_hotel: "🏨 酒店预订",
+        btn_flight: "✈️ 机票预订",
+        btn_insurance: "🛡️ 打印保险",
+        btn_proceed: "继续填写表格",
+        form_title: "预约申请表 - ",
+        btn_back: "← 更换国家",
+        btn_pdf: "📄 下载PDF",
+        btn_reset: "重置",
+        country_badge: "国家: "
+    },
+    ru: {
+        welcome_title: "Добро пожаловать на платформу AET",
+        welcome_desc: "Пожалуйста, выберите страну, на которую хотите подать заявку",
+        select_country: "-- Выберите страну --",
+        extra_services: "Дополнительные услуги",
+        btn_hotel: "🏨 Бронирование отеля",
+        btn_flight: "✈️ Бронирование авиабилетов",
+        btn_insurance: "🛡️ Печать страховки",
+        btn_proceed: "Перейти к форме",
+        form_title: "Форма бронирования - ",
+        btn_back: "← Сменить страну",
+        btn_pdf: "📄 Скачать PDF",
+        btn_reset: "Сбросить",
+        country_badge: "Страна: "
+    }
+};
+
+function switchLanguage(lang) {
+    const t = translations[lang];
+    if (!t) return;
+
+    // Update HTML direction
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+    // Update all elements with data-key
+    document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (t[key]) {
+            // For form title, keep the country name
+            if (key === 'form_title') {
+                const countryName = document.getElementById('formCountryName').textContent;
+                el.innerHTML = t[key] + '<span id="formCountryName">' + countryName + '</span>';
+            } else if (key === 'country_badge') {
+                const countryText = document.getElementById('selectedCountryBadge').textContent.split(':')[1] || '';
+                el.textContent = t[key] + countryText;
+            } else {
+                el.textContent = t[key];
+            }
+        }
+    });
+
+    // Update country badge if visible
+    const badge = document.getElementById('selectedCountryBadge');
+    if (badge && badge.style.display !== 'none') {
+        const countryText = badge.textContent.split(':')[1] || badge.textContent.split(' ')[1] || '';
+        badge.textContent = (t.country_badge || 'Country: ') + countryText;
+    }
+
+    // Update select placeholder
+    const selectPlaceholder = document.querySelector('option[data-key="select_country"]');
+    if (selectPlaceholder) {
+        selectPlaceholder.textContent = t.select_country;
+    }
+}
+
+// Initialize with English (default)
+document.addEventListener('DOMContentLoaded', function() {
+    switchLanguage('en');
+});
+</script>
+
 </body>
     </html>`;
 
@@ -5694,5 +5937,206 @@ function generatePDF() {
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+// Translation data
+const translations = {
+    en: {
+        welcome_title: "Welcome to AET Platform",
+        welcome_desc: "Please select the country you want to apply for",
+        select_country: "-- Select Country --",
+        extra_services: "Additional Services",
+        btn_hotel: "🏨 Hotel Booking",
+        btn_flight: "✈️ Flight Booking",
+        btn_insurance: "🛡️ Print Insurance",
+        btn_proceed: "Continue to Form",
+        form_title: "Appointment Booking Form - ",
+        btn_back: "← Change Country",
+        btn_pdf: "📄 Download PDF",
+        btn_reset: "Reset",
+        country_badge: "Country: "
+    },
+    ar: {
+        welcome_title: "مرحباً بك في منصة AET",
+        welcome_desc: "الرجاء اختيار الدولة المراد ملء الطلب لها",
+        select_country: "-- اختر الدولة --",
+        extra_services: "خدمات إضافية",
+        btn_hotel: "🏨 حجز فندق",
+        btn_flight: "✈️ حجز طيران",
+        btn_insurance: "🛡️ طباعة التأمين",
+        btn_proceed: "متابعة إلى النموذج",
+        form_title: "نموذج حجز الموعد - ",
+        btn_back: "← تغيير الدولة",
+        btn_pdf: "📄 تحميل PDF",
+        btn_reset: "إعادة تعيين",
+        country_badge: "الدولة: "
+    },
+    fr: {
+        welcome_title: "Bienvenue sur la plateforme AET",
+        welcome_desc: "Veuillez sélectionner le pays pour lequel vous souhaitez postuler",
+        select_country: "-- Sélectionner un pays --",
+        extra_services: "Services supplémentaires",
+        btn_hotel: "🏨 Réservation d'hôtel",
+        btn_flight: "✈️ Réservation de vol",
+        btn_insurance: "🛡️ Imprimer l'assurance",
+        btn_proceed: "Continuer vers le formulaire",
+        form_title: "Formulaire de demande de rendez-vous - ",
+        btn_back: "← Changer de pays",
+        btn_pdf: "📄 Télécharger PDF",
+        btn_reset: "Réinitialiser",
+        country_badge: "Pays: "
+    },
+    de: {
+        welcome_title: "Willkommen bei der AET-Plattform",
+        welcome_desc: "Bitte wählen Sie das Land aus, für das Sie sich bewerben möchten",
+        select_country: "-- Land auswählen --",
+        extra_services: "Zusätzliche Dienstleistungen",
+        btn_hotel: "🏨 Hotelbuchung",
+        btn_flight: "✈️ Flugbuchung",
+        btn_insurance: "🛡️ Versicherung drucken",
+        btn_proceed: "Weiter zum Formular",
+        form_title: "Terminbuchungsformular - ",
+        btn_back: "← Land ändern",
+        btn_pdf: "📄 PDF herunterladen",
+        btn_reset: "Zurücksetzen",
+        country_badge: "Land: "
+    },
+    it: {
+        welcome_title: "Benvenuto nella piattaforma AET",
+        welcome_desc: "Seleziona il paese per cui desideri richiedere il visto",
+        select_country: "-- Seleziona Paese --",
+        extra_services: "Servizi aggiuntivi",
+        btn_hotel: "🏨 Prenotazione hotel",
+        btn_flight: "✈️ Prenotazione volo",
+        btn_insurance: "🛡️ Stampa assicurazione",
+        btn_proceed: "Continua al modulo",
+        form_title: "Modulo di prenotazione appuntamento - ",
+        btn_back: "← Cambia paese",
+        btn_pdf: "📄 Scarica PDF",
+        btn_reset: "Reimposta",
+        country_badge: "Paese: "
+    },
+    es: {
+        welcome_title: "Bienvenido a la plataforma AET",
+        welcome_desc: "Por favor seleccione el país para el que desea aplicar",
+        select_country: "-- Seleccionar país --",
+        extra_services: "Servicios adicionales",
+        btn_hotel: "🏨 Reserva de hotel",
+        btn_flight: "✈️ Reserva de vuelo",
+        btn_insurance: "🛡️ Imprimir seguro",
+        btn_proceed: "Continuar al formulario",
+        form_title: "Formulario de reserva de cita - ",
+        btn_back: "← Cambiar país",
+        btn_pdf: "📄 Descargar PDF",
+        btn_reset: "Restablecer",
+        country_badge: "País: "
+    },
+    pt: {
+        welcome_title: "Bem-vindo à plataforma AET",
+        welcome_desc: "Por favor, selecione o país para o qual deseja solicitar",
+        select_country: "-- Selecionar país --",
+        extra_services: "Serviços adicionais",
+        btn_hotel: "🏨 Reserva de hotel",
+        btn_flight: "✈️ Reserva de voo",
+        btn_insurance: "🛡️ Imprimir seguro",
+        btn_proceed: "Continuar para o formulário",
+        form_title: "Formulário de agendamento - ",
+        btn_back: "← Mudar país",
+        btn_pdf: "📄 Baixar PDF",
+        btn_reset: "Redefinir",
+        country_badge: "País: "
+    },
+    tr: {
+        welcome_title: "AET Platformuna Hoş Geldiniz",
+        welcome_desc: "Lütfen başvurmak istediğiniz ülkeyi seçin",
+        select_country: "-- Ülke Seçin --",
+        extra_services: "Ek hizmetler",
+        btn_hotel: "🏨 Otel rezervasyonu",
+        btn_flight: "✈️ Uçak bileti",
+        btn_insurance: "🛡️ Sigorta yazdır",
+        btn_proceed: "Forma devam et",
+        form_title: "Randevu formu - ",
+        btn_back: "← Ülke değiştir",
+        btn_pdf: "📄 PDF indir",
+        btn_reset: "Sıfırla",
+        country_badge: "Ülke: "
+    },
+    zh: {
+        welcome_title: "欢迎来到AET平台",
+        welcome_desc: "请选择您要申请的国家",
+        select_country: "-- 选择国家 --",
+        extra_services: "附加服务",
+        btn_hotel: "🏨 酒店预订",
+        btn_flight: "✈️ 机票预订",
+        btn_insurance: "🛡️ 打印保险",
+        btn_proceed: "继续填写表格",
+        form_title: "预约申请表 - ",
+        btn_back: "← 更换国家",
+        btn_pdf: "📄 下载PDF",
+        btn_reset: "重置",
+        country_badge: "国家: "
+    },
+    ru: {
+        welcome_title: "Добро пожаловать на платформу AET",
+        welcome_desc: "Пожалуйста, выберите страну, на которую хотите подать заявку",
+        select_country: "-- Выберите страну --",
+        extra_services: "Дополнительные услуги",
+        btn_hotel: "🏨 Бронирование отеля",
+        btn_flight: "✈️ Бронирование авиабилетов",
+        btn_insurance: "🛡️ Печать страховки",
+        btn_proceed: "Перейти к форме",
+        form_title: "Форма бронирования - ",
+        btn_back: "← Сменить страну",
+        btn_pdf: "📄 Скачать PDF",
+        btn_reset: "Сбросить",
+        country_badge: "Страна: "
+    }
+};
+
+function switchLanguage(lang) {
+    const t = translations[lang];
+    if (!t) return;
+
+    // Update HTML direction
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+    // Update all elements with data-key
+    document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (t[key]) {
+            // For form title, keep the country name
+            if (key === 'form_title') {
+                const countryName = document.getElementById('formCountryName').textContent;
+                el.innerHTML = t[key] + '<span id="formCountryName">' + countryName + '</span>';
+            } else if (key === 'country_badge') {
+                const countryText = document.getElementById('selectedCountryBadge').textContent.split(':')[1] || '';
+                el.textContent = t[key] + countryText;
+            } else {
+                el.textContent = t[key];
+            }
+        }
+    });
+
+    // Update country badge if visible
+    const badge = document.getElementById('selectedCountryBadge');
+    if (badge && badge.style.display !== 'none') {
+        const countryText = badge.textContent.split(':')[1] || badge.textContent.split(' ')[1] || '';
+        badge.textContent = (t.country_badge || 'Country: ') + countryText;
+    }
+
+    // Update select placeholder
+    const selectPlaceholder = document.querySelector('option[data-key="select_country"]');
+    if (selectPlaceholder) {
+        selectPlaceholder.textContent = t.select_country;
+    }
+}
+
+// Initialize with English (default)
+document.addEventListener('DOMContentLoaded', function() {
+    switchLanguage('en');
+});
+</script>
+
 </body>
 </html>
