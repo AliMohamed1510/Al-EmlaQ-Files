@@ -1,5 +1,5 @@
 // ============================================
-// بيانات دول الشنغن - Al EmlaQ Files (FIXED)
+// بيانات دول الشنغن - Al EmlaQ Files
 // ============================================
 
 const countriesData = {
@@ -15,13 +15,6 @@ const countriesData = {
             'حجز فندق',
             'تذكرة طيران',
             'كشف حساب بنكي'
-        ],
-        requirements_en: [
-            'Valid passport (3 months)',
-            'Medical insurance (30,000 EUR)',
-            'Hotel booking',
-            'Flight ticket',
-            'Bank statement'
         ]
     },
     'إسبانيا': {
@@ -36,13 +29,6 @@ const countriesData = {
             'حجز فندق',
             'تذكرة طيران',
             'وسائل مالية كافية'
-        ],
-        requirements_en: [
-            'Valid passport',
-            'Medical insurance',
-            'Hotel booking',
-            'Flight ticket',
-            'Sufficient funds'
         ]
     },
     'سويسرا': {
@@ -57,13 +43,6 @@ const countriesData = {
             'حجز فندق',
             'تذكرة طيران',
             'كشف حساب بنكي'
-        ],
-        requirements_en: [
-            'Valid passport (3 months)',
-            'Medical insurance (30,000 EUR)',
-            'Hotel booking',
-            'Flight ticket',
-            'Bank statement'
         ]
     },
     'السويد': {
@@ -78,13 +57,6 @@ const countriesData = {
             'حجز فندق',
             'تذكرة طيران',
             'وسائل مالية كافية'
-        ],
-        requirements_en: [
-            'Valid passport (3 months)',
-            'Medical insurance',
-            'Hotel booking',
-            'Flight ticket',
-            'Sufficient funds'
         ]
     },
     'سلوفاكيا': {
@@ -99,13 +71,6 @@ const countriesData = {
             'حجز فندق',
             'تذكرة طيران',
             'وسائل مالية كافية'
-        ],
-        requirements_en: [
-            'Valid passport (3 months)',
-            'Medical insurance',
-            'Hotel booking',
-            'Flight ticket',
-            'Sufficient funds'
         ]
     },
     'البرتغال': {
@@ -121,14 +86,6 @@ const countriesData = {
             'تذكرة طيران ذهاب وعودة',
             'كشف حساب بنكي 3 أشهر',
             'خطاب جهة العمل'
-        ],
-        requirements_en: [
-            'Valid passport (3 months)',
-            'Medical insurance (30,000 EUR)',
-            'Hotel booking or invitation',
-            'Round-trip flight ticket',
-            'Bank statement (3 months)',
-            'Employment letter'
         ]
     },
     'مالطا': {
@@ -143,13 +100,6 @@ const countriesData = {
             'حجز فندق',
             'تذكرة طيران',
             'كشف حساب بنكي'
-        ],
-        requirements_en: [
-            'Valid passport (3 months)',
-            'Medical insurance',
-            'Hotel booking',
-            'Flight ticket',
-            'Bank statement'
         ]
     },
     'المجر-هنغاريا': {
@@ -165,14 +115,6 @@ const countriesData = {
             'تذكرة طيران',
             'كشف حساب بنكي',
             'خطاب جهة العمل'
-        ],
-        requirements_en: [
-            'Valid passport (3 months)',
-            'Medical insurance (30,000 EUR)',
-            'Hotel booking or invitation',
-            'Flight ticket',
-            'Bank statement',
-            'Employment letter'
         ]
     },
     'اليونان': {
@@ -187,13 +129,6 @@ const countriesData = {
             'حجز فندق',
             'تذكرة طيران',
             'وسائل مالية'
-        ],
-        requirements_en: [
-            'Valid passport (3 months)',
-            'Medical insurance',
-            'Hotel booking',
-            'Flight ticket',
-            'Financial means'
         ]
     },
     'كرواتيا': {
@@ -209,14 +144,6 @@ const countriesData = {
             'تذكرة طيران ذهاب وعودة',
             'كشف حساب بنكي',
             'خطاب جهة العمل'
-        ],
-        requirements_en: [
-            'Valid passport (3 months)',
-            'Medical insurance (30,000 EUR)',
-            'Hotel booking or invitation',
-            'Round-trip flight ticket',
-            'Bank statement',
-            'Employment letter'
         ]
     },
     'النمسا': {
@@ -231,13 +158,6 @@ const countriesData = {
             'حجز فندق',
             'تذكرة طيران',
             'كشف حساب بنكي'
-        ],
-        requirements_en: [
-            'Valid passport',
-            'Medical insurance',
-            'Hotel booking',
-            'Flight ticket',
-            'Bank statement'
         ]
     }
 };
@@ -261,21 +181,31 @@ function updateCountryInfo() {
     flagDisplay.textContent = data.flag;
     nameDisplay.textContent = country;
 
-    // Use translated requirements based on language
-    const reqs = lang === 'ar' ? data.requirements : (data.requirements_en || data.requirements);
+    const reqLabels = {
+        ar: data.requirements,
+        en: [
+            'Valid passport (3 months)',
+            'Medical insurance (30,000 EUR)',
+            'Hotel booking for full stay',
+            'Round-trip flight ticket',
+            'Bank statement (3 months)',
+            'Employment letter'
+        ]
+    };
+
+    const reqs = lang === 'ar' ? data.requirements : reqLabels.en.slice(0, data.requirements.length);
 
     let html = `<ul>`;
     reqs.forEach(req => {
         html += `<li>${req}</li>`;
     });
     html += `</ul>`;
-    html += `<a href="${data.embassy_url}" target="_blank" class="btn-outline-gold mt-2">
+    html += `<a href="${data.embassy_url}" target="_blank" class="btn btn-sm btn-outline-gold mt-2">
                 <i class="fas fa-external-link-alt"></i> ${lang === 'ar' ? 'موقع السفارة' : 'Embassy Website'}
             </a>`;
 
     reqDiv.innerHTML = html;
 
-    // Auto-fill main destination and first entry
     const mainDest = document.getElementById('mainDestination');
     const firstEntry = document.getElementById('firstEntry');
     if (mainDest && !mainDest.value) mainDest.value = country;
@@ -286,9 +216,6 @@ function loadCountries() {
     const select = document.getElementById('countrySelect');
     if (!select) return;
     const countries = Object.keys(countriesData).sort();
-
-    // Save current selection
-    const currentValue = select.value;
 
     select.innerHTML = '';
     const defaultOption = document.createElement('option');
@@ -302,12 +229,6 @@ function loadCountries() {
         option.textContent = `${countriesData[country].flag} ${country}`;
         select.appendChild(option);
     });
-
-    // Restore selection
-    if (currentValue && countriesData[currentValue]) {
-        select.value = currentValue;
-    }
 }
 
-// تحميل الدول عند بدء الصفحة
 document.addEventListener('DOMContentLoaded', loadCountries);
