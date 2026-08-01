@@ -3,151 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة تأشيرات الشنغن الذكية</title>
+    <title>منصة الشنغن الذكية لملفات السفارات</title>
     <style>
-        /* === تنسيق أساسي للواجهة === */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: #0d1117; color: #e2e8f0; display: flex; justify-content: center; padding: 30px; }
-        .container { background: #161b22; width: 100%; max-width: 800px; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-
-        h1, h2 { text-align: center; margin-bottom: 20px; }
+        /* تنسيق رائع ومظلم */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #0f172a; color: #e2e8f0; display: flex; justify-content: center; padding: 30px; min-height: 100vh; }
         
-        /* التنقل بين الخطوات */
-        .step { display: none; animation: fadeIn 0.5s; }
+        .app-container { background: #1e293b; width: 100%; max-width: 850px; padding: 30px; border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; }
+
+        h1 { text-align: center; font-size: 24px; border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 25px; }
+        
+        /* إدارة الخطوات */
+        .step { display: none; animation: fadeIn 0.4s ease; }
         .step.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* النماذج والحقول */
+        /* العناصر الأساسية */
         .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; color: #8b949e; }
-        input, select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #30363d; background: #0d1117; color: white; margin-bottom: 10px; }
-        input:focus, select:focus { border-color: #58a6ff; outline: none; }
-
-        /* الأزرار */
-        .btn { background: #238636; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; width: 100%; margin-top: 10px; transition: 0.3s; }
-        .btn:hover { background: #2ea043; }
-        .btn-secondary { background: #1f2937; }
-        .btn-secondary:hover { background: #374151; }
-        .btn-warning { background: #d29922; }
-        .btn-warning:hover { background: #e3b341; }
-
-        /* خيارات إضافية */
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
+        label { display: block; margin-bottom: 8px; color: #94a3b8; font-weight: 600; }
+        input[type="text"], input[type="file"], select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; outline: none; }
+        input:focus, select:focus { border-color: #3b82f6; }
         
-        .action-box { background: #0d1117; padding: 15px; border: 1px solid #30363d; border-radius: 10px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .action-box:hover { border-color: #58a6ff; background: #161b22; }
-        .action-box h4 { margin-bottom: 8px; color: #f0f6fc; }
-        .action-box p { font-size: 12px; color: #8b949e; }
+        /* الأزرار */
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-primary:hover { background: #2563eb; }
+        .btn-success { background: #22c55e; color: white; }
+        .btn-success:hover { background: #16a34a; }
+        .btn-secondary { background: #475569; color: white; }
+        .btn-secondary:hover { background: #334155; }
+        .btn-warning { background: #eab308; color: black; }
+        .btn-warning:hover { background: #ca8a04; }
+        .btn-outline { background: transparent; border: 1px solid #475569; color: #e2e8f0; }
+        .btn-outline:hover { background: #1e293b; }
+        
+        /* تخطيط الخيارات */
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 20px 0; }
+        .option-card { background: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .option-card:hover { border-color: #3b82f6; transform: scale(1.02); }
+        .option-card h4 { margin-bottom: 5px; color: #f8fafc; }
+        .option-card p { font-size: 12px; color: #94a3b8; }
+
+        /* صندوق المراجعة */
+        .review-box { background: #0f172a; padding: 15px; border-radius: 10px; border: 1px solid #334155; margin-bottom: 15px; }
+        .review-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #334155; padding: 8px 0; }
+        .review-row span:first-child { color: #94a3b8; }
+        
+        @media (max-width: 600px) { .app-container { padding: 15px; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>منصة تأشيرات الشنغن</h1>
-        
-        <!-- الخطوة 1: اختيار الدولة -->
-        <div id="step1" class="step active">
-            <h2>1. اختر الدولة</h2>
-            <div class="form-group">
-                <label>الدولة المطلوبة:</label>
-                <select id="countrySelect">
-                    <option value="">-- اختر --</option>
-                    <option value="italy">ايطاليا</option>
-                    <option value="spain">اسبانيا</option>
-                    <option value="switzerland">سويسرا</option>
-                    <option value="sweden">السويد</option>
-                    <option value="slovakia">سلوفكيا</option>
-                    <option value="portugal">البرتغال</option>
-                    <option value="malta">مالطا</option>
-                    <option value="hungary">المجر-هنغاريا</option>
-                    <option value="greece">اليونان</option>
-                    <option value="croatia">كروتيا</option>
-                    <option value="austria">النمسا</option>
-                </select>
-            </div>
-            <button class="btn" onclick="goToStep(2)">التالي: حجز الفندق</button>
-        </div>
 
-        <!-- الخطوة 2: حجز الفندق -->
-        <div id="step2" class="step">
-            <h2>2. حجز الفندق</h2>
-            <p style="margin-bottom: 15px; color: #8b949e;">يرجى التوجه لموقع الحجز، ثم العودة والضغط على "تم الحجز".</p>
-            <button class="btn btn-secondary" onclick="window.open('https://www.booking.com', '_blank')">الذهاب لحجز الفندق</button>
-            <button class="btn" onclick="goToStep(3)">تم حجز الفندق</button>
-        </div>
+<div class="app-container">
+    <h1>منصة ملفات السفارات الذكية</h1>
 
-        <!-- الخطوة 3: رفع المستندات -->
-        <div id="step3" class="step">
-            <h2>3. رفع المستندات</h2>
-            <div class="form-group">
-                <label>صورة جواز السفر</label>
+    <!-- الخطوة 1: اختيار الدولة -->
+    <div id="step-1" class="step active">
+        <div class="form-group">
+            <label>1. اختر الدولة المستهدفة (شنغن)</label>
+            <select id="input-country">
+                <option value="">-- اختر الدولة --</option>
+                <option value="Italy">إيطاليا</option>
+                <option value="Spain">إسبانيا</option>
+                <option value="Switzerland">سويسرا</option>
+                <option value="Sweden">السويد</option>
+                <option value="Slovakia">سلوفاكيا</option>
+                <option value="Portugal">البرتغال</option>
+                <option value="Malta">مالطا</option>
+                <option value="Hungary">المجر (هنغاريا)</option>
+                <option value="Greece">اليونان</option>
+                <option value="Croatia">كرواتيا</option>
+                <option value="Austria">النمسا</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" onclick="nextStep(2)">التالي: حجز الفندق</button>
+    </div>
+
+    <!-- الخطوة 2: حجز الفندق -->
+    <div id="step-2" class="step">
+        <div class="form-group">
+            <label>2. حجز الفندق عبر MyJet24</label>
+            <p style="color: #94a3b8; margin-bottom: 15px;">يرجى التوجه للموقع، إتمام الحجز، ثم العودة والضغط على "تم الحجز".</p>
+            <a href="https://myjet24.com/" target="_blank" style="display: block; text-decoration: none;">
+                <button class="btn btn-secondary">الذهاب إلى MyJet24 للحجز</button>
+            </a>
+            <button class="btn btn-success" onclick="nextStep(3)">تم حجز الفندق والعودة</button>
+        </div>
+    </div>
+
+    <!-- الخطوة 3: رفع المستندات -->
+    <div id="step-3" class="step">
+        <div class="form-group">
+            <label>3. رفع المستندات المطلوبة</label>
+            <div style="background:#0f172a; padding:15px; border-radius:8px; margin-bottom:15px;">
+                <label style="margin-top:0;">صورة جواز السفر</label>
                 <input type="file" accept="image/*">
-            </div>
-            <div class="form-group">
-                <label>حجز الفندق (PDF/Image)</label>
+                <label>حجز الفندق (PDF/صورة)</label>
                 <input type="file" accept=".pdf,image/*">
-            </div>
-            <div class="form-group">
                 <label>خطاب العمل / السجل التجاري</label>
                 <input type="file" accept=".pdf,image/*">
             </div>
-            <button class="btn" onclick="goToStep(4)">رفع الملفات وإنشاء النموذج</button>
+            <button class="btn btn-primary" onclick="nextStep(4)">رفع المستندات والانتقال للنموذج</button>
         </div>
-
-        <!-- الخطوة 4 و 5: الخيارات الإضافية -->
-        <div id="step4" class="step">
-            <h2>4. خيارات إضافية</h2>
-            <p style="color: #8b949e; margin-bottom: 20px;">اختر ما تريد فعله بعد إنشاء النموذج:</p>
-            <div class="options-grid">
-                <div class="action-box" onclick="window.open('https://www.axa-assistance.com', '_blank')">
-                    <h4>🛡️ طباعة التأمين الطبي</h4>
-                    <p>التوجه لشراء التأمين</p>
-                </div>
-                <div class="action-box" onclick="window.open('https://www.skyscanner.net', '_blank')">
-                    <h4>✈️ حجز تذكرة الطيران</h4>
-                    <p>التوجه لحجز التذكرة</p>
-                </div>
-                <div class="action-box" style="border-color: #d29922;" onclick="goToStep(5)">
-                    <h4>⏭️ تخطي الخطوة</h4>
-                    <p>المتابعة دون تأمين أو طيران</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- الخطوة 6 و 7: المراجعة والطباعة -->
-        <div id="step5" class="step">
-            <h2>5. مراجعة الملف النهائي</h2>
-            <div style="background: #0d1117; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                <p style="margin-bottom: 5px;"><strong>الدولة:</strong> <span id="reviewCountry">لم يتم الاختيار</span></p>
-                <p style="margin-bottom: 5px;"><strong>المستندات المرفوعة:</strong> 3 ملفات</p>
-                <p style="color: #8b949e;">الرجاء التأكد من صحة البيانات قبل الطباعة.</p>
-            </div>
-            <button class="btn btn-warning" onclick="finalizeApplication()">تأكيد البيانات واعتماد الملف</button>
-        </div>
-
     </div>
 
-    <script>
-        // دالة التنقل بين الخطوات
-        function goToStep(stepNumber) {
-            // إخفاء الكل
-            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-            // إظهار المطلوب
-            document.getElementById(`step${stepNumber}`).classList.add('active');
+    <!-- الخطوة 4: نموذج بيانات السفارة -->
+    <div id="step-4" class="step">
+        <div class="form-group">
+            <label>4. نموذج بيانات سفارة الشنغن (تعبئة دقيقة)</label>
+            <p style="color:#94a3b8; font-size:14px; margin-bottom:15px;">(جميع الخانات إجبارية، يرجى مراجعتها بدقة)</p>
             
-            // تحديث اسم الدولة في صفحة المراجعة
-            if(stepNumber === 5) {
-                const country = document.getElementById('countrySelect').value;
-                const countryName = document.getElementById('countrySelect').options[document.getElementById('countrySelect').selectedIndex].text;
-                document.getElementById('reviewCountry').innerText = country !== "" ? countryName : "لم يتم الاختيار";
-            }
-        }
+            <input type="text" placeholder="الاسم الأول (كما في الجواز)">
+            <input type="text" placeholder="اللقب / العائلة">
+            <input type="text" placeholder="رقم جواز السفر">
+            <input type="text" placeholder="مكان وتاريخ الميلاد">
+            <input type="text" placeholder="مدة الإقامة المطلوبة">
+            
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn btn-secondary" style="flex:1;" onclick="prevStep(3)">رجوع</button>
+                <button class="btn btn-primary" style="flex:2;" onclick="nextStep(5)">تأكيد البيانات</button>
+            </div>
+        </div>
+    </div>
 
-        // دالة الطباعة النهائية
-        function finalizeApplication() {
-            alert("✅ تم اعتماد الملف بنجاح! جاري تجهيز المستندات للطباعة...");
-            window.print(); // ستقوم بفتح نافذة الطباعة للمتصفح
+    <!-- الخطوة 5: الخيارات الإضافية -->
+    <div id="step-5" class="step">
+        <div class="form-group">
+            <label>5. خيارات إضافية</label>
+            <div class="options-grid">
+                <div class="option-card" onclick="window.open('https://epti-egy.org/Traveltargetweb/Pages/Policy_Qry2/Default.aspx', '_blank')">
+                    <h4>🛡️ طباعة التأمين</h4>
+                    <p>الانتقال للتأمين الطبي</p>
+                </div>
+                <div class="option-card" onclick="window.open('https://myjet24.com/', '_blank')">
+                    <h4>✈️ حجز الطيران</h4>
+                    <p>الانتقال لحجز الطيران</p>
+                </div>
+                <div class="option-card" onclick="nextStep(6)">
+                    <h4>⏭️ تخطي</h4>
+                    <p>بدون طيران أو تأمين</p>
+                </div>
+                <div class="option-card" onclick="nextStep(6)" style="border-color:#eab308;">
+                    <h4>📄 مراجعة مباشرة</h4>
+                    <p>تخطي الخيارات للمراجعة</p>
+                </div>
+            </div>
+            <button class="btn btn-outline" onclick="prevStep(4)">رجوع</button>
+        </div>
+    </div>
+
+    <!-- الخطوة 6: مراجعة الملف -->
+    <div id="step-6" class="step">
+        <div class="form-group">
+            <label>6. مراجعة الملف النهائي</label>
+            <div class="review-box">
+                <div class="review-row"><span>الدولة المختارة:</span> <span id="display-country">لم يتم الاختيار</span></div>
+                <div class="review-row"><span>حالة الفندق:</span> <span style="color:#22c55e;">✓ تم الحجز</span></div>
+                <div class="review-row"><span>المستندات:</span> <span style="color:#22c55e;">✓ تم الرفع</span></div>
+                <div class="review-row"><span>نموذج السفارة:</span> <span style="color:#22c55e;">✓ تم التعبئة</span></div>
+            </div>
+            <p style="color:#94a3b8; font-size:14px; margin-bottom:15px;">تأكد من صحة جميع البيانات. لا يمكن التعديل بعد هذه الخطوة.</p>
+            
+            <div style="display:flex; gap:10px;">
+                <button class="btn btn-secondary" style="flex:1;" onclick="prevStep(5)">رجوع</button>
+                <button class="btn btn-warning" style="flex:2;" onclick="finalizeApplication()">تأكيد البيانات واعتماد الملف</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- الخطوة 7: الطباعة النهائية -->
+    <div id="step-7" class="step" style="text-align: center;">
+        <h2 style="color:#22c55e; border:none;">✅ تم اعتماد الملف بنجاح!</h2>
+        <p style="color:#94a3b8; margin-bottom: 30px;">الملف جاهز للطباعة أو التنزيل بالترتيب الرسمي للسفارة.</p>
+        <div style="display:flex; flex-direction:column; gap:15px; max-width:300px; margin:0 auto;">
+            <button class="btn btn-primary" onclick="window.print()">🖨️ طباعة الملف مباشرة</button>
+            <button class="btn btn-success">⬇️ تنزيل بصيغة PDF</button>
+        </div>
+        <button class="btn btn-outline" style="margin-top:30px;" onclick="location.reload()">بدء طلب جديد</button>
+    </div>
+
+</div>
+
+<script>
+    // دالة لحفظ البيانات والتنقل
+    function nextStep(step) {
+        // تحديث اسم الدولة في صفحة المراجعة
+        if(step === 6) {
+            let country = document.getElementById('input-country').value;
+            document.getElementById('display-country').innerText = country ? country : "لم يتم الاختيار";
         }
-    </script>
+        changeStep(step);
+    }
+
+    function prevStep(step) {
+        changeStep(step);
+    }
+
+    function changeStep(stepNumber) {
+        // إخفاء كل الخطوات
+        document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+        // إظهار الخطوة المطلوبة
+        document.getElementById(`step-${stepNumber}`).classList.add('active');
+        // التمرير لأعلى الصفحة
+        window.scrollTo(0, 0);
+    }
+
+    function finalizeApplication() {
+        // محاكاة معالجة البيانات وتحويلها لملف
+        changeStep(7);
+    }
+</script>
+
 </body>
 </html>
